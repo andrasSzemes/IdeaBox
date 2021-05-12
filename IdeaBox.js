@@ -1,32 +1,44 @@
 const readline = require("readline");
 
+// BOLD: start symbol => **
+//       end symbol   => ***
+
+const colors = {
+  reset: "\x1b[0m",
+  bold: "\x1b[1m",
+  grey: "\x1b[38;5;247m",
+  code: "\x1b[48;5;254m",
+};
+
 const topics = {
   npm: {
-    title: "NPM Node package Manager",
+    title: "**NPM Node package Manager***",
     related: ["globalPackage", "commandLineInterfacePackage"],
     text: `
 NPM project started in 2011, and it shares open source libraries, that can be added to any NodeJS application.
 
-  *>> npm init*
+  **>> npm init***
   In the project folder, running the 'npm init' command will initialize a node_modules folder, a package.json and
   a package-lock.json file.
   After that any library can be added to the project with 'npm install package'.
   
-  *>> npm install*
+  **>> npm install***
   If you downloaded a project from github, the package.json and package-lock.json file will be in the project
   folder, but the node_modules folder won't be there. To install the actuall packages based on the previous two
   files, the 'npm install' command can be run.
 `,
   },
+
   commandLineInterfacePackage: {
-    title: "  Command line interface package",
+    title: "  command line interface package",
     related: [],
     text: `
         Exapmle usage: nodemon filename
         After change is saved to a file, it ends the actual run and starts again it.`,
   },
+
   globalPackage: {
-    title: "  Global package\n",
+    title: "  global package",
     related: [],
     text: `
 There are libraries like nodemon that can be run as actual programs in the CLI, these are not added to
@@ -34,11 +46,25 @@ the projejct's dependencies, but added to the user's separate libraries folder.
 If you want to add a package to be able to be used globally, the installation command is given a -g flag.
 'npm install -g nodemon'`,
   },
+
+  scripts: {
+    title: "  scripts\n",
+    related: [],
+    text: `
+examples:
+
+"start": "nodemon ./index.js --exec babel-node -e js"
+
+"debug": "DEBUG = express: * nodemon ./index.js"
+    `,
+  },
+
   nodejs: {
-    title: "Node JS",
+    title: "**Node JS***",
     related: ["fsLibrary"],
     text: "",
   },
+
   framework: {
     title: "  Framework",
     related: ["expressjs"],
@@ -46,8 +72,9 @@ If you want to add a package to be able to be used globally, the installation co
 In real life, a framework is a supporting structure of an object, example: house, vehicle.
 In programming, a framework gives a structure to build an app on top of.`,
   },
+
   expressjs: {
-    title: "    Express JS",
+    title: `    ${colors.bold}Express JS${colors.reset}`,
     related: [
       "middleware",
       "basicExpressServer",
@@ -56,21 +83,26 @@ In programming, a framework gives a structure to build an app on top of.`,
     ],
     text: `
 Express JS is a web framework that can be used in a Node.js application.
-Essentially it makes it simple to handle server calls with a chain on middleware functions.
-Each call can be routed to specific functions to handle them.`,
+Essentially it makes it simple to handle server calls with a chain of middleware functions.
+Each call can be routed to specific functions to handle them.
+`,
   },
+
   basicExpressServer: {
     title: "      basic Express server",
     related: [],
     text: `
+'''
 const express = require('express')
 const app = express()
 const port = 3000
 
-app.get('/', (req, res) => res.send('hello'))
-app.listen(port)
+app.get('/', (req, res) => res.send('hello')) // res.json({'hello': 'bello'})
+app.listen(port, () => console.log('server started on port: 3000'))
+''''
     `,
   },
+
   serveHTMLpagesStaticContent: {
     title: "      serve HTML pages and static content",
     related: [],
@@ -80,6 +112,7 @@ app.get('/', (req, res) => res.sendFile('index.html')) // have to be located in 
 app.get('/x', (req, res) => res.sendFile('folder1/x.html')) // have to be located in publicFolder/folder1
     `,
   },
+
   basicTemplateEngine: {
     title: "      add basic template engine\n",
     related: [],
@@ -94,6 +127,7 @@ app.get('/', (req, res) => {
 })
     `,
   },
+
   middleware: {
     title: "      middleware function",
     related: ["routingMiddleware", "staticMiddleware"],
@@ -104,6 +138,7 @@ Each object has properties, and methods. The third parameter is the reference to
 in the cycle. This must be called at the end of the middleware to not let the request hang in the air.
 
 The middleware can execute any code, change req-res objects, end cycle.
+The response object has multiple methods to call, but for a request only call one method of these.
 
 handler(req, res, next) {
     ...
@@ -130,31 +165,84 @@ There are for methods add middlewares for responding to HTTP request types
 
 `,
   },
+
+  responseObject: {
+    title: `        response object`,
+    related: [],
+    text: `
+res.send(x)   : various options for x
+res.json(d)   : send back a json
+res.end()     : end the call
+
+res.redirect('http://linkedin.com')
+res.download('images/rocked.jpg')
+
+res.render('view.ejs')
+res.sendStatus(404)
+res.status(500).json({'error': 'message'})
+`,
+  },
+
+  requestBody: {
+    title: `        request`,
+    related: [],
+    text: `
+The body of the request is not available by default to be readable for the program.
+
+If you expect a JSON, this line have to be added:
+'''
+app.use(express.json())
+app.post('/newItem', (req, res) => res.send(req.body))
+''''
+
+If URL encoded response is expected add this line
+'''
+app.use(express.urlencoded())
+''''
+
+
+Useful properties:
+    req.originalUrl
+    req.method
+`,
+  },
+
   routingMiddleware: {
-    title: "        routing middleware",
+    title: `        routing middleware ${colors.grey}(parameters)${colors.reset}`,
     related: [],
     text: `
 - executed when specific URL matches
 - executed when specific HTTP method matches (get, post, put, delete)
 - end request by sending data back to browser
 
-*parameter routes*
+**parameter routes***
 
-  declare a must have parameter for a URI
+  **must*** have parameter for a URI
       app.get('xx/:parameter1', callback)
-  declare an optional parameter for a URI
+
+  **optional*** parameter for a URI
       app.get('xx/:parameter1?', callback)
+
+  **multiple*** parameters in URI
+      app.get('/item/:category/:id', callback)
     `,
   },
+
   staticMiddleware: {
     title: "        static middleware\n",
     related: [],
     text: `
 Support static files like css, img.
+
+app.use(express.static('public'))
+    => makes the public folder available on /
+app.use('images', express.static('images'))
+    => makes the images folder available on /images
     `,
   },
+
   expressRouter: {
-    title: "      express.Router",
+    title: `      scturture routes ${colors.grey}(express.Router)${colors.reset}`,
     related: [],
     text: `
 With Express' Router function, you can create a modular, mountable route handler.
@@ -180,6 +268,31 @@ And after that, the following routes will handle request:
   Good practice to group routes into modules with Router.
     `,
   },
+
+  routeChaining: {
+    title: `        route chaining\n`,
+    related: [],
+    text: `
+app.route('/item')
+     .get((req, res) => {})
+     .put((req, res) => {})
+     .delete((req, res) => {})
+    `,
+  },
+
+  expressProxy: {
+    title: "      proxy",
+    related: [],
+    text: `
+A proxy is basically another server that pushes endpoint calls or traffic to an app.
+
+For security reasons, server availability for proxies can be regulated.
+'''
+app.set('trust proxy', 'loopback')
+''''
+    `,
+  },
+
   cookieSession: {
     title: "      cookie session",
     related: [],
@@ -199,6 +312,7 @@ router.get('/', (req, res) => {
 })
     `,
   },
+
   expressHandleErrors: {
     title: "      handle errors",
     related: [],
@@ -244,6 +358,7 @@ Catch error in asynchronous timer code:
 
 Last middleware before the exeption handler middleware can be a 'no route found' handler, giving a 404 page back.
 
+**Error handler middleware***
 Last middleware is the handler for errors, it takes 4 arguments (this character specifies the error handler).
     
     app.use((err, req, res, next) => {
@@ -256,6 +371,28 @@ Last middleware is the handler for errors, it takes 4 arguments (this character 
 
     `,
   },
+
+  favicon: {
+    title: "      favicon",
+    related: [],
+    text: `
+import favicon from 'serve-favicon'
+app.use(favicon(path.join(__dirname, 'path/fav.ico')))
+`,
+  },
+
+  expressSecurity: {
+    title: "      security\n",
+    related: [],
+    text: `
+- keep up-to-date and secured dependencies
+- use Transport-Layer-Security TLS for sensitive data
+- use Helmet's secutiry collection middleware
+- use cookies securely
+- check Node secutiry checklist, stay informed
+`,
+  },
+
   modules: {
     title: "  modules",
     related: [],
@@ -279,6 +416,7 @@ And this variable can be imported this way:
     const F1 = require('path/F1.js')
     console.log(F1.text)`,
   },
+
   globalObject: {
     title: "  global object",
     related: [],
@@ -293,6 +431,7 @@ There are variables that can be used in global scope, and therefore they look li
 __dirname: full path of the module's directory
 __filename: full path of the current module`,
   },
+
   processObject: {
     title: "  process object",
     related: [],
@@ -370,6 +509,7 @@ CHECK FILE/FOLDER EXISTS
     fx.existsSync('fullPath')
 `,
   },
+
   webserver: {
     title: "  Webserver",
     related: ["staticWebServer", "dynamicWebServer"],
@@ -379,6 +519,7 @@ Static web apps basically means, that all information, is given to the client on
 done that would require an API.
         `,
   },
+
   staticWebServer: {
     title: "    Static web server",
     related: [],
@@ -402,6 +543,7 @@ code, therefore it contains redundant parts. Furthere more, it's harder to keep 
 >> nodemon server.js
         `,
   },
+
   dynamicWebServer: {
     title: "    Dynamic web server\n",
     related: [],
@@ -432,11 +574,13 @@ code, therefore it contains redundant parts. Furthere more, it's harder to keep 
     const server = app.listen(3000)
         `,
   },
+
   web: {
-    title: "Web",
+    title: "**Web***",
     related: ["webservice", "rest"],
     text: ``,
   },
+
   webservice: {
     title: "  Web service",
     related: [],
@@ -446,6 +590,7 @@ Facilitates communication between different programming languages Python, Java, 
 using open standards.
 `,
   },
+
   rest: {
     title: "  REST",
     related: ["uri", "crud"],
@@ -468,16 +613,46 @@ Used HTTP methods:
   POST   − update a existing resource or create a new resource
 `,
   },
+
   uri: {
     title: "    Uniform Resource Identifier",
     related: [],
     text: ``,
   },
+
   crud: {
     title: "    CRUD\n",
     related: [],
     text: ``,
   },
+
+  javascript: {
+    title: "**Javascript***",
+    related: [],
+    text: ``,
+  },
+
+  babel: {
+    title: "  Babel",
+    related: [],
+    text: `
+Babel is a JavaScript compiler, it coverts ECMA script 2015+ code to be backwards compatible in older environments.
+
+features:
+    - transforms syntax
+    - polyfill features that are missing
+    `,
+  },
+
+  compiler: {
+    title: "    compiler\n",
+    related: [],
+    text: `
+Translates source code (basically from a higher level) programmming language to another (lower level) programming
+language. The process creates an executable program.
+    `,
+  },
+
   VSCode: {
     title: "VS Code",
     related: [],
@@ -490,6 +665,31 @@ Option + Command + Arrow : add new cursor above/below
 Command + D : Select same pattern, add new cursor
     `,
   },
+
+  useful: {
+    title: "Useful",
+    related: [],
+    text: `
+Terminal tip: make multiple commands in one line
+
+    cd express-app && npm init
+      if the first command is succesful, the next one is run too
+
+
+Data generation: mockaroo.com
+
+
+Postman:
+    - create different requests
+    - shows code how this request is made in programming languages
+
+
+Other frameworks:
+    Koa, hapi, Sails.js
+
+    `,
+  },
+
   // ,empty: {
   //     title: '',
   //     related: [],
@@ -499,37 +699,50 @@ Command + D : Select same pattern, add new cursor
 
 function treeLog(topic) {
   const topicObj = topics[topic];
-  print.bold(`*${topicObj.title}*`);
+  print.bold(`${colors.bold}${topicObj.title}${colors.reset}`);
   print.bold(topicObj.text);
 
   for (const related of topicObj.related) {
     console.log("\n");
-    print.bold(`*${topics[related].title}*`);
+    print.bold(`${colors.bold}${topics[related].title}${colors.reset}`);
     print.bold(topics[related].text, 3);
   }
 }
+
+const format = {
+  bold: (text) =>
+    text.replace(/[*]{3}/g, colors.reset).replace(/[*]{2}/g, colors.bold),
+
+  code: (text) => {
+    let pad = false;
+    const paddedText = text.split("\n").map((line) => {
+      if (/[']{3,4}/.test(line)) pad = !pad;
+      return pad ? line.padEnd(100) : line;
+    });
+
+    const codeText = paddedText
+      .join("\n")
+      .replace(/[']{4}/g, colors.reset)
+      .replace(/[']{3}[ ]*\n/g, `${colors.code}`);
+
+    return codeText;
+  },
+};
 
 const print = {
   titles: () => {
     Object.keys(topics)
       .map((it) => topics[it].title)
-      .forEach((it, ix) => console.log(`${ix}`.padStart(3, " "), "", it));
+      .forEach((title, ix) => {
+        const index = `${ix}`.padStart(3, " ");
+        print.bold(`${colors.grey}${index}${colors.reset}  ${title}`);
+      });
   },
 
   bold: (text, padding = 0) => {
-    const lines = text.split("\n");
+    const lines = format.code(format.bold(text)).split("\n");
     for (const line of lines) {
-      let parsedLine;
-      if (line.includes("*")) {
-        parsedLine =
-          " ".repeat(padding) +
-          "\x1b[1m" +
-          line.replace(/[*]/g, "") +
-          "\x1b[0m";
-      } else {
-        parsedLine = " ".repeat(padding) + line;
-      }
-      console.log(parsedLine);
+      console.log(" ".repeat(padding) + line);
     }
   },
 };
@@ -558,6 +771,7 @@ function getInput() {
   });
 }
 
+console.log(colors.reset);
 console.clear();
 print.titles();
 
