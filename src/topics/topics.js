@@ -974,6 +974,31 @@ If in a car you need to replace the windshield, the repair does not require you 
       `,
   },
 
+  tellDontAsk: {
+    title: "  Tell, Don't Ask Principle",
+    related: [],
+    text: `
+It recommends combining data and behavior to achieve better code quality. To avoid unnecessary requests, do not ask
+objects questions about their state; instead, make a decision, and then tell objects what to do.
+
+Procedural Code vs Object-Oriented Code
+  Procedural code gets information, then makes decisions. Object-oriented code tells objects to do things.
+
+If you retrieve data from an object **(data exposure)*** to do business logic based on it, it's violating this principle.
+
+
+Anemic Domain Model
+    It is an entity that is open to provide it's state to callers instead of performing the operation on itself.
+      `,
+  },
+
+  objectsVSDataStructures: {
+    title: "  Objects vs. Data Structures\n",
+    related: [],
+    text: `
+      `,
+  },
+
   overDesign: {
     title: "  Over design",
     related: [],
