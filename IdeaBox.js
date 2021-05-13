@@ -10,6 +10,8 @@ const colors = {
   code: "\x1b[48;5;254m",
 };
 
+const terminalWidth = 100;
+
 const topics = {
   npm: {
     title: "**NPM Node package Manager***",
@@ -437,9 +439,9 @@ __filename: full path of the current module`,
     related: [],
     text: `
 The process object is available globally. It contains information of the node's process running.
-Can be used to read environment variables. How?
 Can be used to communicate with terminal or parent process. How?
 
+process.env.XXX:        access XXX environmental variable
 process.pid:            process id
 process.version.node:   node.js version that runs the process
 process.argv:           arguments sent to the process
@@ -632,6 +634,57 @@ Used HTTP methods:
     text: ``,
   },
 
+  JSPrototype: {
+    title: "  prototypes\n",
+    related: [],
+    text: `
+
+Javasscript is not a class based langage, but the **class keyword*** can be used to create cunstructs as prototypes.
+Basically this keyword is a syntactic sugar for developers familiar with OOP development. This code is transpiled into
+prototype based code.
+**extends*** keyword is also available for prototype chaining.
+
+Using prototypes, gives as a way to work with object more organized. It helps to abstract from the plain objects
+to concepts.
+Creating blueprints for objects can remove redundant object {} notions.
+
+Objects that are created from a prototype are customisable, and can be used as a starting point to build out objects.
+If there are common properties and methods in the prototype object, it **removes unnecessary memory duplication***.
+These common parts are inherited from the prototype object.
+
+**Prototype chain*** (inheritence)
+    With this feature, methods and properties can be given from an other prototype without redeclaration of these
+    functionalities explicitly.
+'''
+    Basket.prototype = new Item()
+''''
+
+**Contructor function***
+    There are build in constructor function in the language, like Array. Therefore the syntax to create an array can be
+    familiar:
+    '''
+    const array = new Array()
+    ''''
+
+    Objects created with this function can be consumized by passing arguments to it.
+    There is a convention to start constructor functions with a capital letter for distinguishing purposes.
+    In the functions's body, key value can be added to the new object by the reference **this*** which refers to the
+      newly created object.
+
+    '''
+    function Basket(price, items) {
+      // custom props
+      this.price = price;
+      this.items = items;
+    }
+
+    // common props
+    Basket.prototype.name = 'basket'
+    ''''
+    
+    `,
+  },
+
   babel: {
     title: "  Babel",
     related: [],
@@ -693,7 +746,7 @@ Layman's term: describe complex or technical statement using words and terms tha
   },
 
   architech: {
-    title: "**Architect***",
+    title: "**Architect***\n",
     related: [],
     text: `
 **Different types of architects***
@@ -746,6 +799,68 @@ Traditional Enterprise architecture
     `,
   },
 
+  design: {
+      title: '**Design***',
+      related: [],
+      text: ``
+  },
+
+  singleResponsibility: {
+    title: '  **S***ingle Responsibility Principle',
+    related: [],
+    text: `
+Responsibility: Only one reason to change.
+    An example to this is that you get a modification request for a calculation. You modifies A class.
+    Then you have another request regarding save files in a different format, and you modifies A class again.
+      => than A class have more than one reason to change
+    
+    The class behaviour should be describable with one sentence.
+
+    Checks for SRP:
+      Describable with one sentence?
+      Does this sentence contain less than 25 words?
+      Is it lack of 'if', 'or', and 'but'?
+      One responsibility?
+
+
+    Maximume cohesive class:
+      every method use all properties of the class
+    If the cohesion is small in a class, probably the SRP is violated.
+    `
+},
+
+  openClosed: {
+    title: '  **O***pen-Closed Principle',
+    related: [],
+    text: `
+
+    `
+},
+
+  liskowSubstitution: {
+    title: '  **L***iskow Substitution Principle',
+    related: [],
+    text: `
+
+    `
+},
+
+  interfaceSegregation: {
+    title: '  **I***nterface Segregation Principle',
+    related: [],
+    text: `
+
+    `
+},
+
+  dependencyInversion: {
+    title: '  **D***ependency Inversion Principle\n',
+    related: [],
+    text: `
+
+    `
+}
+
   // ,empty: {
   //     title: '',
   //     related: [],
@@ -761,7 +876,7 @@ const format = {
     let pad = false;
     const paddedText = text.split("\n").map((line) => {
       if (/[']{3,4}/.test(line)) pad = !pad;
-      return pad ? line.padEnd(100) : line;
+      return pad ? line.padEnd(terminalWidth) : line;
     });
 
     const codeText = paddedText
@@ -783,10 +898,16 @@ const print = {
       });
   },
 
+  header: (text) => {
+    console.log("-".repeat(terminalWidth));
+    print.bold(text.replace("\n", ""));
+    console.log("-".repeat(terminalWidth));
+  },
+
   topic: (topicKey) => {
     const topic = topics[topicKey];
 
-    print.bold(topic.title);
+    print.header(topic.title);
     print.format(topic.text);
 
     for (const relatedKey of topic.related) {
