@@ -167,7 +167,7 @@ There are for methods add middlewares for responding to HTTP request types
   },
 
   responseObject: {
-    title: `        response object`,
+    title: `        response`,
     related: [],
     text: `
 res.send(x)   : various options for x
@@ -687,6 +687,62 @@ Postman:
 Other frameworks:
     Koa, hapi, Sails.js
 
+
+Layman's term: describe complex or technical statement using words and terms that not specialized people can understand.
+    `,
+  },
+
+  architech: {
+    title: "**Architect***",
+    related: [],
+    text: `
+**Different types of architects***
+
+  **Enterprise Architect***
+      - focus on making IT work for business
+      - have technical background
+      - understand the business at a high level + understand IT
+  
+  **Software architect***
+      - exeptionally technical
+      - less concerned with day-to-day business
+      - know how to code -> find cost-effective solutions
+      development team --- architect --- business
+  
+  **Infrastructure architect***
+      - responsible to run the business smoothly
+      - data security
+
+
+Good architect
+    - understand latest business technologies
+    - have good design skills
+    - have strong communication skills
+
+Successful enterprise architechture
+    - reduce support and operational cost
+    - define technical standards
+    - reduce risks
+    - improves continuity of oprerations
+    - facilitate business processes
+    - clear upgrade path
+  overall, the organisation sees it as valuable
+
+Traditional Enterprise architecture
+    - each business unit maintains its own information system
+         -> duplication, harder access globally
+    - to many platforms
+    - independent parts
+
+
+
+
+
+**Developer versus Architect***
+    Developer can be focused on the language specific implementations, and on the tasks s/he is given to.
+    Architect's task is to see the big picture. S/he knows well enough every part of the application, and he can make
+      suggestions for problems. The implementation is not he's role, and he shouldn't be too specific about an task.
+      He is not there to solve the actual problem by oneself. He is more of a teacher than a dictator.
     `,
   },
 
@@ -696,18 +752,6 @@ Other frameworks:
   //     text: ``
   // }
 };
-
-function treeLog(topic) {
-  const topicObj = topics[topic];
-  print.bold(`${colors.bold}${topicObj.title}${colors.reset}`);
-  print.bold(topicObj.text);
-
-  for (const related of topicObj.related) {
-    console.log("\n");
-    print.bold(`${colors.bold}${topics[related].title}${colors.reset}`);
-    print.bold(topics[related].text, 3);
-  }
-}
 
 const format = {
   bold: (text) =>
@@ -735,47 +779,88 @@ const print = {
       .map((it) => topics[it].title)
       .forEach((title, ix) => {
         const index = `${ix}`.padStart(3, " ");
-        print.bold(`${colors.grey}${index}${colors.reset}  ${title}`);
+        print.format(`${colors.grey}${index}${colors.reset}  ${title}`);
       });
   },
 
-  bold: (text, padding = 0) => {
+  topic: (topicKey) => {
+    const topic = topics[topicKey];
+
+    print.bold(topic.title);
+    print.format(topic.text);
+
+    for (const relatedKey of topic.related) {
+      print.bold("\n" + topics[relatedKey].title);
+      print.format(topics[relatedKey].text, 3);
+    }
+  },
+
+  format: (text, padding = 0) => {
     const lines = format.code(format.bold(text)).split("\n");
     for (const line of lines) {
       console.log(" ".repeat(padding) + line);
     }
   },
+
+  bold: (text) => console.log(`${colors.bold}${text}${colors.reset}`),
 };
 
-const topicTitles = Object.keys(topics).map((it) => topics[it].title);
-const rl = readline.createInterface({ input: process.stdin, output: null });
-
-function getInput() {
-  rl.question(">>> ", (text) => {
-    console.clear();
-
-    if (text === "quit") process.exit();
-    if (text === "") print.titles();
-    else if (topicTitles.includes(text) || !Number.isNaN(Number(text))) {
-      let i = 0;
-      for (const key of Object.keys(topics)) {
-        if (topics[key].title === text || `${i}` === text) {
-          console.clear();
-          treeLog(key);
-        }
-        i++;
-      }
+function findTopicKey(input) {
+  let i = 0;
+  for (const key of Object.keys(topics)) {
+    if (topics[key].title === input || `${i}` === input) {
+      return key;
     }
-
-    getInput();
-  });
+    i++;
+  }
 }
 
-console.log(colors.reset);
-console.clear();
-print.titles();
+// *'s have to be removed... any not number or a-z can be removed perhaps
+const topicTitles = Object.keys(topics).map((it) => topics[it].title);
 
-getInput();
+const rl = readline.createInterface({ input: process.stdin, output: null });
+
+class Frames {
+  static init() {
+    console.log(colors.reset);
+    console.clear();
+    print.titles();
+
+    // handle current terminal width?
+    Frames.input();
+  }
+
+  static input() {
+    rl.question(">>> ", (input) => {
+      console.clear();
+      console.log(colors.reset);
+
+      switch (input) {
+        case "quit":
+          Frames.exit();
+          break;
+
+        case "":
+          Frames.init();
+          break;
+
+        default:
+          if (topicTitles.includes(input) || !Number.isNaN(Number(input))) {
+            const topicKey = findTopicKey(input);
+            print.topic(topicKey);
+          }
+      }
+
+      Frames.input();
+    });
+  }
+
+  static exit() {
+    process.exit();
+  }
+}
+
+Frames.init();
 // 1, concrete title 2, search with keyword if no exact match 'Do you mean one of these: ...'
 
 // have a state, in a separate text file, what number was last checked. Its needed for modifying the text, and spare
