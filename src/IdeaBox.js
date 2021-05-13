@@ -57,12 +57,20 @@ class Frames {
           break;
 
         default:
+          // topic choosen
           if (
             this.topicTitles.includes(input) ||
             !Number.isNaN(Number(input))
           ) {
             const topicKey = findTopicKey(input);
             this.print.topic(topicKey);
+          }
+
+          // structure level adjusting
+          if (/^lvl[0-9]*/.test(input)) {
+            const result = /^lvl([0-9]*)/.exec(input);
+            const level = result[1];
+            this.print.setLevel(level);
           }
       }
 
