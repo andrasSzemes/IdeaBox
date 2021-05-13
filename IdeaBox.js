@@ -1,7 +1,9 @@
 const readline = require("readline");
 
-// BOLD: start symbol => **
-//       end symbol   => ***
+/*
+  BOLD: **make-it-bold***
+  GREY: |G|make-it-grey||G||
+*/
 
 const colors = {
   reset: "\x1b[0m",
@@ -11,6 +13,14 @@ const colors = {
 };
 
 const terminalWidth = 100;
+
+/*
+Making the connections between related topics requires a bit more work than it should be.
+It would be great if the structure created with spaces in the titles would mimic this.
+Therefore the related key would be populated depending on the indentation level.
+
+Connections that can not be made with indentation could still be named in the related key's list.
+*/
 
 const topics = {
   npm: {
@@ -76,7 +86,7 @@ In programming, a framework gives a structure to build an app on top of.`,
   },
 
   expressjs: {
-    title: `    ${colors.bold}Express JS${colors.reset}`,
+    title: `    **Express JS***`,
     related: [
       "middleware",
       "basicExpressServer",
@@ -210,7 +220,7 @@ Useful properties:
   },
 
   routingMiddleware: {
-    title: `        routing middleware ${colors.grey}(parameters)${colors.reset}`,
+    title: `        routing middleware |G|(parameters)||G||`,
     related: [],
     text: `
 - executed when specific URL matches
@@ -244,7 +254,7 @@ app.use('images', express.static('images'))
   },
 
   expressRouter: {
-    title: `      scturture routes ${colors.grey}(express.Router)${colors.reset}`,
+    title: `      scturture routes |G|(express.Router)||G||`,
     related: [],
     text: `
 With Express' Router function, you can create a modular, mountable route handler.
@@ -634,8 +644,21 @@ Used HTTP methods:
     text: ``,
   },
 
+  importRequire: {
+    title: "  import vs require\n",
+    related: [],
+    text: `
+                                      import             import with babel             require
+checks node modules                     NO                     YES                       YES
+declared anywhere                      only at top        only at top                    YES
+can import just a part of file          YES                    YES                       NO
+used with module.exports                NO                     NO                        YES
+used with export keyword                YES                    YES                       NO
+    `,
+  },
+
   JSPrototype: {
-    title: "  prototypes\n",
+    title: "  prototype",
     related: [],
     text: `
 
@@ -682,6 +705,52 @@ These common parts are inherited from the prototype object.
     Basket.prototype.name = 'basket'
     ''''
     
+    `,
+  },
+
+  JSClass: {
+    title: "  class\n",
+    related: [],
+    text: `
+In contrast with Java which is a only OOP language, JS classes doesn't have options like private, protected every method
+and property is public.
+
+Also, the declaration of properties is a bit different, because they don't have to name them in the class's body, only
+in the constructor method.
+
+Inheritence is available is JS classes too using the **extends*** keyword.
+
+Declaring a class can be done with a class expression, using the **class*** keyword.
+
+The usage of **super()*** is the same as in Java.
+
+Classes in JS are only syntactic sugars, they are transpiled into prototypes when the code runs.
+
+basic usage example:
+'''
+class Item {
+  constructor() {
+    this.type = 'goods'
+  }
+
+  logItem() {}
+}
+
+class Basket extends Item {
+  constructor(price, items) {
+    super()
+    this.price = price
+    this.items = items
+  }
+}
+
+class Order extends Basket {
+  constructor(price, items, name) {
+    super(price, items)
+    this.name = name
+  }
+}
+''''
     `,
   },
 
@@ -800,13 +869,13 @@ Traditional Enterprise architecture
   },
 
   design: {
-      title: '**Design***',
-      related: [],
-      text: ``
+    title: "**Design***",
+    related: [],
+    text: ``,
   },
 
   singleResponsibility: {
-    title: '  **S***ingle Responsibility Principle',
+    title: "  **S***ingle Responsibility Principle",
     related: [],
     text: `
 Responsibility: Only one reason to change.
@@ -826,40 +895,60 @@ Responsibility: Only one reason to change.
     Maximume cohesive class:
       every method use all properties of the class
     If the cohesion is small in a class, probably the SRP is violated.
-    `
-},
+    `,
+  },
 
   openClosed: {
-    title: '  **O***pen-Closed Principle',
+    title: "  **O***pen-Closed Principle",
     related: [],
     text: `
+Open means that the logic of the module can be upgraded on need.
+Closed means that the source code of the module does not change when there is an upgrade. No ripple effect.
 
-    `
-},
+Ideally, you will be able to add new behavior by adding new code and changing little or no old code.
+The right design is creating the right abstraction.
+
+
+Exapmles of OCP:
+    - well designed API of a module or component
+    - well defined function, class, or interface
+    - an implemented design pattern
+    - a domain specific language, or architectural decision ?
+
+
+**Extension points***
+
+
+Shotgun Sugrery Anti-pattern
+    A single change impacts the rest of the application.
+
+
+    `,
+  },
 
   liskowSubstitution: {
-    title: '  **L***iskow Substitution Principle',
+    title: "  **L***iskow Substitution Principle",
     related: [],
     text: `
 
-    `
-},
+    `,
+  },
 
   interfaceSegregation: {
-    title: '  **I***nterface Segregation Principle',
+    title: "  **I***nterface Segregation Principle",
     related: [],
     text: `
 
-    `
-},
+    `,
+  },
 
   dependencyInversion: {
-    title: '  **D***ependency Inversion Principle\n',
+    title: "  **D***ependency Inversion Principle\n",
     related: [],
     text: `
 
-    `
-}
+    `,
+  },
 
   // ,empty: {
   //     title: '',
@@ -868,11 +957,20 @@ Responsibility: Only one reason to change.
   // }
 };
 
-const format = {
-  bold: (text) =>
-    text.replace(/[*]{3}/g, colors.reset).replace(/[*]{2}/g, colors.bold),
+class Format {
+  static bold(text) {
+    return text
+      .replace(/[*]{3}/g, colors.reset)
+      .replace(/[*]{2}/g, colors.bold);
+  }
 
-  code: (text) => {
+  static grey(text) {
+    return text
+      .replace(/[|]{2}G[|]{2}/g, colors.reset)
+      .replace(/[|]G[|]/g, colors.grey);
+  }
+
+  static code(text) {
     let pad = false;
     const paddedText = text.split("\n").map((line) => {
       if (/[']{3,4}/.test(line)) pad = !pad;
@@ -885,26 +983,32 @@ const format = {
       .replace(/[']{3}[ ]*\n/g, `${colors.code}`);
 
     return codeText;
-  },
-};
+  }
+}
 
-const print = {
-  titles: () => {
+class Print {
+  constructor(topics) {
+    this.topics = topics;
+  }
+
+  titles() {
     Object.keys(topics)
       .map((it) => topics[it].title)
       .forEach((title, ix) => {
         const index = `${ix}`.padStart(3, " ");
-        print.format(`${colors.grey}${index}${colors.reset}  ${title}`);
+        PrintUtil.format(`${colors.grey}${index}${colors.reset}  ${Format.grey(title)}`);
       });
-  },
+  }
+}
 
-  header: (text) => {
+class PrintUtil {
+  static header(text) {
     console.log("-".repeat(terminalWidth));
     print.bold(text.replace("\n", ""));
     console.log("-".repeat(terminalWidth));
-  },
+  }
 
-  topic: (topicKey) => {
+  static topic(topicKey) {
     const topic = topics[topicKey];
 
     print.header(topic.title);
@@ -914,17 +1018,24 @@ const print = {
       print.bold("\n" + topics[relatedKey].title);
       print.format(topics[relatedKey].text, 3);
     }
-  },
+  }
 
-  format: (text, padding = 0) => {
-    const lines = format.code(format.bold(text)).split("\n");
+  static format(text, padding = 0) {
+    const lines = Format.code(Format.bold(text)).split("\n");
     for (const line of lines) {
       console.log(" ".repeat(padding) + line);
     }
-  },
+  }
 
-  bold: (text) => console.log(`${colors.bold}${text}${colors.reset}`),
-};
+  static bold(text) {
+    console.log(`${colors.bold}${text}${colors.reset}`);
+  }
+
+  static clear() {
+    console.log(colors.reset);
+    console.clear();
+  }
+}
 
 function findTopicKey(input) {
   let i = 0;
@@ -936,52 +1047,60 @@ function findTopicKey(input) {
   }
 }
 
-// *'s have to be removed... any not number or a-z can be removed perhaps
-const topicTitles = Object.keys(topics).map((it) => topics[it].title);
-
-const rl = readline.createInterface({ input: process.stdin, output: null });
-
 class Frames {
-  static init() {
-    console.log(colors.reset);
-    console.clear();
-    print.titles();
+  constructor(print, rl, topics) {
+    this.print = print;
+    this.rl = rl;
 
-    // handle current terminal width?
-    Frames.input();
+    // *'s have to be removed... any not number or a-z can be removed perhaps
+    this.topicTitles = Object.keys(topics).map((it) => topics[it].title);
   }
 
-  static input() {
+  init() {
+    PrintUtil.clear();
+    this.print.titles();
+
+    // handle current terminal width?
+    this.input();
+  }
+
+  input() {
     rl.question(">>> ", (input) => {
-      console.clear();
-      console.log(colors.reset);
+      PrintUtil.clear();
 
       switch (input) {
         case "quit":
-          Frames.exit();
+          this.exit();
           break;
 
         case "":
-          Frames.init();
+          this.init();
           break;
 
         default:
-          if (topicTitles.includes(input) || !Number.isNaN(Number(input))) {
+          if (
+            this.topicTitles.includes(input) ||
+            !Number.isNaN(Number(input))
+          ) {
             const topicKey = findTopicKey(input);
-            print.topic(topicKey);
+            PrintUtil.topic(topicKey);
           }
       }
 
-      Frames.input();
+      this.input();
     });
   }
 
-  static exit() {
+  exit() {
     process.exit();
   }
 }
 
-Frames.init();
+const rl = readline.createInterface({ input: process.stdin, output: null });
+
+const print = new Print(topics);
+const frames = new Frames(print, rl, topics);
+frames.init();
 // 1, concrete title 2, search with keyword if no exact match 'Do you mean one of these: ...'
 
 // have a state, in a separate text file, what number was last checked. Its needed for modifying the text, and spare
