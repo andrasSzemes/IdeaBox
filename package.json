@@ -2,8 +2,9 @@
   "name": "IdeaBox",
   "version": "1.0.0",
   "description": "",
-  "main": "IdeaBox.js",
+  "main": "src/IdeaBox.js",
   "scripts": {
+    "start": "nodemon src/IdeaBox.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -16,5 +17,6 @@
   "bugs": {
     "url": "https://github.com/andrasSzemes/IdeaBox/issues"
   },
-  "homepage": "https://github.com/andrasSzemes/IdeaBox#readme"
+  "homepage": "https://github.com/andrasSzemes/IdeaBox#readme",
+  "type": "module"
 }
