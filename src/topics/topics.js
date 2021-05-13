@@ -878,6 +878,8 @@ const topics = {
     title: "  **O***pen-Closed Principle",
     related: [],
     text: `
+If in a car you need to replace the windshield, the repair does not require you to modify the engine.
+
   Open means that the logic of the module can be upgraded on need.
   Closed means that the source code of the module does not change when there is an upgrade. No ripple effect.
   
@@ -893,12 +895,58 @@ const topics = {
   
   
   **Extension points***
+    - virtual methods
+    - absctract methods
+    - interface inheritance
+    - parameter to function
+    - setter of another class
+    - higher order function
+
+    Extensions must conform to extension points, which declare contracts.
+    Beyond the extension point contract, an extended plugin does not know anything about the plugin connecting it.
   
+
+  **Design patterns***
+
+    **Plugin Architecture Pattern***
+      The extension point exposes the business logic and defines how you can communicate with the system.
+      Plugins are easily replacables, can be used in parallel, and have it's own plugins.
+      When this pattern is implemented, making room for new features, adding new functionalities should be easy.
+
+
+    **Strategy Pattern***
+      Can be used if you have a task and you want to do the same task differently based on the context.
+      For example the task is sorting, you call the sort method of a class that impelements a strategy interface with a
+      sort method. The class can be easily replaced if other versions of sorting implements the Strategy Interface.
+
+      The basic idea about this for me, is that if you have an Interface and different classes impelments it, they can
+      be used in one place of the other even some inner implementation logic changes.
+
+    **Template Method Pattern***
+      Basically the same logic as Strategy Pattern. But Strategy pattern uses delegation (an object handles a request
+        by delegating it to a second object) Template pattern uses inheritance.
   
   Shotgun Sugrery Anti-pattern
       A single change impacts the rest of the application.
   
   
+
+  **Drawbacks of OCP:***
+      - costly, requires considerable time and effort to develop abstraction
+          (be familiar with product backlog, previous features)
+
+      - abstractions make software design more complex
+
+  **Positives:***
+      Increase flexibility, reusability, and maintainability.
+    
+  **When to use***
+    only apply abstraction to the part of the program that requires frequent change.
+
+  
+
+  Continous refactoring:
+      Every time a change presents a problem tha you did not protect against upfront, you must refactor the code.
       `,
   },
 
@@ -923,6 +971,29 @@ const topics = {
     related: [],
     text: `
   
+      `,
+  },
+
+  overDesign: {
+    title: "  Over design",
+    related: [],
+    text: `
+Negative impacts of too much abstraction:
+    - abstraction is expensive
+    - can make code difficult to understand and maintain
+
+
+Solution for over design is TDD.
+      `,
+  },
+
+  overDesign: {
+    title: "  Simple enough design",
+    related: [],
+    text: `
+KISS Keep It Simple, Stupid
+
+YAGNI You aren't gonna need it
       `,
   },
 
