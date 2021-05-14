@@ -19,6 +19,10 @@ export default class PrintUtil {
     console.log(`${colors.bold}${text}${colors.reset}`);
   }
 
+  static error(text) {
+    console.log(`${colors.red}${text}${colors.reset}`);
+  }
+
   static clear() {
     console.log(colors.reset);
     console.clear();

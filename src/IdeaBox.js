@@ -2,6 +2,7 @@ import readline from "readline";
 import topics from "./topics/topics.js";
 import Print from "./commandLine/Print.js";
 import PrintUtil from "./commandLine/PrintUtil.js";
+import StateHandler from "./StateHandler.js";
 
 /*
   BOLD: **make-it-bold***
@@ -27,9 +28,10 @@ function findTopicKey(input) {
 }
 
 class Frames {
-  constructor(print, rl, topics) {
+  constructor(print, rl, topics, stateHandler) {
     this.print = print;
     this.rl = rl;
+    this.stateHandler = stateHandler;
 
     // *'s have to be removed... any not number or a-z can be removed perhaps
     this.topicTitles = Object.keys(topics).map((it) => topics[it].title);
@@ -37,7 +39,14 @@ class Frames {
 
   init() {
     PrintUtil.clear();
-    this.print.titles();
+
+    const state = this.stateHandler.getState();
+
+    if (state.input) {
+      this.print.topic(state.input);
+    } else {
+      this.print.titles();
+    }
 
     // handle current terminal width?
     this.input();
@@ -54,6 +63,7 @@ class Frames {
 
         case "":
           this.init();
+          this.stateHandler.setState({ input: null });
           break;
 
         default:
@@ -64,6 +74,7 @@ class Frames {
           ) {
             const topicKey = findTopicKey(input);
             this.print.topic(topicKey);
+            this.stateHandler.setState({ input: topicKey });
           }
 
           // structure level adjusting
@@ -86,7 +97,7 @@ class Frames {
 const rl = readline.createInterface({ input: process.stdin, output: null });
 
 const print = new Print(topics);
-const frames = new Frames(print, rl, topics);
+const frames = new Frames(print, rl, topics, StateHandler);
 frames.init();
 // 1, concrete title 2, search with keyword if no exact match 'Do you mean one of these: ...'
 
