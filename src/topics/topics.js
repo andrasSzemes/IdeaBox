@@ -77,7 +77,7 @@ const topics = {
   },
 
   basicExpressServer: {
-    title: "      basic Express server",
+    title: "      basic server",
     related: [],
     text: `
   '''
@@ -88,6 +88,47 @@ const topics = {
   app.get('/', (req, res) => res.send('hello')) // res.json({'hello': 'bello'})
   app.listen(port, () => console.log('server started on port: 3000'))
   ''''
+      `,
+  },
+
+  basicExpressServerWithMongo: {
+    title: "      basic server with MongoDB",
+    related: [],
+    text: `
+MongoDB is a NoSQL database.
+
+'''
+  const mongoose = require('mongoose')
+  const dbUrl = 'mongodb://user:password@...' // read from environment variables
+
+  const Message = mongoose.model('Message', {
+    name: String,
+    message: String
+  })
+
+  app.post('route', (req, res) => {
+    const message = new Message(req.body)
+    message.save((err) => {
+      if (err) sendStatus(500)
+      res.sendStatus(200)
+    })
+  })
+
+  app.get('route', (req, res) => {
+    Message.find({}, (err, messages) => {
+      res.send(messages)
+    })
+  })
+
+  mongoose.connect(dbUrl, {useMongoClient: true}, (err) => console.log(err))
+
+  Message.findOne({message: 'badword'}, (err, censored) => {
+    if (censored) {
+      console.log('censored word', censored)
+      Message.remove({_id: censored.id})
+    }
+  })
+''''
       `,
   },
 
