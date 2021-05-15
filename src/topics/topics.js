@@ -539,6 +539,46 @@ MongoDB is a NoSQL database.
   `,
   },
 
+  testJasmin: {
+    title: "  test with Jasmine",
+    related: [],
+    text: `
+>> npm install --save-dev jasmine
+
+create testing folder
+>> ./node-modules/.bin/jasmine init
+
+add test script to package.json
+    "scripts": {
+      "test": "jasmine",
+      ...
+    }
+
+spec/server.spec.js:
+'''
+  describe('calc', () => {
+    it('test 1', () => {
+      expect(2*2).toBe(4)
+    })
+  })
+''''
+
+asyncronous test
+>> npm install --save-dev request
+
+'''
+it('200 ok', (done) => {
+  request.get('http://localhost:3000/route', (err, res) => {
+    expect(res.statusCode).toEqual(200)
+    
+    // have to be called at the end of the test. The test's "timer" waits for the function response until this call.
+    done()
+  })
+})
+''''
+          `,
+  },
+
   webserver: {
     title: "  Webserver",
     related: ["staticWebServer", "dynamicWebServer"],
