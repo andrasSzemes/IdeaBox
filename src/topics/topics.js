@@ -1307,7 +1307,7 @@ but not others.
   },
 
   OOProgramming: {
-    title: "**Object oriented programming***",
+    title: "**Object oriented programming***\n",
     related: [],
     text: `
 **Programming paradigm***
@@ -1320,6 +1320,110 @@ how to perform certain actions and how to interact with other elements of the ap
 A method in OOP can be considered as a procedure in PP, but here it belongs to a specific object.
 
 Another important aspect of OOP are classes. A class can be considered as a blueprint for an object.
+      `,
+  },
+
+  aws: {
+    title: "**AWS***",
+    related: [],
+    text: `
+      `,
+  },
+
+  awsLambda: {
+    title: "  **Lambda***",
+    related: [],
+    text: `
+**Serverless***
+    - pay for what you use
+    - don't need to manage infrastructure
+    - scale automatically up and down
+
+Lambda usage steps:
+    1, Upload the code
+    2, Add trigger
+    3, Run
+
+Lambda Programming Model
+    Triggers
+      API Gateway: manage request trafic, call the right service
+        good for:
+          mobile/web backends
+          real-time chat (save it to DynamoDB for example)
+          crud backend
+          easily connected with security services, Cognito
+      S3: new file created, updated, deleted
+      DynamoDB: create, update, delete record
+      SQS: massage queue service
+      Kinesis
+
+    Handler function
+'''
+exports.handler = async (event, contex) => {
+  // TODO implement
+  const response = {
+    statusCode: 200,
+    body: JSON.stringify('Hello from Lambda!'),
+  };
+  return response;
+};
+''''
+event: data sent during invocation
+  const name = event.queryStringParameters && event.queryStringParameters.name
+
+context: methods available to interact with the runtime information
+
+    Code
+
+Use cases:
+  - data processing, real time analitics
+  - replace backend
+  - infrastructure setting changes, turn off instances if not needed
+  - cron tasks
+
+  example:
+    HTTP request => API Gateway => AWS Lambda
+    Record changes in table => DynamoDB => AWS Lambda
+    New file is created => S3 => Lambda
+    New message in queue => SQS => Lambda
+
+
+Lambda execution can be sync, async and poll/stream based.
+
+Not fits:
+  - extreme real-time response
+  - complex computing with high memory and requirements, lambda is generic
+      example: video rendering
+  - reliability services
+      example: health care
+
+Pricing depends on ...
+  ... the number of requests
+  ... the duration of each request
+  ... the amount of memory Lambda needs for a request
+      `,
+  },
+
+  awsSAM: {
+    title: "  **SAM***",
+    related: [],
+    text: `
+Serverless Application Model
+
+Open source framework to build serverless applications.
+Infrastructure is defined in a YML file. Can be deployed to the cloud with SAM.
+
+CloudFormation: infrastructure for defining all the AWS resources
+
+SAM syntax ==(package time)==> CloudFormation syntax
+
+AWS SAM CLI
+
+Infrastructure as code
+    Involves using a high-level programming language to control the infrastructure of IT systems.
+    Basically it means that scripts are written to define the whole infrastructure.
+    
+    This is fundamental for cloud development, micro-services, and for serverless.
       `,
   },
 
