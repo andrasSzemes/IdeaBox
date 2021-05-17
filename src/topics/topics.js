@@ -1166,6 +1166,71 @@ Anemic Domain Model
     title: "  Objects vs. Data Structures\n",
     related: [],
     text: `
+
+**Objects*** are instances of a class. They have there data (state) encapsulated in properties, and they only expose methods
+to change their state.
+**Data structures*** are containers of structurized data for storage, retrieve, process, organize.
+In comparison, the data is publicly exposed, and there is no behaviour related to the state.
+
+**KEEP AWAY***
+**Hybrid Structures***
+Have functions => object like
+Have public variables, accessors, mutators => temps other functions to use them as data structures
+Cause problem overtime
+
+
+As you work with objects and data structures, it’s vital to keep them separate and avoid hybrid structures.
+
+**OOP***
+Easy to create **new types of objects***, old code doesn't have to change.
+Changing existing object is hard.
+If you add a new function, a new behavior must manifest itself, and all of the existing classes must be changed.
+
+Keep it high-level and, where possible, refer to abstractions—a simplified model of a much more complicated physical
+entity or activity—or interfaces, but do not refer to specific implementation details.
+
+getter/setter === accessor/mutator
+  Violate the Tell Don't Ask Principle, and the Single Responsibility Principle (only one reason to change, cohesion)
+  hurt polymorphism opportunities
+  getters and setters make your class resemble a hybrid structure
+
+Instead, expose the data in the most abstract form possible. Only the essential details should be displayed to the user.
+
+
+
+**Procedural programming***
+Easy to **add new behaviors*** to old structures.
+But difficult to add new data structures.
+Work best when represented data is not going to change.
+Good usecase: 
+    data transfer object o communicate with other systems/layers
+    represents database table
+
+  Limitations
+  It’s best to use data structures and PP when the data it operates upon is not likely to change. But often,
+  developers don’t respect this condition. Some developers build procedural code with a lot of “services” operating
+  upon the data model, even though the data will likely change.
+
+
+
+To avoid poor design, keep your classes highly cohesive and follow the object-oriented style of programming until you
+know for sure that you want to protect the code against adding new functions more than adding new types.
+
+Keep in mind that procedural code is rigid, doesn’t protect data well, and emphasizes operation over data, which can
+cause problems. One of the most significant issues you are likely to encounter with procedural design happens when you
+modify one part of your application, and the modification leads to a whole cascade of adjustments throughout the
+entire application.
+
+Another problem may occur when you encounter an error. If that happens, get ready to go through each line of code until
+you identify the cause. In contrast, OOP involves up-frosnt planning that pays off in the long-term when you need to make
+changes or additions to your code. In most cases, OOP is preferable to PP.
+
+Changing or correcting a poor design often requires significant effort.
+Take away:
+    - Expose data in the most abstract form possible. Be careful with getters and setters.
+    - objects make it easy to add new classes without changing existing functions;
+    - data structures make it easy to add new functions without changing existing data structures.
+    - Choose either OOP or PP design according to system needs and stick to your choice, but do not use hybrids.
       `,
   },
 
@@ -1183,12 +1248,21 @@ Solution for over design is TDD.
   },
 
   overDesign: {
-    title: "  Simple enough design",
+    title: "  Simple enough design\n",
     related: [],
     text: `
 KISS Keep It Simple, Stupid
 
 YAGNI You aren't gonna need it
+      `,
+  },
+
+  proceduralProgramming: {
+    title: "**Procedural programming***",
+    related: [],
+    text: `
+Procedures (a type of routine or subroutine) simply contain a series of computational steps to be carried out. Any
+given procedure might be called at any point during a program's execution, including by other procedures or itself.
       `,
   },
 
