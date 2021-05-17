@@ -1258,11 +1258,68 @@ YAGNI You aren't gonna need it
   },
 
   proceduralProgramming: {
-    title: "**Procedural programming***",
+    title: "**Procedural programming***\n",
     related: [],
     text: `
 Procedures (a type of routine or subroutine) simply contain a series of computational steps to be carried out. Any
 given procedure might be called at any point during a program's execution, including by other procedures or itself.
+
+a programming paradigm, derived from structured programming, based upon the concept of the procedure call. Procedures,
+also known as routines, subroutines, or functions, simply contain a series of computational steps to be carried out.
+
+also known as inline programming takes a top-down approach. It is about writing a list of instructions to tell the
+computer what to do step by step. It relies on procedures or routines.
+      `,
+  },
+
+  functionalProgramming: {
+    title: "**Functional programming***",
+    related: [],
+    text: `
+**Programming paradigm***
+    - a style of building the structure and elements of computer programs
+
+Functional programming (FP) is about passing data from function to function to function to get a result.
+treats computation as the evaluation of mathematical functions and avoids changing-state and mutable data
+
+In FP, functions are treated as data, meaning you can use them as parameters, return them, build functions from other
+functions, and build custom functions. Functions in FP have to be pure functions, they should avoid shared state, and
+side effects and data should be immutable.
+
+A pure function is a function that given the same type of input will always return the same output, it is not dependent
+on a local or global state.
+
+A shared state is a state that is shared between more than one function or more than one data-structure. So with shared
+state, in order to understand the effects of a function, you need to know all the details of every shared variable. It
+adds a lot of complexity and permits less modularity.
+      `,
+  },
+  programmingParadigm: {
+    title: "  programming paradigm\n",
+    related: [],
+    text: `
+- a style of building the structure and elements of computer programs
+
+It is a style of programming, a way of thinking about software construction. A programming paradigm does not refer to a
+specific language but rather to a way to program, a methodology. Some languages make it easy to write in some paradigms
+but not others.
+      `,
+  },
+
+  OOProgramming: {
+    title: "**Object oriented programming***",
+    related: [],
+    text: `
+**Programming paradigm***
+programming paradigm based on the concept of “objects”, which may contain data, in the form of fields, often known as
+attributes; and code, in the form of procedures, often known as methods.
+
+is about encapsulating data and behavior into objects. An OOP application will use a collection of objects which knows
+how to perform certain actions and how to interact with other elements of the application.
+
+A method in OOP can be considered as a procedure in PP, but here it belongs to a specific object.
+
+Another important aspect of OOP are classes. A class can be considered as a blueprint for an object.
       `,
   },
 
