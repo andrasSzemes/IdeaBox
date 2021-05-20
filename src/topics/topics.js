@@ -732,7 +732,18 @@ Categorize the content's type: **type/subtype***
         transaction.
 
     **subtype*** identifies the exact kind of data of the specified type the MIME type represents
-  `,
+  
+  
+**multipart/form-data***
+    This kind of data can be sent as a base64 string. The base64 string is not readable, and the separation of the form
+    parts can not be done on it. If it's decoded to ansii, the boundry will be seenable, with other informations too,
+    like the file name, type...
+    You can find a parser to make an object of this data, or you can do it your own.
+    The actual content of the fields are now coded in ansii, keep that in mind. Forexample to create a buffer from this,
+    first the ansii text have to be encoded to base64, and only then give it to the Buffer as base64 text. Or tell the
+    buffer that the text is ansii encoded.
+    et voilà
+    `,
   },
 
   rest: {
@@ -944,6 +955,26 @@ if class expression is used, strict mode is automatically enabled
 
   const type = base64.split(';')[0].split('/')[1];
 ''''
+
+'''
+  let data = 'c3RhY2thYnVzZS5jb20=';
+  let buff = new Buffer(data, 'base64');
+  let text = buff.toString('ascii');
+  
+  console.log('"' + data + '" converted from Base64 to ASCII is "' + text + '"');
+''''
+
+'''
+  let base64data = buff.toString('base64');
+''''
+  `,
+  },
+
+  buffer: {
+    title: "  |Y|buffer||Y||",
+    related: [],
+    text: `
+    https://nodejs.org/api/buffer.html
   `,
   },
 
@@ -1375,7 +1406,7 @@ Another important aspect of OOP are classes. A class can be considered as a blue
   },
 
   awsLambda: {
-    title: "  **Lambda***",
+    title: "  **|Y|Lambda||Y||***",
     related: [],
     text: `
 **Serverless***
@@ -1455,6 +1486,10 @@ Lamdba Layers
 resource: https://medium.com/@anjanava.biswas/nodejs-runtime-environment-with-aws-lambda-layers-f3914613e20e
 https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html
 https://stackoverflow.com/questions/34437900/how-to-load-npm-modules-in-aws-lambda
+
+
+Libraries that worked for me:
+  <> aws-multipart-parser
       `,
   },
 
