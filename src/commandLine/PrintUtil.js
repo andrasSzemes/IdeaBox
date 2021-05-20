@@ -9,7 +9,11 @@ export default class PrintUtil {
   }
 
   static format(text, padding = 0) {
-    const lines = Format.code(Format.bold(text)).split("\n");
+    const boldedText = Format.bold(text);
+    const codeText = Format.code(boldedText);
+    const dotText = Format.dot(codeText);
+
+    const lines = dotText.split("\n");
     for (const line of lines) {
       console.log(" ".repeat(padding) + line);
     }

@@ -7,6 +7,10 @@ export default class Format {
       .replace(/[*]{2}/g, colors.bold);
   }
 
+  static dot(text) {
+    return text.replace(/[<][>]/g, '\x1b[2m●\x1b[0m');
+  }
+
   static grey(text) {
     return text
       .replace(/[|]{2}G[|]{2}/g, colors.reset)
