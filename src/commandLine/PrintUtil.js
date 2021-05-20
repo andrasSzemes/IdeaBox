@@ -28,7 +28,7 @@ export default class PrintUtil {
   }
 
   static clear() {
-    console.log(colors.reset);
+    console.log(colors.reset, '\u001b[3J\u001b[1J');
     console.clear();
   }
 }
