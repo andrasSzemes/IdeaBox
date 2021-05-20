@@ -17,6 +17,12 @@ export default class Format {
       .replace(/[|]G[|]/g, colors.grey);
   }
 
+  static yellow(text) {
+    return text
+      .replace(/[|]{2}Y[|]{2}/g, colors.reset)
+      .replace(/[|]Y[|]/g, colors.yellow);
+  }
+
   static code(text) {
     let pad = false;
     const paddedText = text.split("\n").map((line) => {

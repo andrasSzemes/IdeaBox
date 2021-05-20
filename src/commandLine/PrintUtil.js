@@ -12,8 +12,9 @@ export default class PrintUtil {
     const boldedText = Format.bold(text);
     const codeText = Format.code(boldedText);
     const dotText = Format.dot(codeText);
+    const yellowText = Format.yellow(dotText)
 
-    const lines = dotText.split("\n");
+    const lines = yellowText.split("\n");
     for (const line of lines) {
       console.log(" ".repeat(padding) + line);
     }
