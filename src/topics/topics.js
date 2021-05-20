@@ -705,6 +705,36 @@ WebSocket
   `,
   },
 
+  webservice: {
+    title: "  MIME type",
+    related: [],
+    text: `
+Multipurpose Internet Mail Extensions - **media type***
+    - a standard that indicates the nature and format of a document, file, or assortment of bytes
+
+**Responsible for:***
+  When a browser asks for a URL, it recieves a HTTP response from a server. A header is part of this response, and it
+  contains a Content-Type key. The browser can determine how to process the response based on this value. It's like
+  the extension of a file, that shows what the file is and how the computer have to handle it.
+    
+  If configured badly, browser can misinterpret the content, site will not work correctly, downladed files may
+  bemishandled.
+
+Categorize the content's type: **type/subtype***
+
+    **type*** represents the general category into which the data type falls, such as video or text.
+      There are two classes of type: discrete and multipart.
+        Discrete types are types which represent a single file or medium, such as a single text or music file, or a
+        single video.
+
+        Multipart represents a document that's comprised of multiple component parts, each of which may have its own
+        individual MIME type; or, a multipart type may encapsulate multiple files being sent together in one
+        transaction.
+
+    **subtype*** identifies the exact kind of data of the specified type the MIME type represents
+  `,
+  },
+
   rest: {
     title: "  REST",
     related: ["uri", "crud"],
@@ -905,7 +935,19 @@ if class expression is used, strict mode is automatically enabled
       `,
   },
 
-  compiler: {
+  encodingDecoding: {
+    title: "  encoding, decoding",
+    related: [],
+    text: `
+'''
+  const base64Data = new Buffer.from(base64.replace(/^data:image\/\w+;base64,/, ""), 'base64');
+
+  const type = base64.split(';')[0].split('/')[1];
+''''
+  `,
+  },
+
+  useStrict: {
     title: "  'use strict'\n",
     related: [],
     text: `
@@ -947,10 +989,12 @@ New features:
   Data generation: mockaroo.com
   
   
-  Postman:
-      - create different requests
-      - shows code how this request is made in programming languages
-  
+  **Postman:*** 
+      <> create different requests
+      <> shows code how this request is made in programming languages
+      <> send image data: https://stackoverflow.com/questions/39660074/post-image-data-using-postman
+          <> can be done with choosing binary body, then upload the file, the header will contain the corresponding MIME
+          <> also can be done with form-data body, for each key a file can be uploaded, MIME => multipart/form-data
   
   Other frameworks:
       Koa, hapi, Sails.js
@@ -1401,6 +1445,16 @@ Pricing depends on ...
   ... the number of requests
   ... the duration of each request
   ... the amount of memory Lambda needs for a request
+
+Hello world Lambda
+https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-getting-started-hello-world.html
+https://docs.aws.amazon.com/lambda/latest/dg/deploying-lambda-apps.html
+https://docs.aws.amazon.com/lambda/latest/dg/lambda-settingup.html
+
+Lamdba Layers
+resource: https://medium.com/@anjanava.biswas/nodejs-runtime-environment-with-aws-lambda-layers-f3914613e20e
+https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html
+https://stackoverflow.com/questions/34437900/how-to-load-npm-modules-in-aws-lambda
       `,
   },
 
@@ -1422,8 +1476,87 @@ AWS SAM CLI
 Infrastructure as code
     Involves using a high-level programming language to control the infrastructure of IT systems.
     Basically it means that scripts are written to define the whole infrastructure.
-    
+
     This is fundamental for cloud development, micro-services, and for serverless.
+
+
+    https://docs.aws.amazon.com/lambda/latest/dg/with-s3-example-use-app-spec.html
+      `,
+  },
+
+  awsS3: {
+    title: "  **S3***",
+    related: [],
+    text: `
+Upload JSON from NodeJS to S3:
+'''
+
+  const AWS = require('aws-sdk');
+
+  function uploadFile() {
+    const s3 = new AWS.S3({
+      accessKeyId: process.env.accessKeyId,
+      secretAccessKey: process.env.secretAccessKey
+    });
+    
+    // Setting up S3 upload parameters
+    const params = {
+      Bucket: process.env.BucketName,
+      Key: 'test.json',
+      Body: JSON.stringify({hello: 2}),
+      ContentType: 'application/json'
+    };
+  
+    // Uploading files to the bucket
+    s3.upload(params, function(err, data) {
+      if (err) {
+        throw err;
+      }
+      console.log(\`File uploaded successfully. \${data.Location}\`);
+    });
+  }
+''''
+
+Upload file from NodeJS to S3:
+'''
+
+  /*
+   * @param  {Buffer}  fileContent Data
+   * @return {Location: string, Key: string} Image info, Locations as URL
+   */
+  async function uploadFile(fileContent) {
+    const s3 = new AWS.S3({
+      accessKeyId: process.env.accessKeyId,
+      secretAccessKey: process.env.secretAccessKey
+    });
+      
+    const params = {
+      Bucket: process.env.BucketName,
+      Key: 'test.png',
+      Body: fileContent,
+      ContentType: 'image/png',
+      ContentEncoding: 'base64',
+    };
+  
+    try {
+      const { Location, Key } = await s3.upload(params).promise();
+      return { Location, Key };
+    } catch (err) {
+      console.log(err)
+    }
+  }
+''''
+
+The location should be returned, to save it in a database.
+
+
+check later:
+  https://stackoverflow.com/questions/23561473/how-to-upload-base64-data-as-image-to-s3-using-node-js/46320615
+  https://blobfolio.com/2019/better-binary-batter-mixing-base64-and-uint8array/
+  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array
+
+
+  https://stackabuse.com/encoding-and-decoding-base64-strings-in-node-js/
       `,
   },
 
