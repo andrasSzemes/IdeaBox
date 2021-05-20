@@ -4,7 +4,7 @@ import Format from "./Format.js";
 export default class PrintUtil {
   static header(text) {
     console.log("-".repeat(terminalWidth));
-    this.bold(text.replace("\n", ""));
+    this.bold(text.replace("\n", "").replace(/[*]/g, ""));
     console.log("-".repeat(terminalWidth));
   }
 
