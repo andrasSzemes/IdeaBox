@@ -1195,11 +1195,47 @@ If in a car you need to replace the windshield, the repair does not require you 
       `,
   },
 
-  liskowSubstitution: {
-    title: "  **L***iskow Substitution Principle",
+  liskovSubstitution: {
+    title: "  **L***iskov Substitution Principle",
     related: [],
     text: `
-  
+**Subtypes must be substitutable for their base types.***
+**The LSP focuses on “IS SUBSTITUTABLE FOR A” rather than “IS A.”***
+
+This principle describes a valid relationship between a superclass and a subclass.
+It's usefull to keep this principle in mind, to...
+    ... not to break polymophism (subclass can not be used as it's base class)
+    ... avoid if-then, switch statements for class checks, they are hard to maintain
+
+The basic approach to make a subclass is to ask the question. Is this a that-thing? Yes, this **IS-A*** that-thing.
+  Is ostrich a bird? Yes, ostrich is a bird.
+But in programming we have expected behaviours of a base class, and these should not be broken by a subclass.
+I expect a bird to fly, but ostrichs can't do that. Therefore, I can't cast them back to Bird and call the fly method meaningfully.
+A fly method can differ for a pigeon and an eagle, but they both have the same meaning. For a ostrich simply not implementing this method can cause problems later on.
+
+These expected behaviours can be called invariants. **Invariants*** are conditions or properties assumed to hold true at all times for all base class states. The LSP states that a proper subtype should not invalidate or change these statements of truth regardless of state.
+
+Example:
+  If it looks like a duck, swims like a duck, and quacks like a duck, then it probably is a duck.
+  If it looks like a duck and quacks like a duck, but it needs batteries, you probably have the wrong abstraction.
+
+Example:
+  In math it's reasonable to say that Square is a special Rectangle. But that doesn't mean that in OOP programming Square is can be a subclass of Rectangle.
+  This is because from a Rectangle we expect to have to methods setWitdh, setHeight that work independent from each other. But the Square can not work like this. If the height is set, than the width is set as well, and vica versa.
+
+
+**Fix violation***
+  When you have two classes that share a lot of behavior but are not substitutable.
+    => Create a third base class that both existing classes can derive from
+
+
+The LSP reduces the long-term costs of software and allows your code to work more like hardware.
+
+Ensure LSP:
+  <> An IS-A relationship is about behavior.
+  <> Child classes do not violate the invariants of their parent class.
+  <> Child classes do not require verification of them being different from their base type.
+  <> Inherited classes do not break reasonable assumptions of their base class’s user.
       `,
   },
 
