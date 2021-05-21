@@ -1497,22 +1497,53 @@ Libraries that worked for me:
     title: "  **SAM***",
     related: [],
     text: `
-Serverless Application Model
+**Serverless Application Model***
 
-Open source framework to build serverless applications.
-Infrastructure is defined in a YML file. Can be deployed to the cloud with SAM.
+  Open source framework to build serverless applications.
+  Infrastructure is defined in a YML file. Can be deployed to the cloud with SAM.
+  
+  CloudFormation: infrastructure for defining all the AWS resources
+  
+  SAM syntax ==(package time)==> CloudFormation syntax
+  
+  AWS SAM CLI
+    check version:
+      >> sam --version
 
-CloudFormation: infrastructure for defining all the AWS resources
+    1. init sam:
+      >> sam init --runtime nodejs14.x
 
-SAM syntax ==(package time)==> CloudFormation syntax
+    2. build project:
+      >> sam build
 
-AWS SAM CLI
+    3. create package:
+      >> sam package --template-file template.yml --output-template-file package.yml --s3-bucket meme-image
 
-Infrastructure as code
+    4. deploy:
+      >> sam deploy --region us-east-2 --capabilities CAPABILITY_IAM --template-file pck.yml --stack-name test-project
+
+    5. check logs:
+      >> sam logs --name testFunction --stack-name meme-project --region us-east-2
+
+      check logs containusly:
+      >> sam logs --name testFunction --stack-name meme-project --region us-east-2 --tail
+
+  **Infrastructure as code***
     Involves using a high-level programming language to control the infrastructure of IT systems.
     Basically it means that scripts are written to define the whole infrastructure.
 
     This is fundamental for cloud development, micro-services, and for serverless.
+
+    Advantages:
+      <> no need for manual configuration (error proof)
+      <> can be deployed in different environments
+      <> increase development speed
+      <> reusable in other projects
+      <> store infrastructure beside the project's code
+
+    Define:
+      <> AWS Lambda
+      <> API Gateway
 
 
     https://docs.aws.amazon.com/lambda/latest/dg/with-s3-example-use-app-spec.html
