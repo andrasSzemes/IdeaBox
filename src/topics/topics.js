@@ -1594,12 +1594,13 @@ Libraries that worked for me:
     title: "  **CloudFormation***",
     related: [],
     text: `
-Need for automation of solution delivery, and governance.
-Infrastructure as Code makes this possible.
+Need for automation of solution delivery, and governance. Infrastructure as Code makes this possible.
 
-CloudFormation enables you to express AWS resources and their configurations in a file. Therefore you don't have to create the infrastructure of an app by hand at the AWS console.
-    <> CF can order the creation or deletion of resources automatically
-    <> if update fails, CF roles back to previous stable version
+CloudFormation makes it possible to create an AWS infrastructure based on code. Code as Infrastructure.
+These JSON or YAML files are basically configurations for AWS resources. The advantage of a file like this is, that the CF can take it, and create, update, delete resources upon the description. Therefore the developer doesn't have to create or update anything manually which is more time consuming and error prone.
+  <> if update fails, CF roles back to previous stable version
+
+A configuration file can be written manually, by checking the syntax and options for the resources, but there is an online helper tool for this process, that can be done in the Cloud Formation Designer. This tool allow to edit CF templates in a drag and drop visual way.
 
 Typical resources:
     Network: Virtual Private Cloud, routing tables, gateways
@@ -1649,6 +1650,12 @@ Tips:
   write smaller, reusable templates
   avoid hardcoding values
   automate deployment
+
+Update a stack can be donw from the terminal, and from the AWS Console too.
+The later might be easier. Template parameters can be updated, new template can be added.
+Update can be done as a direct update (rigth now), or in change sets (preview changes, execudes right away or later)
+
+Interesting fact. For a Lambda resource, the code can be uploaded to an S3 bucket, and used from there. Or the code can be written as is in the YAML file, under RESOURCE > PROPERTIES > CODE > ZipFile
       `,
   },
 
