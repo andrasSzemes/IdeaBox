@@ -982,12 +982,16 @@ if class expression is used, strict mode is automatically enabled
     title: "  'use strict'\n",
     related: [],
     text: `
-Javascript was backward compatible for a long time, but then new features were added to the language, that can break
-old code. To not to have this problem, they started to use a 'flag' to explicitly ask the developer which features s/he
-would like to use.
+Javascript was backward compatible for a long time, but this meant that mistakes and not so great decisions about the language got stuck in forever.
 
+Then in 2009 they decided to add new features to the language, that can break old code. To avoide this, the JS group added a kind of flag 'use strict'. With this, developers can explicitly ask to have the new language features, and therefore there will be no unintentional break of code.
+
+This flag should be put at the top of the file, or top of a function block.
+If enabled, this mode can not be reverted back.
 Strict mode reises errors that were previously silent.
 It might enhance performance.
+
+Classes and modules enable 'use strict' by default.
 
 New features:
     - class expression
