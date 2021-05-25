@@ -1586,6 +1586,68 @@ Libraries that worked for me:
       `,
   },
 
+  awsCloudFormation: {
+    title: "  **CloudFormation***",
+    related: [],
+    text: `
+Need for automation of solution delivery, and governance.
+Infrastructure as Code makes this possible.
+
+CloudFormation enables you to express AWS resources and their configurations in a file. Therefore you don't have to create the infrastructure of an app by hand at the AWS console.
+    <> CF can order the creation or deletion of resources automatically
+    <> if update fails, CF roles back to previous stable version
+
+Typical resources:
+    Network: Virtual Private Cloud, routing tables, gateways
+    Infrastructure: instance, load balancers
+    IAM: user accounts, permissions, groups, privileges
+    Custom: non-AWS resources
+
+
+**Template***: the actual file containig the infrastructure as code, a JSON or YAML file containing a description of resources to be provision.
+**Stack***: all the resources that are created using a given CloudFormation template, instantiation of a CF template.
+**Resources***: AWS resources that make up the stack.
+**Events***: resource is created, updated, deleted, event is logged.
+
+**Create***: operation of creating a new CF stack using a template, all resources specified by template are created
+**Update***: the action of update an existing stack by making changes to a template, CF computes a change set, which is the action required to make the current stack match the requested stack
+**Delete***: the action to delete CF stack, delete all resources. policies can be added to reources to not to be deleted even on delete event is trigered, like S3 storages.
+**Rollback***: if update fails, CF attempts to rollback to previous state.
+
+Stack states:
+  **Created*** stack creation operation succesfully ompleted.
+  **Updated*** stack update is succesfull
+  **Deleted*** stack is successfully deleted
+  **Corrupted*** stack rollback attempt failed, solution is to create again, or handle manually
+
+
+Template
+    Format version: defines format in which the template is written, enable users to use older versions, and the cloud formation server to choose the correct interpreter
+    Description: provide instruction, information about the template
+    Parameters: list of parameters, that are used in the template. to use the template these have to be provided for creating a stack from it.
+    Resources: provision the resources
+      "ResourceName" : {
+        "Type": "AWS::S3::Bucket",
+        "Properties": { ... },
+        "DeletionPolicy: "Retain"
+      }
+
+    Outputs: values to be easily accessible from a stack, CLI or API
+
+Other options, topics:
+  make conditional in template
+  "DependsOn" tag, enforce order of creation of resources
+  Signals
+  Cross-Stack references
+
+Tips:
+  save template with source code
+  write smaller, reusable templates
+  avoid hardcoding values
+  automate deployment
+      `,
+  },
+
   awsS3: {
     title: "  **S3***",
     related: [],
