@@ -1660,7 +1660,7 @@ Interesting fact. For a Lambda resource, the code can be uploaded to an S3 bucke
   },
 
   awsS3: {
-    title: "  **S3***\n",
+    title: "  **S3***",
     related: [],
     text: `
 Upload JSON from NodeJS to S3:
@@ -1735,6 +1735,67 @@ check later:
       `,
   },
 
+  AWSRekognition: {
+    title: "  Rekognition\n",
+    related: [],
+    text: `
+Can detect:
+  <> objects and scenes
+  <> facial information
+  <> text in images
+
+Can be used for:
+  <> image moderation
+  <> compare faces
+
+
+Request:
+'''
+  {
+    "Image": {
+        "S3Object": {
+            "Bucket": "console-sample-images-cmh",
+            "Name": "skateboard.jpg"
+        }
+    }
+  }
+''''
+
+Response:
+'''
+  { 
+    "Labels": [
+        {
+            "Name": "Vehicle",
+            "Confidence": 99.15271759033203,
+            "Instances": [],
+            "Parents": [
+                { "Name": "Transportation" }
+            ]
+        },
+        {
+            "Name": "Transportation",
+            "Confidence": 99.15271759033203,
+            "Instances": [],
+            "Parents": []
+        },
+        {
+            "Name": "Automobile",
+            "Confidence": 99.15271759033203,
+            "Instances": [],
+            "Parents": [
+                { "Name": "Vehicle" },
+                { "Name": "Transportation" }
+            ]
+        },
+        ...
+    ],
+    "LabelModelVersion": "2.0"
+  }
+''''
+  `,
+  },
+
   communication: {
     title: "Communication",
     related: [],
@@ -1767,7 +1828,7 @@ check later:
 `,
   },
 
-  // ,empty: {
+  // empty: {
   //     title: '',
   //     related: [],
   //     text: ``
