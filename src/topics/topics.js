@@ -1649,7 +1649,7 @@ Tips:
   },
 
   awsS3: {
-    title: "  **S3***",
+    title: "  **S3***\n",
     related: [],
     text: `
 Upload JSON from NodeJS to S3:
@@ -1722,6 +1722,38 @@ check later:
 
   https://stackabuse.com/encoding-and-decoding-base64-strings-in-node-js/
       `,
+  },
+
+  communication: {
+    title: "Communication",
+    related: [],
+    text: `
+
+**Building blocks:***
+  **People***
+    Who will be there?
+    What do I need to know about them?
+
+    Think => Feel => Do model
+      What do I want the other to think?
+      What do I want the other to feel?
+      What do I want the other to do?
+      
+      Everyone has mental filters, that modifies perception of messages
+
+  **Message***
+    Is email appropriate or should I pop in for a quick chat?
+    Check your message for understanding.
+    Use the communication form, email, class?
+
+  **Context***
+    How is the timing of this email?
+    location, timing, relationships, tune
+
+  **Listening***
+    What kind of listener do I want to be right now?
+    Listen with ears, eyes, heart. empathy
+`,
   },
 
   // ,empty: {
