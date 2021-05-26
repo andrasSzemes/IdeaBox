@@ -1968,6 +1968,18 @@ Response:
   **Listening***
     What kind of listener do I want to be right now?
     Listen with ears, eyes, heart. empathy
+
+
+
+**Communication for common situations***
+
+Before people decide what they think about your message, they decide what they think of you.
+
+    <> Smile authentically. A genuine smile involves a considerable amount of facial muscles compared to a polite grimace.
+    <> Stand or sit tall. Strong posture and a steady gaze tell everyone around you that you are competent.
+    <> Mine for connections.
+        - don't know the person => talk about external environment: weather, current event, common context like same place to be in.
+        - know the person => make it more personal, keep comments positive. don't make small talk on negative things, recent management decision, other colleague. Don't stay at surface level, ask open-ended questions, get the person to talk about himself.
 `,
   },
 
