@@ -1874,7 +1874,36 @@ Data integrity, Migration, Constraints, Stored procedures, Triggers
       Partition key + Sort key = GOOD
       Partition key + Sort key + Filter = SLOW
 
+  Secondary index:
+      Basically the original data structure is kept, but you have an other version of referencing to these data.
 
+  **Pricing***
+      Read consistency
+        <> data is replicated to three availability zones, that takes milliseconds. This time required may result stale data.
+        <> Eventual consistency: give me value from the most available node
+        <> Strongly consistent: only read the first node
+
+        <> 4KB read at eventual consistency = 1/2 read unit
+        <> 4KB read at strongly consistent = 1 read unit
+
+        <> 1KB of data written = 1 write unit
+        <> 1KB of data written in transaction = 2 write units
+
+        
+      Allows transactions, and therefore rollback if an operation fails, this can double the cost for each operation.
+
+      Provisioned pay:
+        <> capacity is capped
+        <> billed by read capacity units RCUs and write capacity units WCUs
+        <> Advantage: predictable billing and throughput
+        <> Disadvantage: users can get a 400 if you are over the capacity
+
+      On demand pay:
+        <> auto adjust to needed throughput
+        <> Advantage: no 400 error
+        <> Advantage: unlimited capacity
+        <> Disadvantage: potential runaway costs
+        <> billed for RCUs and WRUs
       `
   },
 
