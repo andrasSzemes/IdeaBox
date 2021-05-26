@@ -1596,11 +1596,13 @@ Libraries that worked for me:
     text: `
 Need for automation of solution delivery, and governance. Infrastructure as Code makes this possible.
 
-CloudFormation makes it possible to create an AWS infrastructure based on code. Code as Infrastructure.
+CloudFormation makes it possible to create an AWS infrastructure based on "code" (Code as Infrastructure).
 These JSON or YAML files are basically configurations for AWS resources. The advantage of a file like this is, that the CF can take it, and create, update, delete resources upon the description. Therefore the developer doesn't have to create or update anything manually which is more time consuming and error prone.
   <> if update fails, CF roles back to previous stable version
 
 A configuration file can be written manually, by checking the syntax and options for the resources, but there is an online helper tool for this process, that can be done in the Cloud Formation Designer. This tool allow to edit CF templates in a drag and drop visual way.
+
+CloudFormation can only perform actions that you have permission to do.
 
 Typical resources:
     Network: Virtual Private Cloud, routing tables, gateways
@@ -1626,18 +1628,60 @@ Stack states:
   **Corrupted*** stack rollback attempt failed, solution is to create again, or handle manually
 
 
-Template
-    Format version: defines format in which the template is written, enable users to use older versions, and the cloud formation server to choose the correct interpreter
-    Description: provide instruction, information about the template
-    Parameters: list of parameters, that are used in the template. to use the template these have to be provided for creating a stack from it.
-    Resources: provision the resources
-      "ResourceName" : {
-        "Type": "AWS::S3::Bucket",
-        "Properties": { ... },
-        "DeletionPolicy: "Retain"
-      }
 
-    Outputs: values to be easily accessible from a stack, CLI or API
+**Template***
+
+    **format version:***
+      defines format in which the template is written, enable users to use older versions, and the cloud formation server to choose the correct interpreter. The latest template format version is 2010-09-09 and is currently the only valid value.
+
+    **description:***
+      provide instruction, information about the template
+
+    **parameters:***
+      list of parameters, that are used in the template. to use the template these have to be provided for creating a stack from it.
+
+    **resources:***
+      provision the resources
+        "ResourceName" : {
+          "Type": "AWS::S3::Bucket",
+          "Properties": { ... },
+          "DeletionPolicy: "Retain"
+        }
+
+    **outputs:***
+      values to be easily accessible from a stack, CLI or API
+
+'''
+---
+AWSTemplateFormatVersion: "version date"
+
+Description:
+  String, optional
+
+Metadata:
+  template metadata, optional
+
+Parameters:
+  set of parameters, optional
+
+Rules:
+  set of rules, optional
+
+Mappings:
+  set of mappings, optional
+
+Conditions:
+  set of conditions, optional
+
+Transform:
+  set of transforms, optional
+
+Resources:
+  set of resources, required
+
+Outputs:
+  set of outputs, optional
+''''
 
 Other options, topics:
   make conditional in template
@@ -1733,6 +1777,105 @@ check later:
 
   https://stackabuse.com/encoding-and-decoding-base64-strings-in-node-js/
       `,
+  },
+
+    AWSDynamoDB: {
+      title: '  DynamoDB',
+      related: [],
+      text: `
+Data integrity, Migration, Constraints, Stored procedures, Triggers
+
+**SQL***
+  Why are they created? What probllem are they wanted to solve?
+  1970 first relational database: relational meaning that the internal structure of the data was different than what the user would see at the end.
+
+  **Advantages:***
+      <> enforced integrity
+      <> recudes storage cost
+      <> ability to structure data on the fly
+  
+  Storing data VS Processing
+      Own the hardware => effectively store large volume of data, the cost of accessing is fixed
+      Running out of harddrive space, add another drive should be avoided
+
+  most of the fields would be stored only one time to efficiently reduce the cost of storing thousands if not millions of things.
+
+  To get the data, you have to use a query to join records together by a foreign key to get the right structure of data.
+
+  These days, the cost of storage is relatively inexpensive, now the focus is on processing data.
+
+  SQL joins are just too slow or the needs sometimes (microsecond cost).
+
+**NoSQL***
+
+  **Advantages:***
+    <> Data is stored as relationships are present in the data, not an ID that maps to another table.
+    <> Typically faster than SQL, because there is no join to get the data.
+    <> Don't have a schema, therefore don't require database migration or altered table scripts if the model is changed.
+    <> Structure of the data can be different from row to row.
+    <> fast, flexible
+
+
+**When SQL is a better choise?***
+  <> reduce anomalies in data, inteded to strore one type of entity
+  <> allows you to run compulations or calculations on the server (its faster than retrive data and calculate it on own harddrive)
+
+
+
+**DynamoDB***
+  <> works best as a key-value storage
+  <> stores data in rows of dynamic columns
+  <> a row can be up to 400 kbyte
+  <> limited scalar types: numbers, strings, boolean
+        - objects for example can be stored stringified
+  <> priced based on throughput, reading-writing units
+  <> offers 25Gbs storage upfront
+  <> quick autoscaling
+  <> maximum ntegration with AWS
+  <> stores items in a table, items are represented as columns, column values are called attributes
+
+  Every item in DynamoDB requires at least one attribute, the partition key. When item and partitionkey is provided, DynamoDB hashes the key, and use this value as the memory address of this data.
+  DynamoDB is basically a keystore that's highly efficient at putting and retrieving data by a given key.
+
+  Data modelling
+      1. Select a partition key
+          Bad partition key: date, because many resources can access that same address at once.
+          This is called a hot key, and you want to avoid it.
+          Also orderids, shipping numbers are bad.
+          Using a counter is bad also. These keys will be cold really fast.
+
+          Key should be based on something regularly accessed and spread across all nodes.
+          Example: Baseball game. TeamID's are regularly used, no need for date usage or score usage.
+
+      2. Composite key
+          Allow to save different kind of data, but still evenly spread the requests cross multiple partitions.
+          Example:
+            PLAYERS_<TEAM_ID>
+            TEAMINFO_<TEAM_ID>
+            GAMES_<TEAM_ID>
+            ATBATS_<TEAM_ID>
+
+          If too specific this key can become cold.
+            GAMES_<TEAM_ID>_<Year>
+
+      3. Sort key (Range attributes)
+          Along with partition key, uniquely identify a row of data
+          Items phisically near to one another or increased speed
+          Can be queried effectively as ranges
+          Can be used to query data hierarchially
+
+          Example:
+            PartitionKey = "GAMES_LAA" AND SortKey BETWEEN "2019-05-01" and "2019-05-30"
+
+          Enables to pull ranges of data by a partition key
+
+    Retrieve speed:
+      Partition key = BEST
+      Partition key + Sort key = GOOD
+      Partition key + Sort key + Filter = SLOW
+
+
+      `
   },
 
   AWSRekognition: {
