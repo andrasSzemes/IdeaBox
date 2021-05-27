@@ -1779,10 +1779,10 @@ check later:
       `,
   },
 
-    AWSDynamoDB: {
-      title: '  DynamoDB',
-      related: [],
-      text: `
+  AWSDynamoDB: {
+    title: "  DynamoDB",
+    related: [],
+    text: `
 Data integrity, Migration, Constraints, Stored procedures, Triggers
 
 **SQL***
@@ -1904,7 +1904,7 @@ Data integrity, Migration, Constraints, Stored procedures, Triggers
         <> Advantage: unlimited capacity
         <> Disadvantage: potential runaway costs
         <> billed for RCUs and WRUs
-      `
+      `,
   },
 
   AWSRekognition: {
@@ -1972,43 +1972,67 @@ Response:
     title: "Communication",
     related: [],
     text: `
+Communication is based on **people***, a **message***, the **context*** and to **listen*** to the other partner.
 
-**Building blocks:***
-  **People***
-    Who will be there?
-    What do I need to know about them?
+Regarding the **people*** part, you can ask the question who will be there, who are you going to talk to, and what do you know about them.
+To formalize your message easily, you can think about what do you want the other to **think***, to **feel*** and to **do***.
+Also, you should keep in mind, that everyone has mental filters, that modifies the perception of your message.
 
-    Think => Feel => Do model
-      What do I want the other to think?
-      What do I want the other to feel?
-      What do I want the other to do?
-      
-      Everyone has mental filters, that modifies perception of messages
+If we think about the **message***, you can check what channel should you use to send it. Should you write an email or is it better to have pop in for a quick chat?
+When you've said what you wanted to, check that your message is understanded by the other. Ask some questions about the key thoughts.
 
-  **Message***
-    Is email appropriate or should I pop in for a quick chat?
-    Check your message for understanding.
-    Use the communication form, email, class?
+The **context*** of the email can be important too. You can think about how is the timing of this email. Should you call the other this time of the day? Contect also means the location, the relatioships and the tune of the message.
 
-  **Context***
-    How is the timing of this email?
-    location, timing, relationships, tune
-
-  **Listening***
-    What kind of listener do I want to be right now?
-    Listen with ears, eyes, heart. empathy
-
+When you **listen*** to the other, listen what they are saying, but also look for the gestures they are using. After knowing what they say and how they say it, think about the meaning of their message. Be empathetic.
 
 
 **Communication for common situations***
 
-Before people decide what they think about your message, they decide what they think of you.
+  **Before people decide what they think about your message, they decide what they think of you.***
 
-    <> Smile authentically. A genuine smile involves a considerable amount of facial muscles compared to a polite grimace.
-    <> Stand or sit tall. Strong posture and a steady gaze tell everyone around you that you are competent.
-    <> Mine for connections.
-        - don't know the person => talk about external environment: weather, current event, common context like same place to be in.
-        - know the person => make it more personal, keep comments positive. don't make small talk on negative things, recent management decision, other colleague. Don't stay at surface level, ask open-ended questions, get the person to talk about himself.
+  <> Smile authentically. A genuine smile involves a considerable amount of facial muscles compared to a polite grimace.
+  <> Stand or sit tall. Strong posture and a steady gaze tell everyone around you that you are competent.
+  <> Mine for connections.
+    - don't know the person => talk about external environment: weather, current event, common context like same place to be in.
+    - know the person => make it more personal, keep comments positive. don't make small talk on negative things, recent management decision, other colleague. Don't stay at surface level, ask open-ended questions, get the person to talk about himself.
+
+**Meetings***
+  <> If you organize a meeting, you better send out the agenda.
+  <> The meeting shouldn't be longer than 60-90 minutes
+  <> Encourage discussion, write down questions that you are going to ask.
+    - Allow time to people to think
+  <> Loop in virtual participants
+  <> Check nonverbal communication
+
+**Emails***
+  Short, to the point, only when neccessary
+  Think of your readers action, state that action in your first or second sentence. Check thetone.
+  Proof read: adjust mindset, that you want to find errors.
+  If you don't require any action, think why is this email is sent.
+
+  Give only the neccessary level of details, after the required action is clarified.
+
+  Check last 5 emails, check:
+    <> action is requested in first or second sentence
+    <> action was clear and easy to take
+    <> only most relevant details are given
+    <> tone creates impact that you intend
+    <> message is tailored to knowledge of reader
+    <> email was the bes channel choice
+    <> the timing of message was good for the reader
+    <> message is error free
+
+**Explain***
+  Determine process OR product. Does it matter in the latter who it is achieved?
+  Place actions in buckets: set up tasks, process tasks, test tasks to do
+  Flex to the learner's need
+      A big picture learner, or a step-by-step approacher?
+  What > Why > How
+  Let the learner show and tell
+  Learners must practice in a safe space you create.
+
+  Tell the learner why the task matters!
+
 `,
   },
 
