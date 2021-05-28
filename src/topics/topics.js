@@ -2030,12 +2030,14 @@ When you **listen*** to the other, listen what they are saying, but also look fo
   Place actions in buckets: set up tasks, process tasks, test tasks to do
   Flex to the learner's need
       A big picture learner, or a step-by-step approacher?
-  What > Why > How
+  What > **Why*** > How
   Let the learner show and tell
   Learners must practice in a safe space you create.
 
   Tell the learner why the task matters!
 
+**Advice to older colleague***
+  Be respectful, make your thoughts come out as opinions, and do not decide on things, let them decide. It takes time to be credible, can mention previous experiences to help with this.
 `,
   },
 
@@ -2080,7 +2082,135 @@ Qualitative benefits
 Quantitative benefits
     <> 
     
+
+
+
+-----------------
+Introduction to cloud computing
+  **What is the cloud?***
+    => Cloud is actually just a new hip way to refer to the internet.
+
+    In the most fundamental sense, the internet is a worldwide network of billions and billions of devices. These devices can be computers, servers, cell phones, tablets, or Amazon Alexas.
+    These are connected phisically with cabels, that can be TV cables, fiber optic cables, or copper telephone wires.
+    When you make a request, your internet service provider then sends your request to a server which searches for the domain name you requested. If it finds a match it will route your request to the IP address of the server hosting the website. Once your request hits the server of the website you wanted to load, the server responds by sending the web page in little packets back to your computer. The packets are very small and acts like jigsaw pieces that your computer reassembles to load the whole entire web page
+
+  The technical definition of cloud computing is the on-demand delivery of compute, database storage, application, and other IT resources. This means through cloud computing services, you have instantaneous access to computational, storage, and software using the internet. Computing resources available when you want it, where you want it.
+
+  Benefits:
+    Pay as you go, more affordable than legacy infrastructure
+    Accessibility
+
+
+History
+    Origin of cloud computing
+    1950s Mainframe computing: have a central computer accessed by numerous user devices.
+      Mainframe computer, dumb terminals.
     
+    1970s Virtual machines: multiple complete operating systems that quote unquote live in a single piece of hardware
+
+    Hypervisor: use lots of mainframe computers' resources as if it's just one computer
+      => modern concept of cloud computing
+
+Examples of daily life:
+    Emails, video streaming, Google Drive-Calendar...
+    Cheap, inexpensive
+
+-----------
+**Cloud Computing Concepts***
+
+    !!!Exam related
+    <> Trade capital expense for variable expense (Dont have to buy hardware)
+    <> Benefit from massive economies of scale (like Amazon)
+    <> Stop guessing capacity (scale up and down as needed)
+    <> Overal increase speed and agility
+    <> Stop spending money running and maintaning data centers
+    <> Go global in minutes
+
+    <> No hardware replacement (service providers issue)
+    <> Accessible anywhere
+
+
+  -----
+  **IaaS***
+    you have control over the networking, security, computer, and servers
+    requires the highest level of technical knowledge to execute
+    examples: Amazon Web Services, Microsoft Azure, and Google Cloud
+
+  **PaaS***
+    allows you to deploy and manage applications without worrying about the underlying hardware infrastructure. Services offered could be web servers, databases, operating systems, or environments where you can execute specific programming languages to host applications. Some examples of PaaS are Microsoft Azure web hosting, Google App Engine, and Heroku.
+
+    PaaS is different from IaaS in that there is less flexibility as packages are preconstructed. But, you also have to deal with less of the infrastructure deployment and maintenance allowing you more time and resources to focus on the project at hand as opposed to the infrastructure. 
+
+  **SaaS***
+    describes completed products managed by the service provider. You get the whole package of the service complete with user interfaces.
+    generally does not require much technical knowledge and it's extremely intuitive and features are ready to use quote unquote out of the box
+    Example: Outlook, Gmail
+
+  -----
+  **Cloud deployment models***
+      Cloud deployment: 100% cloud based, depends on internet and cloud providers.
+
+      On-premise/Private deployment: traditional deployment, not much benefit of CC. Onsite, internet not required. Can be really fast. If security is important, this might be a must.
+
+      Hybrid deployment: Mix of previous two. One option is to have on-premise apps, and have a backup at the cloud.
+
+  -----
+  **Design principles***
+      Aims: secure, durable, high-performing
+
+    Aim: **cost optimization***
+      Use only what you need
+      Continue to monitor for optimization
+
+    Aim: **reliability*** (recover from service discruptions, often byself)
+      Test disaster recovery
+      Have duplicate copies of resources
+
+    Aim: **efficient*** (ability to use computing resources to adjust to system requirements)
+    
+    Aim: **security***
+      best practices should be automated
+      data should always be protected
+      enable traceability
+
+    Aim: **operational excellence*** (ability to run and monitor systems while constantly improving processes and procedures)
+      document everything
+      operational processes constantly refine
+
+
+
+
+
+**Introduction to AWS***
+  History of AWS
+
+    market cap is huge
+    founded by Jeff Bezos in 1994 as a humble online bookstore
+    AWS was launched internally in 2002
+      - create online shopping websites
+      - real competitors didn't come at first, big advantage
+    Google Cloud, Microsoft Azure come later and have a market share today
+
+  What is AWS
+    Amazon Web Services
+    many types and number of services
+    AWS provides what used to be purchased as hardware, such as network switches and servers, as resources to be accessed using the internet. Because of cloud computing's pay as you go model and robust resources, organizations are able to save time, money, and human resources by moving their resources to AWS
+    As of winter 2020, there are 24 groups of services offered by the platform ranging from compute to storage to game development.
+    As a cloud computing service provider, AWS boasts flexibility, scalability, and reliability alongside affordability that was impossible with traditional on premises IT infrastructure. With AWS, engineers can concentrate on building your products and features instead of worrying about the it infrastructure's ability to handle their scaling
+
+  Users: Airbnb, Netflix
+
+
+
+
+Diving into AWS
+  Popular services
+    EC, Lambda, S3 in use-archival files, DynamoDB, RedShift, 
+
+  Required for an account: valid phone number, credit card, email
+
+    
+
     `,
   },
 
