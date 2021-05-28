@@ -1904,6 +1904,9 @@ Data integrity, Migration, Constraints, Stored procedures, Triggers
         <> Advantage: unlimited capacity
         <> Disadvantage: potential runaway costs
         <> billed for RCUs and WRUs
+
+
+Topics: Local dynamoDB for development, transactions, query data, streams
       `,
   },
 
@@ -2034,6 +2037,51 @@ When you **listen*** to the other, listen what they are saying, but also look fo
   Tell the learner why the task matters!
 
 `,
+  },
+
+  cloudComputing: {
+    title: "**Cloud computing***",
+    related: [],
+    text: `
+Public clouds are shared, owned by multicompanies like Amazon, Google, Microsoft. Can be used by anybody.
+Private clouds are owned by a single entity.
+Community cloud: share it with known users. Can be used for example by farmers.
+Hybrid cloud: the mix of private and public cloud
+
+IaaS: database, servers, networks. AWS stuff
+
+PaaS: development as a service basically, have tools to build application in the cloud and deploy it on the platform. Abstract away from the underlaying complexity. Example: Google App Engine
+
+SaaS: software delivered over the internet, example: Gmail
+
+5 characteristics
+    <> On-demand self-selvice
+    <> Ubiquitous network access (available everywhere)
+    <> Resource pooling
+    <> Rapid elasticity (scale up to huge loads)
+    <> Pay per use
+    
+    
+Basic concept about public clouds:
+    Because they share resources between many companies, their resources are used approximately as much as they can be used. So they don't have separate servers for example that are only used for one company with a 30% usage rate. Therefore it's beneficial for them, and they can give their service in a lower cost to you. Lower power cost. Nontheless this is something to be called green.
+
+
+Compared to owning the infrastructure, in the first year of a software development, the inital cost is lower, and basically it will not fluctuate during the years.
+
+A good question to ask before deciding on CC, is to know what the company expects from it.
+
+Qualitative benefits
+    <> agility
+    <> developer, operational efficiency
+    <> talent recruitment (state of the art job is appealing)
+    <> adaptibility
+    <> consistency (single platform)
+
+Quantitative benefits
+    <> 
+    
+    
+    `,
   },
 
   // empty: {
