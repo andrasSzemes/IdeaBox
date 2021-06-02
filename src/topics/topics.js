@@ -2042,7 +2042,7 @@ When you **listen*** to the other, listen what they are saying, but also look fo
   },
 
   cloudComputing: {
-    title: "**Cloud computing***",
+    title: "**Cloud computing***\n",
     related: [],
     text: `
 Public clouds are shared, owned by multicompanies like Amazon, Google, Microsoft. Can be used by anybody.
@@ -2215,8 +2215,8 @@ Diving into AWS
     `,
   },
 
-  empty: {
-    title: "AWS Certified Cloud Practitioner Exam",
+  AWSCertifiedCloudPractitionerExam: {
+    title: "**AWS Certified Cloud Practitioner Exam***",
     related: [],
     text: `
 Domain of Exam
@@ -2225,7 +2225,13 @@ Domain of Exam
   Domain 3: Technology 33%
   Domain 4: Billing and Pricing 16%
 TOTAL 100%
+`,
+  },
 
+    cloudConcepts: {
+      title: '  Cloud Concepts',
+      related: [],
+      text: `
 **Domain 1: Cloud Concepts***
 
 1.1 Define the AWS Cloud and its value proposition
@@ -2282,7 +2288,14 @@ o Managed services (for example, RDS, ECS, EKS, DynamoDB)
 1.3 Explain the different cloud architecture design principles   Explain the design principles
   <> Design for failure
   <> Decouple components versus monolithic architecture o Implement elasticity in the cloud versus on-premises o Think parallel
+      
+      `
+  },
 
+  securityCompliance: {
+      title: '  Security and Compliance',
+      related: [],
+      text: `
 **Domain 2: Security and Compliance***
 
 2.1 Define the AWS shared responsibility model
@@ -2319,9 +2332,15 @@ whitepapers, official documents)
 
 o AWS Knowledge Center, Security Center, security forum, and security blogs o Partner Systems Integrators
   Know that security checks are a component of AWS Trusted Advisor
+      
+      `
+  },
 
-
-  Domain 3: Technology
+  technology123: {
+      title: '  Technology',
+      related: [],
+      text: `
+Domain 3: Technology
 3.1 Define methods of deploying and operating in the AWS Cloud
   Identify at a high level different ways of provisioning and operating in the AWS cloud
 o Programmatic access, APIs, SDKs, AWS Management Console, CLI, Infrastructure as Code
@@ -2373,7 +2392,14 @@ o Premium support
 o Technical Account Managers
   Recognize there is a partner network (marketplace, third-party) including Independent Software Vendors and System Integrators
   Identify sources of AWS technical assistance and knowledge including professional services, solution architects, training and certification, and the Amazon Partner Network
-  Identify the benefits of using AWS Trusted Advisor Domain 4: Billing and Pricing
+        `
+  },
+
+  billingPricing: {
+      title: '  Billing and Pricing',
+      related: [],
+      text: `
+Identify the benefits of using AWS Trusted Advisor Domain 4: Billing and Pricing
 4.1 Compare and contrast the various pricing models for AWS (for example, On-Demand Instances, Reserved Instances, and Spot Instance pricing)
   Identify scenarios/best fit for On-Demand Instance pricing
   Identify scenarios/best fit for Reserved-Instance pricing
@@ -2393,9 +2419,16 @@ o AWS Simple Monthly Calculator o AWS Services product pages
 o AWS Pricing API
   Recognize that alarms/alerts exist
   Identify how tags are used in cost allocation
+      
+      
+      `
+  },
 
-
-  Appendix
+  appendix: {
+      title: '  Appendix',
+      related: [],
+      text: `
+Appendix
 Which key tools, technologies, and concepts might be covered on the exam?
 The following is a non-exhaustive list of the tools and technologies that could appear on the exam. This list is subject to change and is provided to help you understand the general scope of services, features, or technologies on the exam. The general tools and technologies in this list appear in no particular order. AWS services are grouped according to their primary functions. While some of these technologies will likely be covered more than others on the exam, the order and placement of them in this list are no indication of relative weight or importance:
   APIs
@@ -2429,10 +2462,8 @@ Application Integration:
   Amazon Simple Queue Service (Amazon SQS)
 **Compute and Serverless:***
   AWS Batch
-  **Amazon EC2***
-    AWS built datacenters, secured them, purched servers, installed servers
-
-        AWS Elastic Beanstalk
+  **Amazon EC2 / Elastic Compute Cloud***
+  AWS Elastic Beanstalk
   AWS Lambda
   Amazon Lightsail
   Amazon WorkSpaces
@@ -2477,7 +2508,7 @@ Networking and Content Delivery:
   Amazon Route 53
   Amazon VPC
 
- Security, Identity, and Compliance:
+  Security, Identity, and Compliance:
   AWS Artifact
   AWS Certificate Manager (ACM)
   AWS CloudHSM
@@ -2498,7 +2529,56 @@ Storage:
   Amazon S3 Glacier
   AWS Snowball Edge
   AWS Storage Gateway
-`,
+`
+  },
+
+  computeAndServerless: {
+      title: '    Compute and serverless > EC2\n',
+      related: [],
+      text: `
+**Amazon EC2 / Elastic Compute Cloud***
+Provides secure, resizable compute capacity in the cloud as Amazon EC2 instances.
+Keywors: Compute as a Service
+
+The advantage of using an EC2 instance, is that you don't have to buy a server upfront for a project (estimate the hardware), wait for it to ship, then rent a place in a datacenter, and configure it. Also stick with it for a long time.
+You can get an EC2 instance within minutes, and you only have to configure it. You can choose memory, CPU options for the beginning of the project, then later on change these (vertical scale) to biger ones. When you are finished with it, you can stop the instance and not pay for it anymore.
+
+Security, the network options can be configured.
+You probably don't get a full machine, instead a virtual one on top of it, and share the resource. (multitenancy)
+
+Instance types are grouped under instance families. Varies in CPU, memory, storage, networking capacity.
+General purpose:
+  <> good balance of compute, memory, and networking resources
+  <> used for web service, application servers, gaming servers, backend servers for enterprise applications, small and medium databases
+
+Compute optimized:
+  <> high-performance processors
+  <> used for gaming servers, high performance computing, scientific modeling
+
+Memory optimized:
+  <> Accelerated computing are good for floating point number calculations, graphics processing, or data pattern matching, as they use hardware accelerators. 
+  <> Memory optimized instances are designed to deliver fast performance for workloads that process large datasets in memory. In computing, memory is a temporary storage area. It holds all the data and instructions that a central processing unit (CPU) needs to be able to complete actions. Before a computer program or application is able to run, it is loaded from storage into memory. This preloading process gives the CPU direct access to the computer program.
+  Suppose that you have a workload that requires large amounts of data to be preloaded before running an application. This scenario might be a high-performance database or a workload that involves performing real-time processing of a large amount of unstructured data. In these types of use cases, consider using a memory optimized instance. Memory optimized instances enable you to run workloads with high memory needs and receive great performance.
+
+Accelerated computing:
+  <> Accelerated computing instances use hardware accelerators, or coprocessors, to perform some functions more efficiently than is possible in software running on CPUs. Examples of these functions include floating-point number calculations, graphics processing, and data pattern matching.
+  In computing, a hardware accelerator is a component that can expedite data processing. Accelerated computing instances are ideal for workloads such as graphics applications, game streaming, and application streaming.
+
+Storage optimized
+  <> Storage optimized instances are designed for workloads that require high, sequential read and write access to large datasets on local storage. Examples of workloads suitable for storage optimized instances include distributed file systems, data warehousing applications, and high-frequency online transaction processing (OLTP) systems.
+
+  <> In computing, the term input/output operations per second (IOPS) is a metric that measures the performance of a storage device. It indicates how many different input or output operations a device can perform in one second. Storage optimized instances are designed to deliver tens of thousands of low-latency, random IOPS to applications. 
+  You can think of input operations as data put into a system, such as records entered into a database. An output operation is data generated by a server. An example of output might be the analytics performed on the records in a database. If you have an application that has a high IOPS requirement, a storage optimized instance can provide better performance over other instance types not optimized for this kind of use case.
+
+Billing options:
+On-Demand
+  Instances are ideal for short-term, irregular workloads that cannot be interrupted. No upfront costs or minimum contracts apply. The instances run continuously until you stop them, and you pay for only the compute time you use.
+  Usecase: developing and testing applications and running applications that have unpredictable usage patterns
+  On-Demand Instances are not recommended for workloads that last a year or longer because these workloads can experience greater cost savings using Reserved Instances.
+
+Saving Plan
+  enable you to reduce your compute costs by committing to a consistent amount of compute usage for a 1-year or 3-year term. This term commitment results in savings of up to 72% over On-Demand costs. Any usage beyond the commitment is charged at regular On-Demand rates.
+      `
   },
 
   empty: {
