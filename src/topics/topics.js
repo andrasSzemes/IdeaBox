@@ -2054,6 +2054,32 @@ When you **listen*** to the other, listen what they are saying, but also look fo
 
 **Advice to older colleague***
   Be respectful, make your thoughts come out as opinions, and do not decide on things, let them decide. It takes time to be credible, can mention previous experiences to help with this.
+
+**When you're caught off guard***
+  1. Buy time
+    acknowledge the situation: this is catching me offguard
+    ask for time until the end of the day
+    ask questions
+  2. Calm yourself
+  3. Use response formula
+    What I know + What I don't know + How I'll find out
+
+**When you're criticized***
+  1. Check listening bias: Are my mental filters or assumptions creating defensiveness?
+  2. Give yourself time to ponder criticism. Reather than derend or accept as truth simply say 'thank you for the feedback'.
+  3. Ignore first two thoughts. First is likely to be defensive, second is likely to be accusatory. Lead with your third thought.
+  4. Use "Yes, and... other aspect to consider"
+
+**When you are presenting up***
+  Get to the point. Share your suggestion or key idea within the first 60-90 seconds of your presentation.
+  Situation
+  Complication: what created problem or opportunity
+  Question (key question to be addressed)
+  Answer: what is the answer to the question (your recommendation)
+
+  Go for the big picture! Expected to be grilled, redirect back.
+  Prepare 200% for the questions. Even create a side for them.
+  
 `,
   },
 
@@ -2738,6 +2764,19 @@ CloudFormation
 
   Keywords: CF Designer
   => CF is really useful, deleting a stack removes all instances (no manual error)
+
+
+AWS Cost Explorer (tool)
+  Can search by servic, region, linked account, usage type, cost category.. it's easy to point out where the spend pain is coming from. Filtering is the key.
+
+AWS Cost management
+  <> There are default reports created by Amazon. Own reports can be created too.
+  <> Can create budgets
+  <> Anomaly detection: additional layer of monitoring (recommended for complex infrastructure)
+  <> Reservations > Recommendations: Amazon can show you how much you could save if you would use resedved instances over on-demand ones
+  <> Savings Plans:
+      Compute: flexible, apply for EC2, AWS Fargate, AWS Lambda. reduce by 66%
+  <> Reserved instance: you buy that instance coniguration
       `
   }
 
