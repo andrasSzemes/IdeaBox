@@ -784,7 +784,9 @@ Categorize the content's type: **type/subtype***
   javascript: {
     title: "**Javascript***",
     related: [],
-    text: ``,
+    text: `
+Topics to check: classes, prototype, events, scope
+    `,
   },
 
   importRequire: {
@@ -1090,6 +1092,20 @@ New features:
       Architect's task is to see the big picture. S/he knows well enough every part of the application, and he can make
         suggestions for problems. The implementation is not he's role, and he shouldn't be too specific about an task.
         He is not there to solve the actual problem by oneself. He is more of a teacher than a dictator.
+
+
+A way to become an architect:
+    <> take on more responsibilities
+    <> look for problems in the application, and figure out solution
+    <> it also means moving out of the developer role
+As an architect:
+    <> drive/help decision making
+    <> dedicate time to learn
+    <> read best practices
+    <> know when to apply new technologies
+    <> learn => experiment => educate team, coach. check if works out well
+    <> also check other people ideas, check if all are consistent with app direction
+    <> think about operational requirements
       `,
   },
 
@@ -2587,6 +2603,141 @@ Saving Plan
       text: `
 What is cloud computing?
     - On-demand delivery of IT resources and applications through the internet with pay-as-you-go pricing
+      `
+  },
+
+  cloudFinancials: {
+      title: 'Cloud Financials',
+      related: [],
+      text: `
+Check:
+    1. AWS invoice
+    2. AWS Billing console
+    3. AWS Cost Explorer, recommended
+    4. AWS Cost and Usage Report
+
+If cost increase by 10%, what is the cause?
+  It sounds bad, but if its generated because of more searches and users, it's an investment. Isn't it?
+  KPI: Key Performance Indicator
+    Cost based KPIs: Daily AWS run time, Total EC2 hours...
+    Value based KPIs: AWS cost per search, AWS cost per guest, per backend job
+
+"We don't want to make money from costumers that aren't getting value from us.. How many of your partners call you up and say 'stop spending money with us'?"
+
+Save money with:
+    1. Cost aware design, Architecture
+    2. Maximize elastcity
+    3. AWS pricing models
+    4. Resource Lifecycle management
+
+What looks good as you scale: Unit cost e.g. cost per user is lowering. Usage is increasing.
+
+Best way to start optimization is to look at the bill.
+      `
+  },
+
+  AWSControllingCost: {
+      title: 'AWS: Controlling Cost',
+      related: [],
+      text: `
+**Why is this important?***
+  A key reason to move to the cloud is to save money (it's not automatically less expensive)
+
+**Who is responsible to make it unexpensive?***
+  Everyone, and KPI should be set up. Cross-functional team is key to successfully control AWS costs.
+
+**Where to start the AWS journey?***
+  AWS Free tier: Designed to explore 85 products. Some resources are always free, some are free for 12 months, and some are free until a certain usage.
+
+  Keywors: My billing dashboard, AWS Cost explorer
+
+  **Set up a budget!*** Create budget
+    Advantage: there will be an alert, when you go higher then you wanted to.
+    Cost/Usage/Reservation/Savings Plans
+
+**Organizations***
+  An enterprise might have more than one Amazon account. There can be discounts for this.
+  It's a oneway step to create an organization. You can not go back to a simple account. You can invite account or create new subaccounts.
+
+**Object tagging***
+  1. Why to use it?
+    See which instances, how much cost generate. Manage and enforce cost control.
+    'Cost Allocation Tags'
+
+  2. Feature description
+    Enables addition of metadata (case-sensitive key-value pairs) to AWS object instances
+
+  3. What to do for it?
+    Create new tags or use AWS ones.
+    Map tags to instances, tags can be added manually, by template (CF), by policy.
+
+  4. How to keep it up?
+    Management tools > AWS Config
+    A rule can be created to for example check if all instances have a kind of tag. This can be useful to find these instances and correct them.
+    Config Dashboard is a good start here.
+
+  5. Reason validation
+    Valid reason for tags: In the console if you choose a region, you only see instances prices, etc in that region. And you can be charged up with instances that you forgot in other regions. Tags are a solution for this problem.
+
+  AWS Cost Categories
+    <> defined at the organizational level
+    <> allows mapping of tagged resources into cost centers
+    <> uses rules and dimensions
+    <> categorize: by account, by tag, by charge type, by service, by cost category
+
+  Handy tools:
+    Resource groups (easier way to tag instances)
+    Cost management <=> Billing not the same page
+
+
+Facts:
+  <> Cost can vary by regions.
+  
+AWS BILL:
+  The bulk of the bill is usually compute (EC2), Database, Storage (S3).
+  **How moving to serverless related to pricing?***
+    <> pre-purched capacity units VS Pay for service on consumption
+    <> EC2 hours, seconds VS Lambda incovations
+    <> RDS hours, seconds VS DynamoDB read/write unit
+  
+      => serverless can be cheaper
+
+  **Compute:***
+    EC2
+      <> For price calculation of an EC2 instance, the AWS Pricing Calculator can be used. When an instance is bought, the actual price or estimated price is not available.
+      <> **Simple strategy to cost control***
+        Stop instance: won't cost more money
+      Keywords: spot instances, reserved plan.
+      There are discount related to 1-3 year commitment. Also also there are discounts for estimating the usage, about what time period it will be used the most.
+
+    Lambda
+      Pay for invocation
+      Price also depends on timeout and memory
+      Soo much smaller than a EC2 instance
+    
+      Tip: run the code modularly in separate lambdas can reduce the cost (microservices)
+      Keywords: Total Cost of Ownership TCO
+
+  **Database:***
+    RDS: managed relational database servers on virtual machines that have been optimized to run on the Amazon Cloud
+    Tip: Use reserved instances, it saves a lot!
+
+    DynamoDB
+      pay by table access write and read units
+      You have to give an estimation on read-write / sec plus the maximum read-write. The price depends on these metrics.
+
+  **Storage:***
+    <> There are multiple options for S3 configuration, that cost in a various scale. Example: general, glacier,
+  
+
+
+CloudFormation
+  Uses a template to create an architecture.
+  Tip: in production, disable Console and only use template.
+  Money related: 
+
+  Keywords: CF Designer
+  => CF is really useful, deleting a stack removes all instances (no manual error)
       `
   }
 
