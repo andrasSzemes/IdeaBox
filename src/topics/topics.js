@@ -2994,6 +2994,7 @@ Programmatic access: basically not the Management Console access with access key
   You can access IAM and AWS programmatically by using the IAM HTTPS API, which lets you issue HTTPS requests directly to the service.
   
 7. What is the allow/deny priority order when policies are configured on different levels (group, user, etc.)?
+  Check for explicit deny first, then check if there is an allow.
   
 8. What ways of managing permissions for a given user do you know?
   <> Inline policy for the user
@@ -3051,6 +3052,21 @@ Install these with pip:
 When credentials expire, run this:
     > export MFA_DEVICE=$(aws --profile default-long-term iam list-mfa-devices --query "MFADevices[0].SerialNumber" --output text)
     > aws-mfa
+      `
+  },
+
+  criticalThinking: {
+      title: 'Critical thinking',
+      related: [],
+      text: `
+
+      
+5 critical thinking killers
+  <> critical thinking values evidence over authority: can't ask question to the boss
+  <> black-and-white thinking: don't think like something is bad and it's not bad. these are just two options. Instead name the qualities like bad and good. Each can be true or false on it's own.
+  <> moral judgements: quick evaluation with good or bad
+  <> labels: categorize something into a bucket and not to think further on it
+  <> resistance to change: set aside immediate and emotional reactions, slow pace is good
       `
   }
 
