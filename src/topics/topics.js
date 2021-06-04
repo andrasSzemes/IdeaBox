@@ -2777,6 +2777,280 @@ AWS Cost management
   <> Savings Plans:
       Compute: flexible, apply for EC2, AWS Fargate, AWS Lambda. reduce by 66%
   <> Reserved instance: you buy that instance coniguration
+
+
+Option for watch over the billig, monitoring:
+  <> CloudWatch billing alarms, creates an SNS
+
+AWS Marketplace subscriptions: can buy images of apps, really good for see solutions that might work for the business and spare a lot of work time (money)
+
+Service Catalog
+  Uses CloudFormation template, a portfolio can be created of templates. The usage is not that clear as for a developer role.
+
+AWS Compute Optimizer
+    Scan infrastructure, give suggestions EC2 options. Can take 12 hours.
+    Show how other resources would have worked with your actual history of usage.
+
+Well-Architected Tool
+    Well-Architected Framework: gives a report based on questions
+    Serverless Lens
+
+
+
+
+What is true cost?
+    Cost of AWS services (basic)
+    Labor cost (hidden cost) to learn the cloud
+    Training cost (employees), worth the do
+    Time to market (At first, 100% cloud can be time consuming)
+
+Scenario: Marketing Website
+    Compute: EC2 (more familiar with on-premise work) or Lambda (need training)
+    Files: S3
+    Data: RDS (familiar to developers) or DynamoDB (good for high-volume website, need training)
+    Other: Route 53, EIP
+
+Scenario: Dynamic website
+    Compute is quite the same
+    + CloudFront
+
+
+Internal Business Application
+    Compute is the same:
+    Data:
+      RDS for MySQL or DynamoDB
+      Caching
+      Data processing cost consideration: machine learning (Rekognition), visualization
+
+How much money would we use if the application is down?
+
+Big Data Pipeline, most expensive
+    get more and more meaning out of data, cloud
+    premium services are quite expensive (AWS get money from these)
+    RDS Aurora
+    Steaming: Kafka (open source) or AWS Kinesis
+    Data transformation: AWS Glue
+
+    I'm seeing the most movement around cost in this data area, and I do believe that this is an unexamined driver as costing moves from the traditional compute of EC2 and RDS and into the service-based costing and I think it's a key takeaway from this course.
+
+    really interesting to see how relational databases are being augmented
+      data lake is implemented as S3
+
+    Now, why you'd use this kind of architecture really fundamentally is because you have the volume of data that it would become prohibitively expensive to use traditional relational technologies even on the Amazon cloud and that's the primary driver of this.
+      `
+  },
+
+  AWSIAM: {
+      title: 'AWS IAM',
+      related: [],
+      text: `
+Reasons to create an IAM user and don't use the root account:
+  <> You cannot reduce the permissions associated with your AWS account root user access key.
+  <> The access key for your AWS account root user gives full access to all your resources for all AWS services, including your billing information.
+
+Must not's:
+  <> Don't use or have an access key for the root user
+
+Musts:
+  <> Create an admin IAM instead of using the root account
+  <> Enable MFA
+
+
+Real case for other users: AWS recommends that you create new users without permissions and require them to change their password immediately. After they sign in for the first time, you can add policies to the user.
+
+User groups:
+  Instead of defining permissions for individual IAM users, it's usually more convenient to create user groups that relate to job functions (administrators, developers, accounting, etc.). Next, define the relevant permissions for each user group. Finally, assign IAM users to those user groups. All the users in an IAM user group inherit the permissions assigned to the user group.
+  Advantage: easy to make changes to lot of users in same group, move person from one group to another
+
+Standard security advice of granting least privilege
+  Understand access level groupings:
+    List, Read, Write, Permissions management, or Tagging
+  Validate your policies:
+    generates security warnings when a statement in your policy allows access we consider overly permissive
+  Generate a policy based on access activity:
+    IAM Access Analyzer reviews your AWS CloudTrail logs and generates a policy template that contains the permissions that have been used by the entity in your specified time frame
+  Use last accessed information:
+    You can use this information to identify unnecessary permissions so that you can refine your IAM or Organizations policies to better adhere to the principle of least privilege.
+  Review account events in AWS CloudTrail:
+
+
+
+Get started using permissions with AWS managed policies
+    Generally give full access to a specific service like: AmazonDynamoDBFullAccess
+    Or partial access: AmazonEC2ReadOnlyAccess
+
+Use customer managed policies instead of inline policies
+    advantage of using these policies is that you can view all of your managed policies in one place in the console
+    Inline policies are policies that exist only on an IAM identity (user, user group, or role).
+
+Keywors: Access level, MFA (Virtual, U2F security key)
+
+Roles can be given to instances. For example: EC2, Lambda
+
+
+Interfaces for accessing IAM:
+  <> AWS Management Console (browser-based interface to manage IAM and AWS resources)
+  <> AWS Command Line Tools (issue commands at your system's command line to perform IAM and AWS tasks) AWS CLI
+  <> AWS SDKs (consist of libraries and sample code for various programming languages and platforms)
+  <> IAM HTTPS API (access IAM and AWS programmatically)
+
+
+Role: similar to a user, an AWS identity with permissions what the identity can and can not do. don't have password and accesskeys. If a user is assigned to a role, the user gets accesskeys automatically for temporalily
+If the user uses the role, he gives up his actual permissions and uses the role's permissions instead. (like wearing an other face).
+
+IAM permissions boundaries: Permissions boundaries are an advanced feature that sets the maximum permissions that an identity-based policy can grant to an IAM entity (user or role).
+
+AWS Organizations service control policies (SCPs): Organizations SCPs specify the maximum permissions for an organization or organizational unit (OU).
+
+
+
+
+Policies for a request:
+    0. By default all requests are denied. (root full access)
+    1. The AWS identity has it's own policies.
+    2. The resources can have permissive policies. These adds on.
+    3. The AWS identity might have permission boundries. These remove.
+    4. Organization SCPs. These filter the previous result.
+   (5.) An explicit deny in any of these policies overrides the allow.
+
+Keywords: Explicit and implicit deny
+Cognito: federated access to resources <=> never share security credentials
+
+Steps to rotate access keys:
+    1. First AKs are active, create second AKs
+    2. Update all apps to use second AKS
+    3. Inactivate first AKs
+    4. Confirm apps are working
+    5. Delete first AKs
+
+Inline policy: directly added to an entity, if the entity is deleted the policy is deleted too. (avoide to accidently add policy for someone)
+
+(Preferred)
+Managed policies: policy accessible by reference. Add these policies to entities by the reference. (adv: reusable, versioning and rollback)
+    <> AWS has default managed policies to use (updated when needed)
+
+Groups vs managed policies:
+    Groups for:
+      <> logically group and manage users (team of identities)
+    Managed policies for:
+      <> assign the same policy to users, groups, and roles.
+  Best option is to create manage policies and add these to groups.
+
+Create smaller policies than a big one.
+
+
+One AWS account vs. multiple AWS accounts:
+    One acc:
+      <> want simpler control of who does what
+      <> no need to isolate projects, products, teams
+      <> have no need for breaking up cost
+    Multiple acc:
+      <> need full isolation between projects, teams, environments
+      <> want to break out the cost and usage
+
+
+IAM components: users, groups, roles, policies
+Programmatic access: basically not the Management Console access with access key ID and secret access key usage
+
+1. What is IAM?
+  AWS Identity and Access Management (IAM) is a free web service that helps you securely control access to AWS resources. You use IAM to control who is authenticated (signed in) and authorized (has permissions) to use resources.
+
+2. What are the typical use case scenarios for IAM?
+  <> grant other people permission to administer and use resources in your AWS account
+  <> to give different permissions to people
+  <> secure access to AWS
+  <> can add MFA to individual IAMs
+  <> temporaly permissions can be given by roles to AIM users (example access S3 bucket)
+  <> want to log information who did what in the account
+
+3. What are user groups and security groups in AWS? What’s the difference?
+  <> user groups: multiple AWS users are organized in a group, they can be given same policies easily
+  <> security groups:
+
+4. What are IAM policies?
+  Document in JSON format that explicitely lists permissions.
+      {
+        Sid: "Stmt12312313123", // who/what is authorized
+        Effect: "Allow",
+        Action: [
+          "s3:DeleteObject"     // Which task(s) are allowed
+          "s3:GetObject"
+        ],
+        Condition: {
+          IpAddress: {
+            "aws:SourceIP": "10.14.8.0/24"    // need to be met for authorization
+          }
+        },
+        Resource: [
+          "arn:aws:s3:::builling-marketing",
+          "arn:aws:s3:::builling-sales"       // to which authorized tasks are performed
+        ]
+      }
+  
+5. What is EC2 and S3?
+  AWS Compute Service and AWS Storage Service.
+  
+6. How to allow a user to programmatically access AWS resources?
+  You can access IAM and AWS programmatically by using the IAM HTTPS API, which lets you issue HTTPS requests directly to the service.
+  
+7. What is the allow/deny priority order when policies are configured on different levels (group, user, etc.)?
+  
+8. What ways of managing permissions for a given user do you know?
+  <> Inline policy for the user
+  <> Add managed policy for the user
+  <> Add policy for group, add user to group
+  <> Give access to roles
+  
+9. What places can be used by AWS CLI to gather credentials and settings?
+  any aws command with --profile tag with the profile name
+  
+10. What output formats does AWS CLI support?
+  JSON is the default output format of the AWS CLI.
+  Yaml, yaml-stream, text, table
+
+
+
+AWS CLI:
+  open source tool that enables you to interact with AWS services using commands in your command-line shell
+    
+  Create profiles:
+    > aws configure --profile 
+
+
+
+Policy evaluation logic
+  1. Authentication: who sends the request?
+  2. Process request context: determine which policies apply to the request
+  3. Evaluate policies within a single account: evaluates all of the policy types
+  4. Determine if request is allowed or denied within the account: process policies against the request context
+
+
+Take away:
+  When you have an AWS Account, and you want to share it's services (that you will pay for) with someone, you can add IAM users to the account to securely allow access to your account.
+
+  Handy: users can be grouped. Resources can have policies too, this reduces complexity. Managed roles can be added to groups, IAMs, resources.
+
+  Implicit deny is the base behaviour, access can be added explicitely.
+      `
+  },
+
+  AWSMFA: {
+      title: 'AWS MFA for CLI',
+      related: [],
+      text: `
+There can be restrictions to only be able to use AWS CLI tools if you are authenticated with MFA. Restrictions can be made even on AWS regions.
+
+Install these with pip:
+    > pip install --uprade awscli boto3 aws-mfa
+    > mkdir -p ~/.aws
+    > aws-mfa --setup
+    Profile name to [default]: default    // default or own email
+    aws_access_key_id: (hidden)
+    aws_secret_access_key: (hidden)
+
+When credentials expire, run this:
+    > export MFA_DEVICE=$(aws --profile default-long-term iam list-mfa-devices --query "MFADevices[0].SerialNumber" --output text)
+    > aws-mfa
       `
   }
 
