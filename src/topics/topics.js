@@ -2270,10 +2270,10 @@ TOTAL 100%
 `,
   },
 
-    cloudConcepts: {
-      title: '  Cloud Concepts',
-      related: [],
-      text: `
+  cloudConcepts: {
+    title: "  Cloud Concepts",
+    related: [],
+    text: `
 **Domain 1: Cloud Concepts***
 
 1.1 Define the AWS Cloud and its value proposition
@@ -2331,13 +2331,13 @@ o Managed services (for example, RDS, ECS, EKS, DynamoDB)
   <> Design for failure
   <> Decouple components versus monolithic architecture o Implement elasticity in the cloud versus on-premises o Think parallel
       
-      `
+      `,
   },
 
   securityCompliance: {
-      title: '  Security and Compliance',
-      related: [],
-      text: `
+    title: "  Security and Compliance",
+    related: [],
+    text: `
 **Domain 2: Security and Compliance***
 
 2.1 Define the AWS shared responsibility model
@@ -2375,13 +2375,13 @@ whitepapers, official documents)
 o AWS Knowledge Center, Security Center, security forum, and security blogs o Partner Systems Integrators
   Know that security checks are a component of AWS Trusted Advisor
       
-      `
+      `,
   },
 
   technology123: {
-      title: '  Technology',
-      related: [],
-      text: `
+    title: "  Technology",
+    related: [],
+    text: `
 Domain 3: Technology
 3.1 Define methods of deploying and operating in the AWS Cloud
   Identify at a high level different ways of provisioning and operating in the AWS cloud
@@ -2434,13 +2434,13 @@ o Premium support
 o Technical Account Managers
   Recognize there is a partner network (marketplace, third-party) including Independent Software Vendors and System Integrators
   Identify sources of AWS technical assistance and knowledge including professional services, solution architects, training and certification, and the Amazon Partner Network
-        `
+        `,
   },
 
   billingPricing: {
-      title: '  Billing and Pricing',
-      related: [],
-      text: `
+    title: "  Billing and Pricing",
+    related: [],
+    text: `
 Identify the benefits of using AWS Trusted Advisor Domain 4: Billing and Pricing
 4.1 Compare and contrast the various pricing models for AWS (for example, On-Demand Instances, Reserved Instances, and Spot Instance pricing)
   Identify scenarios/best fit for On-Demand Instance pricing
@@ -2463,13 +2463,13 @@ o AWS Pricing API
   Identify how tags are used in cost allocation
       
       
-      `
+      `,
   },
 
   appendix: {
-      title: '  Appendix',
-      related: [],
-      text: `
+    title: "  Appendix",
+    related: [],
+    text: `
 Appendix
 Which key tools, technologies, and concepts might be covered on the exam?
 The following is a non-exhaustive list of the tools and technologies that could appear on the exam. This list is subject to change and is provided to help you understand the general scope of services, features, or technologies on the exam. The general tools and technologies in this list appear in no particular order. AWS services are grouped according to their primary functions. While some of these technologies will likely be covered more than others on the exam, the order and placement of them in this list are no indication of relative weight or importance:
@@ -2571,13 +2571,13 @@ Storage:
   Amazon S3 Glacier
   AWS Snowball Edge
   AWS Storage Gateway
-`
+`,
   },
 
   computeAndServerless: {
-      title: '    Compute and serverless > EC2\n',
-      related: [],
-      text: `
+    title: "    Compute and serverless > EC2\n",
+    related: [],
+    text: `
 **Amazon EC2 / Elastic Compute Cloud***
 Provides secure, resizable compute capacity in the cloud as Amazon EC2 instances.
 Keywors: Compute as a Service
@@ -2620,22 +2620,22 @@ On-Demand
 
 Saving Plan
   enable you to reduce your compute costs by committing to a consistent amount of compute usage for a 1-year or 3-year term. This term commitment results in savings of up to 72% over On-Demand costs. Any usage beyond the commitment is charged at regular On-Demand rates.
-      `
+      `,
   },
 
   empty: {
-      title: 'AWS Cloud Practitioner Essentials',
-      related: [],
-      text: `
+    title: "AWS Cloud Practitioner Essentials",
+    related: [],
+    text: `
 What is cloud computing?
     - On-demand delivery of IT resources and applications through the internet with pay-as-you-go pricing
-      `
+      `,
   },
 
   cloudFinancials: {
-      title: 'Cloud Financials',
-      related: [],
-      text: `
+    title: "Cloud Financials",
+    related: [],
+    text: `
 Check:
     1. AWS invoice
     2. AWS Billing console
@@ -2659,13 +2659,13 @@ Save money with:
 What looks good as you scale: Unit cost e.g. cost per user is lowering. Usage is increasing.
 
 Best way to start optimization is to look at the bill.
-      `
+      `,
   },
 
   AWSControllingCost: {
-      title: 'AWS: Controlling Cost',
-      related: [],
-      text: `
+    title: "AWS: Controlling Cost",
+    related: [],
+    text: `
 **Why is this important?***
   A key reason to move to the cloud is to save money (it's not automatically less expensive)
 
@@ -2837,13 +2837,13 @@ Big Data Pipeline, most expensive
       data lake is implemented as S3
 
     Now, why you'd use this kind of architecture really fundamentally is because you have the volume of data that it would become prohibitively expensive to use traditional relational technologies even on the Amazon cloud and that's the primary driver of this.
-      `
+      `,
   },
 
   AWSIAM: {
-      title: 'AWS IAM',
-      related: [],
-      text: `
+    title: "AWS IAM",
+    related: [],
+    text: `
 Reasons to create an IAM user and don't use the root account:
   <> You cannot reduce the permissions associated with your AWS account root user access key.
   <> The access key for your AWS account root user gives full access to all your resources for all AWS services, including your billing information.
@@ -3032,13 +3032,252 @@ Take away:
   Handy: users can be grouped. Resources can have policies too, this reduces complexity. Managed roles can be added to groups, IAMs, resources.
 
   Implicit deny is the base behaviour, access can be added explicitely.
-      `
+      `,
+  },
+
+  AWSS3: {
+    title: "AWS S3",
+    related: [],
+    text: `
+Amazon Simple Storage Service (Amazon S3) is storage for the Internet.
+Store and retrieve any amount of data, at any time, at anywhere.
+Keywords: highly scalable, reliable, fast, inexpensive, durable, low cost, availability, secure, flexible configurations
+So you can think of Amazon S3 as a basic data map between "bucket + key + version" and the object itself.
+URL https://doc.s3.amazonaws.com/2006-03-01/AmazonS3.wsdl, "doc" is the name of the bucket and "2006-03-01/AmazonS3.wsdl" is the key.
+
+**Create bucket***
+
+**Store objects***
+  Each object can contain up to 5 TB of data.
+
+**Retrieve objects***
+
+**Manage permissions***
+
+**Access control***
+  defines who can access objects and buckets within Amazon S3 (read, write access)
+
+**Authentication***
+  verifies the identity of a user
+
+
+
+S3 concepts
+  Buckets
+    A bucket is a container for objects stored in Amazon S3. Every object is contained in a bucket.
+    <> organize the Amazon S3 namespace at the highest level
+    <> identify the account responsible for storage and data transfer charges
+    <> play a role in access control
+    <> serve as the unit of aggregation for usage reporting
+    <> buckets belong to the account not to the creator of the bucket
+    <> bucket names must be unique within a partition (a grouping of Regions: aws, aws-cn, aws-us-gov)
+    <> You can upload any number of objects to the bucket.
+    <> After you create a bucket, you cannot change the bucket name or Region.
+    <> By default, you can create up to 100 buckets in each of your AWS accounts (max is 1,000 buckets).
+    <> If your Region launched after March 20, 2019, your client and bucket must be in the same Region.
+    <> Default encryption – Enabling default encryption provides you with automatic server-side encryption. Amazon S3 encrypts an object before saving it to a disk and decrypts the object when you download it.
+        There are no additional charges for using default encryption for S3 buckets.
+
+    Bucket operations:
+      Empty
+      Delete
+        
+
+  Objects
+    Objects are the fundamental entities stored in Amazon S3. Objects consist of object data and metadata (set of name-value pairs that describe the object).
+    An object is uniquely identified within a bucket by a key (name) and a version ID.
+    The combination of a bucket, key, and version ID uniquely identify each object.
+
+  Keys
+    A key is the unique identifier for an object within a bucket. Every object in a bucket has exactly one key.
+
+  Regions
+    choose the geographical AWS Region where Amazon S3 will store the buckets that you create
+    choose a Region to optimize latency, minimize costs, or address regulatory requirements
+    Objects stored in a Region never leave the Region unless you explicitly transfer them to another Region.
+    default region is US East
+
+  Amazon S3 data consistency model
+    Updates to a single key are atomic. For example, if you PUT to an existing key from one thread and perform a GET on the same key from a second thread concurrently, you will get either the old data or the new data, but never partial or corrupt data.
+    If there are multimple writes to the same key, the last sceduled will be the winner.
+
+
+S3 features
+  Storage classes are designed for different business use cases.
+    S3 Standard
+      <> for general-purpose storage of frequently accessed data
+      features:
+        <> low latency, high throughput
+        <> durability of 99.999999999% of objects across multiple Availability Zones
+        <> Resilient against events that impact an entire Availability Zone
+        <> Designed for 99.99% availability over a given year
+        <> Supports SSL for data in transit and encryption of data at rest
+        <> S3 Lifecycle management for automatic migration of objects to other S3 Storage Classes
+        <> Retrieval fee: N/A
+
+      use cases: cloud applications, dynamic websites, content distribution, mobile and gaming applications, and big data analytics
+
+    S3 Intelligent-Tiering
+      <> for data with unknown or changing access patterns
+      <> designed to optimize costs by automatically moving data to the most cost-effective access tier, without operational overhead
+          low latency frequent access tier
+          low latency infrequent access tier
+          (Optional) tier for high latency infrequent access (archive)      - objects moved here after 90 consecutive days
+          (Optional) tier for high latency infrequent access (deep archive) - objects moved here from archive after 180 consecutive days
+              If the objects are accessed later, S3 Intelligent-Tiering moves the objects back to the Frequent Access tier
+
+      features:
+        <> Automatically optimizes storage costs for data with changing access patterns
+        <> Stores objects in four access tiers, optimized for frequent, infrequent, archive, and deep archive access
+        <> Frequent and Infrequent Access tiers have same low latency and high throughput performance of S3 Standard
+        <> Archive access and deep Archive access tiers have same performance as Glacier and Glacier Deep Archive
+        <> durability of 99.999999999% of objects across multiple Availability Zones
+        <> 99.9% availability over a given year
+        <> No operational overhead, no retrieval fees, no additional tiering fees apply when objects are moved between access tiers within the S3 Intelligent-Tiering storage class
+        <> Retrieval fee: N/A
+
+    S3 Standard-IA
+      for data that is accessed less frequently, but requires rapid access when needed
+      low per GB storage price and per GB retrieval fee
+      use cases: ideal for long-term storage, backups, and as a data store for disaster recovery files
+
+      features:
+        <> Same low latency and high throughput performance of S3 Standard
+        <> durability of 99.999999999% of objects across multiple Availability Zones
+        <> Resilient against events that impact an entire Availability Zone
+        <> Data is resilient in the event of one entire Availability Zone destruction
+        <> Designed for 99.9% availability over a given year
+        <> Supports SSL for data in transit and encryption of data at rest
+        <> S3 Lifecycle management for automatic migration of objects to other S3 Storage Classes
+
+    S3 One Zone-Infrequent Access
+      for data that is accessed less frequently, but requires rapid access when needed
+      stores data in a single AZ and costs 20% less than S3 Standard-IA
+      ideal for customers who want a lower-cost option for infrequently accessed data but do not require the availability and resilience of S3 Standard or S3 Standard-IA
+      good choice for storing secondary backup copies of on-premises data or easily re-creatable data
+      use it as cost-effective storage for data that is replicated from another AWS Region using S3 Cross-Region Replication
+
+    Glacier
+      secure, durable, and low-cost storage class for data archiving
+
+      features:
+        <> durability of 99.999999999% of objects across multiple Availability Zones
+        <> Data is resilient in the event of one entire Availability Zone destruction
+        <> Supports SSL for data in transit and encryption of data at rest
+        <> Low-cost design is ideal for long-term archive
+        <> Configurable retrieval times, from minutes to hours
+
+    Glacier Deep Archive
+      lowest-cost storage class and supports long-term retention and digital preservation for data that may be accessed once or twice in a year
+      designed for customers — particularly those in highly-regulated industries, such as the Financial Services, Healthcare, and Public Sectors — that retain data sets for 7-10 years or longer to meet regulatory compliance requirements
+      can also be used for backup and disaster recovery use cases
+      All objects stored in S3 Glacier Deep Archive are replicated and stored across at least three geographically-dispersed Availability Zones
+
+      features:
+        <> durability of 99.999999999% of objects across multiple Availability Zones
+        <> Lowest cost storage class designed for long-term retention of data that will be retained for 7-10 years
+        <> Ideal alternative to magnetic tape libraries
+        <> Retrieval time within 12 hours
+
+    Outposts
+      delivers object storage to your on-premises AWS Outposts environment
+      makes it easy to store and retrieve data on your Outpost
+      ideal for workloads with local data residency requirements, and to satisfy demanding performance needs by keeping data close to on-premises applications
+
+
+
+
+  Access managements
+    Bucket policies: can define conditions on S3 operations, requesters, IP address..
+    IAM: to manage access to your Amazon S3 resources with user policies and groups
+    Access control lists (legacy access control mechanism that predates IAM)
+    Prefixes: replicate folder-level permissions
+    Tagging: tag objects, share only these
+
+    Object lifecycle management for cost efficiency:
+      example: after a time objects are moved to other buckets (archive)
+  
+  Versioning
+    use versioning to keep multiple versions of an object in the same bucket
+
+  Common operations
+    create bucket, write/read/delete object, list keys
+
+  REST API
+    use standart HTTP requests for operations
+
+  Paying
+    pay for what you use, grow with the needs
+    charged only for storing objects in the bucket and for transferring objects in and out of the bucket
+
+    advanced feature: configure a bucket so that a customer pays for the downloads they make
+
+  S3 Cross-Region Replication
+    helps ensure that all users have access to the resources they need and increases operational efficiency
+
+
+Common use scenarios: backup and storage (pdf, ...), application hosting (have packaged up here), media hosting (access videos), software delivery (app can be download from)
+
+Static website:
+  Amazon CloudFront provides the capabilities required to set up a secure static website. Amazon S3 static websites only support HTTP endpoints. CloudFront uses the durable storage of Amazon S3 while providing additional security headers like HTTPS. HTTPS adds security by encrypting a normal HTTP request and protecting against common cyber attacks.
+
+Protecting data
+  Object encryption
+    protect data in transit and at rest
+    Server-side encryption encrypts your object before saving it on disks in its data centers and then decrypts it when you download the objects.
+    Client-side encryption is the act of encrypting data before sending it to Amazon S3.
+
+  keywords: signing methods, logging and monitoring (CloudWatch, CloudTrail, S3 Access Logs, Trusted Advisor)
+
+configuration keywords: cors, event notification, lifecycle, location, logging, object locking, replication, tagging, transfer acceleration, versioning, website
+access keywords: Virtual-hosted–style access, Path-style access, S3 access points
+
+
+Managing your storage lifecycle
+    
+
+    
+1. What are buckets in S3?
+  Buckets are the fundamental containers in Amazon S3 for data storage.
+
+2. What does S3 replication do? What is it for?
+  Replication is the automatic, asynchronous copying of objects across buckets in different or the same AWS Regions.
+
+3. What steps are required to gain AWS CLI access to an S3 bucket?
+  Have the IAM credentials to access the S3 bucket.
+
+4. How is it possible to control access to S3 resources?
+  Bucket policies can define conditions based on S3 operations, requesters, IP address...
+  User policies can grant or deny access to S3 resources, group policies also. Tagging resources and creating policies based on these tags are also a solution.
+  With prefixes, folder-lever permissions can be set.
+
+5. What are versions in S3? What does it mean to delete an object in S3 when versioning is enabled?
+  Versioning allows you to preserve, retrieve, and restore every version of every object stored in an Amazon S3 bucket.
+  When a user performs a DELETE operation on an object, subsequent simple (un-versioned) requests will no longer retrieve the object. However, all versions of that object will continue to be preserved in your Amazon S3 bucket and can be retrieved or restored. Only the owner of an Amazon S3 bucket can permanently delete a version.
+
+6. How is it possible to optimize cost of S3 resources?
+  Different storage classes can be used with their own pricing to optimize cost for the business needs.
+  Setting up archiving objects to move them to other (cheaper) buckets.
+  Set up lifecycles and delete old objects.
+
+7. How nested file hierarchies are represented in S3?
+  With prefixes.
+
+8. What does S3 store inside its objects?
+  The data it self and the meta-data (up to 4K) related to it.
+
+9. Why S3 is better than a physically maintained file server?
+  S3 offers to store and retrieve any amount of data, at any time, at anywhere. Secure.
+  A file server has limited scalability, and maintenance cost. S3 is pay-for-use based, which is basically cheaper.
+  Faster to set up and use.
+    
+    `,
   },
 
   AWSMFA: {
-      title: 'AWS MFA for CLI',
-      related: [],
-      text: `
+    title: "AWS MFA for CLI",
+    related: [],
+    text: `
 There can be restrictions to only be able to use AWS CLI tools if you are authenticated with MFA. Restrictions can be made even on AWS regions.
 
 Install these with pip:
@@ -3052,13 +3291,13 @@ Install these with pip:
 When credentials expire, run this:
     > export MFA_DEVICE=$(aws --profile default-long-term iam list-mfa-devices --query "MFADevices[0].SerialNumber" --output text)
     > aws-mfa
-      `
+      `,
   },
 
   criticalThinking: {
-      title: 'Critical thinking',
-      related: [],
-      text: `
+    title: "Critical thinking",
+    related: [],
+    text: `
 
       
 5 critical thinking killers
@@ -3067,8 +3306,8 @@ When credentials expire, run this:
   <> moral judgements: quick evaluation with good or bad
   <> labels: categorize something into a bucket and not to think further on it
   <> resistance to change: set aside immediate and emotional reactions, slow pace is good
-      `
-  }
+      `,
+  },
 
   // empty: {
   //     title: '',
