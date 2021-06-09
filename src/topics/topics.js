@@ -3284,6 +3284,25 @@ Managing your storage lifecycle
     Transition actions
       <> move objects to different storage class to reduce cost (glacier)
       <> example: objects are frequently asked for, then only occasionally
+      <> There is a waterfall approach how obejcts can be moved from class to class. Reversed direction is prohibited in life-cycle management.
+      <> there can be minimum object size limit to be able to transit them (example 128KB)
+      <> there can be limits for how many days an object have to stay in a class before transition
+
+      considerations:
+        <> Objects that are stored in the S3 Glacier or S3 Glacier Deep Archive storage classes are not available in real time.
+        <> consider aggregating many small objects into a smaller number of large objects to reduce overhead costs
+        <> minimal storage duration period is 90 days for the S3 Glacier storage class and 180 days for S3 Glacier Deep Archive. If you delete or overwrite an archived object within the minimal duration period, Amazon S3 charges a prorated early deletion fee. 
+        <> if an object is deleted before the minimal days required in a class, the charge for storing the object will be the minimal days required
+        <> You can use lifecycle rules to define actions that you want Amazon S3 to take during an object's lifetime
+        <> expiration rules apply for new and existing objects
+        <> can be used with versioning
+        <> not enabled on MFA required buckets
+        <> Lifecycle actions are not captured by AWS CloudTrail object level logging, S3 server access logs can be enabled in an S3 bucket to capture S3 Lifecycle-related actions
+        <> if two expiration policies overlap, the shorter expiration policy is honored
+        <> if two transition policies overlap, S3 Lifecycle transitions your objects to the lower-cost storage class
+        <> if rules specify same object for expiration and transition for the same day, both will be executed (but the move in unneccesary, so it will be skipped)
+        <> A versioning-enabled bucket has one current version and zero or more noncurrent versions for each object. When you delete an object, note the following: If you don't specify a version ID in your delete request, Amazon S3 adds a delete marker instead of deleting the object. The current object version becomes noncurrent, and then the delete marker becomes the current version.
+        <> deleting versioned files are tricky, manual deletion seems the easiest way.
     Expiration actions
       <> delete object after X days
       <> example: app only need logs for 2 months
