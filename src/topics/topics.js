@@ -3077,6 +3077,51 @@ S3 concepts
     <> If your Region launched after March 20, 2019, your client and bucket must be in the same Region.
     <> Default encryption – Enabling default encryption provides you with automatic server-side encryption. Amazon S3 encrypts an object before saving it to a disk and decrypts the object when you download it.
         There are no additional charges for using default encryption for S3 buckets.
+        keywords: AWS KMS (AWS KMS encrypts only the object data. Any object metadata is not encrypted.)
+        <> There are additional charges for using AWS KMS CMKs.
+        <> When you use SSE-KMS encryption with an S3 bucket, the AWS KMS CMK must be in the same Region as the bucket.
+        <> Costumer managed option or AWS default option
+        <> The security controls in AWS KMS can help you meet encryption-related compliance requirements.
+        <> x-amz-server-side-encryption-context header
+
+        Bucket Keys
+          <> AWS KMS generates a bucket-level key that is used to create unique data keys for objects in the bucket
+          <> reduce the cost (up to 99 percent) of Amazon S3 server-side encryption using AWS Key Management Service (SSE-KMS) by decreasing the request traffic from Amazon S3 to AWS KMS
+          <> after configuration, only new objects will be using the Bucket Key, old ones won't
+          <> In AWS CloudFormation, the AWS::S3::Bucket resource includes an encryption property called BucketKeyEnabled that you can use to enable or disable an S3 Bucket Key.
+          <> To copy or upload objects with S3 Bucket Keys, the AWS KMS key policy for the CMK must include the kms:Decrypt permission for the calling principal.
+          <> If the calling principal is in a different account than the AWS KMS CMK, you must also include kms:Decrypt permission in the IAM policy. The call to kms:Decrypt verifies the integrity of the S3 Bucket Key before using it.
+          <> If you want to enable or disable an S3 Bucket Key for existing objects, you can use a COPY operation
+
+        SSE-S3 (Server Side Encryption S3)
+          Server-side encryption protects data at rest. Amazon S3 encrypts each object with a unique key. As an additional safeguard, it encrypts the key itself with a master key that it rotates regularly. Amazon S3 server-side encryption uses one of the strongest block ciphers available to encrypt your data, 256-bit Advanced Encryption Standard (AES-256).
+          <> no charges for the service, but requests to configure and use SSE-S3 incur standard Amazon S3 request charges
+          <> If you need server-side encryption for all of the objects that are stored in a bucket, use a bucket policy.
+
+        SSE-C (Costumer)
+          Server-side encryption is about protecting data at rest. Server-side encryption encrypts only the object data, not object metadata. Using server-side encryption with customer-provided encryption keys (SSE-C) allows you to set your own encryption keys. With the encryption key you provide as part of your request, Amazon S3 manages the encryption as it writes to disks and decryption when you access your objects. Therefore, you don't need to maintain any code to perform data encryption and decryption. The only thing you do is manage the encryption keys you provide.
+          <> AES-256 encryption
+          <> retrieve an object, you must provide the same encryption key as part of your request
+          <> no new charges, but requests to configure and use SSE-C incur standard Amazon S3 request charges
+          <> Amazon S3 does not store the encryption key you provide. Instead, it stores a randomly salted HMAC value of the encryption key to validate future requests. The salted HMAC value cannot be used to derive the value of the encryption key or to decrypt the contents of the encrypted object. That means if you lose the encryption key, you lose the object.
+
+        Protecting data using client-side encryption
+          Client-side encryption is the act of encrypting data before sending it to Amazon S3.
+          To enable client-side encryption, you have the following options:
+            <> Use a customer master key (CMK) stored in AWS Key Management Service (AWS KMS).
+            <> Use a master key that you store within your application.
+          <> AWS Encryption SDK is a client-side encryption library, implement encryption best practices in Amazon S3 (no JS support)
+
+          Option 1: Using a CMK stored in AWS KMS
+            <> upload: get plain text key and cipher blob from AWS KMS, encrypt with plain text, upload with cipher blob
+            <> download: download object from S3, send cipher blob to AWS KMS to get plain text key, decrypt object
+
+          Option 2: Using a master key stored within your application
+            <> the client is responsible for handling the master key, for every object a separate encription key is generated
+            <> the data is encrypted, then the encryption key is encrypted with the master key
+            <> the encrypted encription key is uploaded as metadata with the object
+            <> at download, the client figure out which master key to use for the decryption for the encryption key, then after decrypting the key, the data is decrypted.
+
 
     Bucket operations:
       Empty
@@ -3234,7 +3279,15 @@ access keywords: Virtual-hosted–style access, Path-style access, S3 access poi
 
 
 Managing your storage lifecycle
-    
+  AIM: manage your objects so that they are stored cost effectively throughout their lifecycle
+  Action types:
+    Transition actions
+      <> move objects to different storage class to reduce cost (glacier)
+      <> example: objects are frequently asked for, then only occasionally
+    Expiration actions
+      <> delete object after X days
+      <> example: app only need logs for 2 months
+
 
     
 1. What are buckets in S3?
