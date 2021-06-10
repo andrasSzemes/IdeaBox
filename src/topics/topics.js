@@ -53,6 +53,180 @@ const topics = {
     text: "",
   },
 
+  nodejsdesignpatterns: {
+    title: "  Design patterns",
+    related: [],
+    text: `
+Design pattern:
+  Proven, tested solutions to the problems that we face every day in software development.
+  <> cataloged solutions
+  <> reusable in many different situations
+  <> well documented
+  <> language for collaboration
+  <> improve architecture
+
+"Each pattern describes a problem which occurs over and over again in our environment, and then describes the core of the solution to that problem, in such a way that you can use this solution a million times over, without ever doing it the same way twice."
+
+Design pattern include:
+  <> name
+  <> problem, clearly stated and described when pattern should be used
+  <> solution
+  <> consequences
+
+Aim: improve the way we communicate about solutions
+    `,
+  },
+
+  nodejscreationalpatterns: {
+    title: "    Creational patterns",
+    related: [],
+    text: `
+Creational patterns: class instantiation, object creation
+  Abstract Factory
+  Builder
+  Factory method
+    `,
+  },
+
+  nodejssingletonpattern: {
+    title: "      Singleton pattern",
+    related: [],
+    text: `
+Singleton
+Problem, usecase:
+  Ensure a class only has one instance of an object, and provide a global point of access to it.
+
+  Example: OwnLogger with special logic (write to file + console + ...). Instances created with new Logger(), won't know about one another, and can't make assumptions on all the logs, if not all objects are available from the same place in the code. For example the count logs, won't be correct.
+Solution:
+      // file 1
+      class Logger {
+        constructor() { this.logs = []; }
+        get count() { return this.logs.length; }
+        log(message) {
+          const timestamp = new Date().toISOString()
+          this.logs.push({message, timestamp})
+          console.log('{timestamp} - {message}')
+        }
+      }
+
+      // SINGLETON IMPELENTATION 1
+      class Singleton {
+        constructor() {
+          if (!Singleton.instance) {
+            Singleton.instance = new Logger();
+          }
+        }
+
+        getInstance() {
+          return Singleton.instance
+        }
+      }
+
+      module.exports = Singleton
+
+      // file 2
+      const Logger = require('./Logger')
+      const logger = new Logger().getInstance()
+
+      logger.log('...')
+
+      // SINGLETON IMPELENTATION 2
+      // file1
+      module.exports = new Logger();
+      // file2
+      const logger = require('./Logger')
+      logger.log('...')
+
+
+Consequences:
+    `,
+  },
+
+  nodejsprototypepattern: {
+    title: "    Prototype patterns",
+    related: [],
+    text: `
+Prototype
+Problem, usecase:
+  Specify the kinds of objects to create using prototypical instance, and create new objects by copying this prototype.
+  
+    `,
+  },
+
+  nodejsstructuralpatterns: {
+    title: "    Structural patterns",
+    related: [],
+    text: `
+Structural patterns: objects are composed or put together
+  Adapter
+  Bridge
+  Composite
+  Decorator
+  Facade
+  Flyweight
+  Proxy
+    `,
+  },
+
+  nodejsbehavioralpatterns: {
+    title: "    Behavioral patterns",
+    related: [],
+    text: `
+Behavioral patterns: how object interact with one another
+  Chain of Responsibility
+  Command
+  Interpreter
+  Iterator
+  Mediator
+  Memento
+  Observer
+  State
+  Strategy
+  Template Method
+  Visitor
+    `,
+  },
+
+  nodejsotherpatterns: {
+    title: "    Other patterns",
+    related: [],
+    text: `
+Concurrency patterns:
+  Middleware
+  Callback
+  
+  
+Module structure patterns:
+  Module
+  Revealing Module
+  Revealing Constructor
+  
+Reactor, Blockchain, Scheduler, Publisher Subscriber
+    `,
+  },
+
+  nodejsantipatterns: {
+    title: "  Anti patterns",
+    related: [],
+    text: `
+Anti-Patterns: Bad solutions that cause problems. Code smells.
+  1. Modify the prototype on an instance
+    person.__proto__.address = {}
+
+  2. Syncing execution after initialization:
+    listen() { fs.readFileSync( ... ) }
+
+  3. Callback hell
+    readFile(..., () => {
+      parseData(..., () => {
+        writeFile(..., () => {
+          logResponse(..., () => {})
+        })
+      })
+    })
+    `,
+  },
+
   framework: {
     title: "  Framework",
     related: ["expressjs"],
@@ -2579,47 +2753,110 @@ Storage:
     related: [],
     text: `
 **Amazon EC2 / Elastic Compute Cloud***
-Provides secure, resizable compute capacity in the cloud as Amazon EC2 instances.
+Provides secure, resizable compute capacity in the cloud as EC2 instances. (Compute as a Service)
 Keywors: Compute as a Service
 
-The advantage of using an EC2 instance, is that you don't have to buy a server upfront for a project (estimate the hardware), wait for it to ship, then rent a place in a datacenter, and configure it. Also stick with it for a long time.
-You can get an EC2 instance within minutes, and you only have to configure it. You can choose memory, CPU options for the beginning of the project, then later on change these (vertical scale) to biger ones. When you are finished with it, you can stop the instance and not pay for it anymore.
+Advantages over perimeter:
+  <> don't have to buy a server upfront for a project                 <=> 
+  <> don't have to estimate the hardware requirement upfront          <=> change later on as needed (vertical scale)
+  <> don't have to wait for shipping                                  <=> instant
+  <> don't have to rent a place in a datacenter, and configure it     <=> AWS rents, configure online
+  <> don't have to stick with hardware for a long time                <=> delete if not needed (stop paying in minutes)
 
-Security, the network options can be configured.
-You probably don't get a full machine, instead a virtual one on top of it, and share the resource. (multitenancy)
+Configuration options:
+  <> security (network options)
+  <> CPU, memory, storage
 
-Instance types are grouped under instance families. Varies in CPU, memory, storage, networking capacity.
-General purpose:
+Features:
+  <> Preconfigured templates for your instances, known as Amazon Machine Images (AMIs) (including the operating system and additional software)
+  <> Secure login information for your instances using key pairs (AWS stores the public key, and you store the private key in a secure place)
+  <> Storage volumes for temporary data that's deleted when you stop, hibernate, or terminate your instance, known as instance store volumes
+  <> Persistent storage volumes for your data using Amazon Elastic Block Store (Amazon EBS), known as Amazon EBS volumes
+  <> A firewall that enables you to specify the protocols, ports, and source IP ranges that can reach your instances using security groups
+  <> Virtual networks you can create that are logically isolated from the rest of the AWS Cloud, and that you can optionally connect to your own network, known as virtual private clouds (VPCs)
+
+Choose options (instance families) varies in CPU, memory, storage, network capacity
+  Exapmle: c4.large
+    instance family:      c
+    instance generation:  4
+    instance size:        large
+
+
+  General purpose:
   <> good balance of compute, memory, and networking resources
   <> used for web service, application servers, gaming servers, backend servers for enterprise applications, small and medium databases
 
-Compute optimized:
+  Compute optimized:
   <> high-performance processors
   <> used for gaming servers, high performance computing, scientific modeling
 
-Memory optimized:
+  Memory optimized:
   <> Accelerated computing are good for floating point number calculations, graphics processing, or data pattern matching, as they use hardware accelerators. 
   <> Memory optimized instances are designed to deliver fast performance for workloads that process large datasets in memory. In computing, memory is a temporary storage area. It holds all the data and instructions that a central processing unit (CPU) needs to be able to complete actions. Before a computer program or application is able to run, it is loaded from storage into memory. This preloading process gives the CPU direct access to the computer program.
   Suppose that you have a workload that requires large amounts of data to be preloaded before running an application. This scenario might be a high-performance database or a workload that involves performing real-time processing of a large amount of unstructured data. In these types of use cases, consider using a memory optimized instance. Memory optimized instances enable you to run workloads with high memory needs and receive great performance.
 
-Accelerated computing:
+  Accelerated computing:
   <> Accelerated computing instances use hardware accelerators, or coprocessors, to perform some functions more efficiently than is possible in software running on CPUs. Examples of these functions include floating-point number calculations, graphics processing, and data pattern matching.
   In computing, a hardware accelerator is a component that can expedite data processing. Accelerated computing instances are ideal for workloads such as graphics applications, game streaming, and application streaming.
 
-Storage optimized
+  Storage optimized
   <> Storage optimized instances are designed for workloads that require high, sequential read and write access to large datasets on local storage. Examples of workloads suitable for storage optimized instances include distributed file systems, data warehousing applications, and high-frequency online transaction processing (OLTP) systems.
 
   <> In computing, the term input/output operations per second (IOPS) is a metric that measures the performance of a storage device. It indicates how many different input or output operations a device can perform in one second. Storage optimized instances are designed to deliver tens of thousands of low-latency, random IOPS to applications. 
   You can think of input operations as data put into a system, such as records entered into a database. An output operation is data generated by a server. An example of output might be the analytics performed on the records in a database. If you have an application that has a high IOPS requirement, a storage optimized instance can provide better performance over other instance types not optimized for this kind of use case.
 
-Billing options:
-On-Demand
-  Instances are ideal for short-term, irregular workloads that cannot be interrupted. No upfront costs or minimum contracts apply. The instances run continuously until you stop them, and you pay for only the compute time you use.
-  Usecase: developing and testing applications and running applications that have unpredictable usage patterns
-  On-Demand Instances are not recommended for workloads that last a year or longer because these workloads can experience greater cost savings using Reserved Instances.
 
-Saving Plan
-  enable you to reduce your compute costs by committing to a consistent amount of compute usage for a 1-year or 3-year term. This term commitment results in savings of up to 72% over On-Demand costs. Any usage beyond the commitment is charged at regular On-Demand rates.
+Facts:
+  <> You probably don't get a full machine, instead a virtual one on top of it, and share the resource. (multitenancy)
+
+
+
+Billing options:
+  On-Demand
+    Instances are ideal for short-term, irregular workloads that cannot be interrupted. No upfront costs or minimum contracts apply. The instances run continuously until you stop them, and you pay for only the compute time you use.
+    Usecase: developing and testing applications and running applications that have unpredictable usage patterns
+    On-Demand Instances are not recommended for workloads that last a year or longer because these workloads can experience greater cost savings using Reserved Instances.
+
+  Saving Plan
+    enable you to reduce your compute costs by committing to a consistent amount of compute usage for a 1-year or 3-year term. This term commitment results in savings of up to 72% over On-Demand costs. Any usage beyond the commitment is charged at regular On-Demand rates.
+
+
+1. What hardware is offered by EC2?
+
+2. What provisioning/billing options are available with EC2?
+
+3. What is EBS?
+
+4. What types of volumes are offered by EC2?
+
+5. What is the difference between AMI and snapshot in terms of EC2?
+
+6. What are regions and availability zones in AWS?
+
+7. How is it possible to install/configure software on a EC2 instance?
+
+8. What keys are created for each EC2 instance? What for?
+
+9. What happens to EC2 instances when they are stopped and started vs re-started?
+
+10. What is the difference between IAM roles and EC2 (VPC) security groups?
+
+11. Is it possible to decrease the size of an existing EBS volume?
+
+12. Is it possible to reuse a EBS volume for multiple instances?
+
+13. How is it possible to get such metadata as current region/AZ from within a running EC2 instance?
+
+14. What are the available elastic load balancer types? What is the key difference between them?
+
+15. What are the key events in EC2 instance lifecycle?
+
+16. How does load balancing works? What are its core components?
+
+17. How is it possible to grant a EC2 instance permissions to access certain AWS resources like S3?
+
+18. What is auto-scaling? How is it related to load balancing?
+
       `,
   },
 
