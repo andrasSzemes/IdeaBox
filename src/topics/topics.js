@@ -149,7 +149,38 @@ Consequences:
 Prototype
 Problem, usecase:
   Specify the kinds of objects to create using prototypical instance, and create new objects by copying this prototype.
-  
+
+  With my words, the situation is that you have a class, and you have instances with similar attributes given. Therefore to have less code and redundancy, you make another class, based on the initial class with the same attributes both of your instances have. After that, you won't use the initial class for the creation of these instances, better use the new class clone method to do so.
+
+Solution:
+      //file1 scout_prorotype
+      class Shopper {
+        constructor(name) {
+          this._name = name
+          this._shoppingList = []
+        }
+        ...
+
+        clone() {
+          const proto = Object.getPrototypeOf(this)
+          const cloned = Object.create(proto) // get only the methods
+
+          cloned._name = this._name
+          cloned._shoppingList = [...this._shoppingList]
+
+          return cloned
+        }
+      }
+
+      //file2
+      const scout_prorotype = require('./scout_prototype')
+      const alex = scout_prototype.clone()
+      alex.name = 'Alex'
+      alex.addItemToList('x')
+
+      const eve = scout_prototype.clone()
+      eve.name = 'Eve'
+      eve.addItemToList('y')
     `,
   },
 
@@ -2821,21 +2852,123 @@ Billing options:
     enable you to reduce your compute costs by committing to a consistent amount of compute usage for a 1-year or 3-year term. This term commitment results in savings of up to 72% over On-Demand costs. Any usage beyond the commitment is charged at regular On-Demand rates.
 
 
+Regions and Zones
+  Amazon EC2 is hosted in multiple locations world-wide. These locations are composed of Regions, Availability Zones, Local Zones, AWS Outposts, and Wavelength Zones. Each Region is a separate geographic area.
+
+  Region:
+    <> designed to be isolated from the other (=> greatest possible fault tolerance and stability)
+    <> not all regions are available by default. for some you can opt for
+    <> every EC2 instance is located to a region
+
+
+  Availability Zones: multiple, isolated locations within each Region.
+    <> also required for an EC2 instance
+    <> if you distribute instances between availability zones, you can design the app to handle request even one instance fails. Elastic IP addresses can be used to mask this.
+    <> availability zones might vary in different accounts
+    <> tip: use the closest to your costumers
+    <> can migrate EC2 between AZ with AMI
+
+
+  Local Zones: provide you the ability to place resources, such as compute and storage, in multiple locations closer to your end users.
+    <> have to opt in for
+    <> When you launch an instance, you can specify a subnet which is in a Local Zone
+    <> You also allocate an IP address from a network border group
+
+  AWS Outposts: brings native AWS services, infrastructure, and operating models to virtually any data center, co-location space, or on-premises facility.
+    <> AWS operates, monitors, and manages this capacity as part of an AWS Region.
+    <> To begin using AWS Outposts, you must create an Outpost and order Outpost capacity.
+    <> You can launch EC2 instances in the Outpost subnet that you created.
+
+  Wavelength Zones: deliver ultra-low latencies to 5G devices and end users.
+    <> A Wavelength Zone is an isolated zone in the carrier location where the Wavelength infrastructure is deployed
+    <> Wavelength Zones are tied to a Region
+    <> A Wavelength Zone is a logical extension of a Region, and is managed by the control plane in the Region.
+    <> have to opt in
+    <> When you launch an instance, you can specify a subnet which is in a Wavelength Zone.
+
+
+How to choose an instace?
+  To determine which instance type best meets your needs, we recommend that you launch an instance and use your own benchmark application. Because you pay by the instance second, it's convenient and inexpensive to test multiple instance types before making a decision.
+
 1. What hardware is offered by EC2?
+  Amazon EC2 provides different instance types (hardware) to enable you to choose the CPU, memory, storage, and networking capacity that you need to run your applications. They are grouped by instance families.
 
 2. What provisioning/billing options are available with EC2?
+  On-demand
+    pay by second usage
+
+  Savings Plans
+    reduce cost, commit for a consistent amount of usage in USD per hour for a term of 1 or 3 years
+
+  Reserved Instances
+    commitment to a consistent instance configuration and Region for a term of 1 or 3 years
+
+  Spot Instances
+    A Spot Instance is an instance that uses spare EC2 capacity that is available for less than the On-Demand price. Your Spot Instance runs whenever capacity is available and the maximum price per hour for your request exceeds the Spot price.
+    <> cost-effective choice if you can be flexible about when your applications run and if your applications can be interrupted
+    <> well-suited for data analysis, batch jobs, background processing, and optional tasks
+
+  Dedicated Hosts
+    Pay for a physical host that is fully dedicated to running your instances, and bring your existing per-socket, per-core, or per-VM software licenses to reduce costs.
+
+  Dedicated Instances
+    Pay, by the hour, for instances that run on single-tenant hardware.
+
+  Capacity Reservations
+    Reserved Instances are not physical instances, but rather a billing discount applied to the use of On-Demand Instances in your account. These On-Demand Instances must match certain attributes, such as instance type and Region, in order to benefit from the billing discount.
+
 
 3. What is EBS?
+  Amazon Elastic Block Store
+  <> provides block level storage volumes for use with EC2 instances
+  <> EBS volumes behave like raw, unformatted block devices, You can mount these volumes as devices on your instances
+  <> EBS volumes that are attached to an instance are exposed as storage volumes that persist independently from the life of the instance.
+  <> You can create a file system on top of these volumes, or use them in any way you would use a block device (such as a hard drive).
+  <> You can dynamically change the configuration of a volume attached to an instance.
+  <> pay only for what you use
+
+  recommended
+    for data that must be quickly accessible and requires long-term persistence.
 
 4. What types of volumes are offered by EC2?
+  <> General Purpose SSD (gp2 and gp3)
+  <> Provisioned IOPS SSD (io1 and io2)
+  <> Throughput Optimized HDD (st1)
+  <> Cold HDD (sc1)
+  <> Magnetic (standard)
+
+  They differ in performance characteristics and price, allowing you to tailor your storage performance and cost to the needs of your applications.
+
+
+  An Amazon EBS volume is a durable, block-level storage device that you can attach to your instances. After you attach a volume to an instance, you can use it as you would use a physical hard drive.
+  <> You can attach multiple EBS volumes to a single instance
+
+  restriction
+    volume and instance must be in the same Availability Zone
+    Your account has a limit on the number of EBS volumes that you can use, and the total storage available to you.
 
 5. What is the difference between AMI and snapshot in terms of EC2?
+  AMI
+  An Amazon Machine Image (AMI) provides the information required to launch an instance. You must specify an AMI when you launch an instance. You can launch multiple instances from a single AMI when you need multiple instances with the same configuration.
+  Includes:
+    <> One or more Amazon Elastic Block Store (Amazon EBS) snapshots, or, for instance-store-backed AMIs, a template for the root volume of the instance (for example, an operating system, an application server, and applications).
+    <> Launch permissions that control which AWS accounts can use the AMI to launch instances.
+
+  Snapshot
+  Amazon EBS provides the ability to create snapshots (backups) of any EBS volume and write a copy of the data in the volume to Amazon S3, where it is stored redundantly in multiple Availability Zones.
 
 6. What are regions and availability zones in AWS?
+  Region: largest geographical named container for resources, each region is separate from each other. a widest part of the resource's location. Example: US-West, US-East
+
+  Availability zone: there are multiple, isolated locations (containers) within each Region. a narrower part of the resource's location
 
 7. How is it possible to install/configure software on a EC2 instance?
+  You have to connect to the instance for example with ssh, and from the terminal you can install and configure software.
 
 8. What keys are created for each EC2 instance? What for?
+  public-key cryptography to secure the login information for your instance
+  
+  key pairs are created before initializing an EC2 instance, with a name, fingerprint, ID and private-key (downloaded). These are used to be able to log in to the instance.
 
 9. What happens to EC2 instances when they are stopped and started vs re-started?
 
