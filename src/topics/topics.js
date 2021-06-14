@@ -2890,6 +2890,19 @@ Regions and Zones
 How to choose an instace?
   To determine which instance type best meets your needs, we recommend that you launch an instance and use your own benchmark application. Because you pay by the instance second, it's convenient and inexpensive to test multiple instance types before making a decision.
 
+
+Elastic Load Balancing
+  EBL automatically distributes your incoming traffic across multiple targets, such as EC2 instances, containers, and IP addresses, in one or more Availability Zones
+  <> routes traffic only to the healthy targets
+  <> scales as incoming traffic changes over time
+
+  benefits:
+    <> distributes workload => increase availability and fault tolerance
+    <> adding and removing compute resources is available
+    <> health checks
+    <> can encrypt and decrypt => less work for compute resource
+
+
 1. What hardware is offered by EC2?
   Amazon EC2 provides different instance types (hardware) to enable you to choose the CPU, memory, storage, and networking capacity that you need to run your applications. They are grouped by instance families.
 
@@ -2916,6 +2929,8 @@ How to choose an instace?
 
   Capacity Reservations
     Reserved Instances are not physical instances, but rather a billing discount applied to the use of On-Demand Instances in your account. These On-Demand Instances must match certain attributes, such as instance type and Region, in order to benefit from the billing discount.
+
+  Keywords: instance hibernate (move RAM to EBS)
 
 
 3. What is EBS?
@@ -2967,29 +2982,126 @@ How to choose an instace?
 
 8. What keys are created for each EC2 instance? What for?
   public-key cryptography to secure the login information for your instance
-  
+
   key pairs are created before initializing an EC2 instance, with a name, fingerprint, ID and private-key (downloaded). These are used to be able to log in to the instance.
 
 9. What happens to EC2 instances when they are stopped and started vs re-started?
+  Start-stop
+    <> Only EBS/backed instances can be stopped and started over
+    <> stop => stopped state (no pay) => start (move instance to new host computer)=> running (pay)
+    <> fix unexpected behaviour => stop and start the instance
+    <> when stopped, instance type can be changed
+    <> private IPv4 address is retained
+    <> erase all data on instance store volumes
+
+
+  re-start
+    <> better reboote from AWS than from instance
+    <> billed during reboot too
+    <> === reboot the operating system
+    <> remains on the same host computer
+    <> maintains its public DNS name, private IP address
+    <> keeps any data on its instance store volumes
+
 
 10. What is the difference between IAM roles and EC2 (VPC) security groups?
+  <> A security group acts as a virtual firewall for your EC2 instances to control incoming and outgoing traffic. You can add rules to each security group that allow traffic to or from its associated instances.
+  <> When you launch an instance in a VPC, you must specify a security group that's created for that VPC (Virtual Private Cloud).
+
+  <> IAM roles secure the creation, deletion, configuration, and usage of AWS resources. Security groups are responsible to filter networking trafic.
 
 11. Is it possible to decrease the size of an existing EBS volume?
+  Decreasing the size of an EBS volume is not supported. However, you can create a smaller volume and then migrate your data to it using an application-level tool such as rsync.
+  Increase is supported.
 
 12. Is it possible to reuse a EBS volume for multiple instances?
+  An EBS volume can be connected to one instance at a time, and after terminating the actual instance, the volume can be reattached to a new instance.
+
+  <> By default, the ROOT EBS volume that is created and attached to an instance at launch is deleted when that instance is terminated. (DeleteOnTermination flag set to false)
+  <> By default, ADDITIONAL EBS volumes that are created and attached to an instance at launch are not deleted when that instance is terminated.
 
 13. How is it possible to get such metadata as current region/AZ from within a running EC2 instance?
+  To view all categories of instance metadata from within a running instance, use the following URI.
+  http://169.254.169.254/latest/meta-data/
+   placement/region : The AWS Region in which the instance is launched.
+   placement/availability-zone: The Availability Zone in which the instance launched.
 
 14. What are the available elastic load balancer types? What is the key difference between them?
+  Application Load Balancer
+    <> routes traffic to targets within Amazon VPC based on the content of the request
+
+    target: IP, Instance, Lambda
+    reachable via: VIP
+
+
+  Network Load Balancer
+    <> extreme performance and static IP is needed for your application
+    <> routes traffic to targets within Amazon VPC and is capable of handling millions of requests per second while maintaining ultra-low latencies
+    target: IP, Instance
+    reachable via: VIP
+
+  Gateway Load Balancer
+    reachable via: Route table entry
+    makes it easy to deploy, scale, and run third-party virtual networking appliances
+
+
+  Classic Load Balancer
+    <> have an existing application that was built within the EC2-Classic network
+    <> provides basic load balancing across multiple Amazon EC2 instances and operates at both the request level and the connection level
+    reachable via: -
+
+  The usecase is different between the balancers.
+  Classic Load Balancer is a solution for apps that are only built on EC2 instances. Gateway Load Balancer can be a solution for third-party built apps for scaling and deploying. Application Load Balancer is good for apps built in AWS infrastructure, for targets IP, Instance an Lambda can be used. Network Load Balancer can help if the infrastructure is AWS based, target IP and instance, and maintains ultra-low latencies. (Lambda and latency is the difference)
+
+  There is a key difference in how the load balancer types are configured. With Application Load Balancers, Network Load Balancers, and Gateway Load Balancers, you register targets in target groups, and route traffic to the target groups. With Classic Load Balancers, you register instances with the load balancer.
+
+
+
 
 15. What are the key events in EC2 instance lifecycle?
+    EVENT         NEXT STATE
+    launch        pending, running
+    reboot        rebooting
+    stop          stopping, stopped
+    hibernate     stopping, stopped
+    start         pending, running
+    terminate     shutting-down, terminated OR terminated
 
 16. How does load balancing works? What are its core components?
+Works:
+  <> accepts incoming traffic => outes requests to its registered targets
+  <> monitors the health of its registered targets (traffic only to healthy)
+
+  tips: Your load balancer is most effective when you ensure that each enabled Availability Zone has at least one registered target.
+  requirement: enable at least two or more Availability Zones
+    > If one Availability Zone becomes unavailable or has no healthy targets, the load balancer can route traffic to the healthy targets in another Availability Zone.
+  
+  single-zone load balancing: distribute equally between AZ, then distribute equally between available resources in AZ. 2-8 resource => 25%, 25%, 8x6.25%
+
+  cross-zone load balancing: distribute between every instance evenly not taking into consideration the AZ. 10 resource => 10% each
+
+Components
+  Request routing:
+    
 
 17. How is it possible to grant a EC2 instance permissions to access certain AWS resources like S3?
+  Roles can be added with the neccessary policies to access AWS resources to the EC2 instance.
 
 18. What is auto-scaling? How is it related to load balancing?
+  Amazon EC2 Auto Scaling helps you ensure that you have the correct number of Amazon EC2 instances available to handle the load for your application. You create collections of EC2 instances, called Auto Scaling groups.
+  <> spec min-max number of instances
 
+  <> it's not necessary to register individual EC2 instances with the load balances
+  <> instances that are launched by Auto Scaling group are automatically registered with the load balancer.
+  <> instances that are terminated by your auto scaling group are automatically deregistered
+
+  components:
+    <> groups
+    <> configuration templates
+    <> scaling options
+
+
+  <> There are no additional fees with Amazon EC2 Auto Scaling
       `,
   },
 
