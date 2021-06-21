@@ -3020,6 +3020,8 @@ Elastic Load Balancing
   <> By default, the ROOT EBS volume that is created and attached to an instance at launch is deleted when that instance is terminated. (DeleteOnTermination flag set to false)
   <> By default, ADDITIONAL EBS volumes that are created and attached to an instance at launch are not deleted when that instance is terminated.
 
+  TIP: Multi-Attach enabled volumes can be attached to up to 16 Linux instances built on the Nitro System that are in the same Availability Zone.
+
 13. How is it possible to get such metadata as current region/AZ from within a running EC2 instance?
   To view all categories of instance metadata from within a running instance, use the following URI.
   http://169.254.169.254/latest/meta-data/
@@ -3828,6 +3830,186 @@ Managing your storage lifecycle
     `,
   },
 
+  AWSVPC: {
+    title: "AWS VPC Virtual Private Cloud",
+    related: [],
+    text: `
+IP address usage: 10.0.0.0/26 means:
+  start - 10.0.0.0
+    2^(32-26) => 2^6 => 64
+  end - 10.0.0.63
+
+
+
+What is networking?
+  related to:
+    <> communicate between servers efficiently
+    <> develop secure network policies
+    <> keep nodes organized
+
+Why have basic understanding of networking?
+  <> essential for getting your services online and running
+  <> gives insight to diagnose problems
+  <> know how different components are able to communicate with each other
+  <> assist to understand more dept in topics
+
+  What to understand first?
+    **connection***
+      pieces of related information are transfered through a network
+      this concludes that a connection is built before the data transfer and then is deconstructed at the end of the data transfer
+
+    **packet***
+      most basic unit that is transfered over a network
+      when communicating over a network, packets are the "envelops" that carry data from one end point to the other
+
+      a packet has
+        header portion
+          information about the packet like source, destination, timestamp, network hops, etc.
+        main portion
+          contains the actual data being transfered, also called body or payload
+
+    **network interface***
+      a network interface may be associated with a physical device, or it may be a repesentation of a virtual interface
+
+      example: loopback device, a virtual interface to the local machine
+
+    **LAN***
+      local area network
+      refers to a network or a portion of a network that is not publicly accessible to the greater internet
+      example: home or office network
+
+    **WAN***
+      wide area network
+      large, dispersed networks in general, also mean the internet as a whole
+      if an interface is said to be connected to the WAN, it is generally assumed that it is reachable through the internet
+
+    **protocol***
+      a set of sules that basically define a language that devices can use to communicate
+      there are a great number of protocols in use extensively in networking, and they are often implemented in different layers
+
+      low level: TCP, UDP, IP, ICMP, HTTP, SSH, TLS/SSL, FTP
+
+    **port***
+      an address on a single machine that can be tied to a specific piece of software
+      it allows your server to be able to communicate using more that one application
+
+    **firewall***
+      a program that decides whether traffic coming into a server or going out should be allowed
+      create rules for which type of traffic is acceptable on which ports
+
+    **NAT***
+      network address translation
+      a way to translate requests that are incoming into a routing server to the relevant devices or servers that it knows about in the LAN
+      usually implemented in physical LANs as a way to route requests through one IP address to the necessary backend servers
+
+    **VPN***
+      virtual private network
+      a means of connecting separate LANs through the internet, while maintaining privacy
+      used as a means of connecting remote systems as if they were a local network, often for security reasons
+
+
+Network layers
+  vertical layers of transfer
+
+  OSI Model - Open Systems Interconnect
+    7 layers
+      application: users and user-applications interact with
+      presentation: mapping resources and creating context
+      session: connection handler, create-maintain-destroy connection
+      transport: segments, TCP-UDP, handling the layers above in a reliable connection
+      network: packets, route data between different nodes on the network
+      data link: frames, MAC, a method of establishing and maintaining reliable links between different nodes or devices on a network
+      physical: bits, handle physical devices that are used to make a connection
+
+      Please Do Not Throw Sausage Pizza Away
+      All People Seem To Need Data Processing
+      
+      Bacon Frying Produces Salivation
+
+      it's a reference model
+
+  TCP/IP Model
+    bit abstract and fluid => easier to imlement => become dominant
+    4 layers
+      application: create and transmit user data between applications
+      transport: communication between processes, use ports
+      internet: transport data from node to node
+      link: establishes connections between neighboring nodes to send data
+
+      Application
+      Presentation      Application
+      Session
+      ----
+      Transport         Transport
+      ----
+      Network           Internet
+      ----
+      Data Link         Network Access / Interface, Link
+      Physical
+
+
+
+
+Protocols
+  HTTP      Hypertext Transfer Protocol             TCP Port 80
+  HTTPS     Hypertext Transfer Protocol Secure      TCP Port 443
+  DNS       Domain Name System                      TCP or UDP Port 53
+  NTP       Network Time Protocol                   UDP Port 123
+  DHCP      Dynamic Host Configuration Protocol     UDP Port 67
+
+
+  Medium Access Control MAC
+    used to distinguish devices from every other device on the internet, during manufactoring
+  IP
+    unique on each network, allow machines to address each other across a network
+    networks can be linked together, but traffic must be routed when crossing network boundaries
+  TCP
+    transmission control protocol
+    encapsulates data into packets
+  HTTP
+    hypertext transfer protocol
+  FTP
+    file transfer protocol
+
+  DNS (domain name system)
+    ties a domain name to an IP address and allows you to access sites by name
+    <> domain is for humans to remember
+    <> IP is for computers to work
+  SSH
+    secure shell
+    end-to-end encryption
+  
+  DHCP (DORA acronym)
+    Discover =>
+    <= Offer (tells IP address)
+    Request => (ask IPv4 information)
+    <= Acknowledgement (IP, subnet mask, ...)
+
+  DHCPv6
+
+
+
+Switches make decisions about packet path based on MAC addresses.
+Routers make decisions based on IP addresses.
+Cabels are twisted to prevent interference.
+Internet cabels have 8 cabels with color coding to know the order.
+Copper cabels bandwidth is about 100m. => single mode optic cabels are better
+NIC: network interface card
+
+
+AirDrop: Ad Hoc Wireless LAN, uses bluetooth or Wifi
+
+2.4 GHz Band, 1-6-11 channels, honeycomb design.
+2.4 GHz is better for wall isues, but if that's not the case, 5 GHz is faster.
+
+Omnidirectional Antenna
+
+VM's are great, but if you need separate but the same OSs, than a container is better, because it's only starts one OS and does separation on that.
+ 
+
+      `,
+  },
+
   AWSMFA: {
     title: "AWS MFA for CLI",
     related: [],
@@ -3862,6 +4044,31 @@ When credentials expire, run this:
   <> resistance to change: set aside immediate and emotional reactions, slow pace is good
       `,
   },
+
+  englishPronunciation: {
+      title: 'English pronunciation',
+      related: [],
+      text: `
+Tips:
+  <> say out words loudly is hard
+  <> make it stronger idea: reCEIPT, REcipe
+  <> listen to BBC 5 minutes in the morning
+  <> record yourself
+
+Idioms:
+  <> full of beans
+  <> all Greek to me
+
+Words:
+  flea - kullancs
+
+Minimal pairs:
+  bean - bin
+  sleap - slip
+  sheep - ship
+  beach - bitch
+      `
+  }
 
   // empty: {
   //     title: '',
