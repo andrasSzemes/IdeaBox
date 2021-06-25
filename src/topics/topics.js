@@ -3842,10 +3842,9 @@ IP address usage: 10.0.0.0/26 means:
 
 
 What is networking?
-  related to:
-    <> communicate between servers efficiently
-    <> develop secure network policies
-    <> keep nodes organized
+  <> communicate between servers efficiently
+  <> develop secure network policies
+  <> keep nodes organized
 
 Why have basic understanding of networking?
   <> essential for getting your services online and running
@@ -3855,14 +3854,14 @@ Why have basic understanding of networking?
 
   What to understand first?
     **connection***
-      pieces of related information are transfered through a network
-      this concludes that a connection is built before the data transfer and then is deconstructed at the end of the data transfer
+      <> a connection is built before the data transfer and then is deconstructed at the end of the data transfer
+      <> pieces of related information are transfered through it
 
     **packet***
-      most basic unit that is transfered over a network
-      when communicating over a network, packets are the "envelops" that carry data from one end point to the other
+      <> most basic unit that is transfered over a network
+      <> packets are the "envelops" that carry data from one end point to the other
 
-      a packet has
+      packet:
         header portion
           information about the packet like source, destination, timestamp, network hops, etc.
         main portion
@@ -3873,13 +3872,11 @@ Why have basic understanding of networking?
 
       example: loopback device, a virtual interface to the local machine
 
-    **LAN***
-      local area network
+    **LAN*** local area network
       refers to a network or a portion of a network that is not publicly accessible to the greater internet
       example: home or office network
 
-    **WAN***
-      wide area network
+    **WAN*** wide area network
       large, dispersed networks in general, also mean the internet as a whole
       if an interface is said to be connected to the WAN, it is generally assumed that it is reachable through the internet
 
@@ -3897,13 +3894,11 @@ Why have basic understanding of networking?
       a program that decides whether traffic coming into a server or going out should be allowed
       create rules for which type of traffic is acceptable on which ports
 
-    **NAT***
-      network address translation
+    **NAT*** network address translation
       a way to translate requests that are incoming into a routing server to the relevant devices or servers that it knows about in the LAN
       usually implemented in physical LANs as a way to route requests through one IP address to the necessary backend servers
 
-    **VPN***
-      virtual private network
+    **VPN*** virtual private network
       a means of connecting separate LANs through the internet, while maintaining privacy
       used as a means of connecting remote systems as if they were a local network, often for security reasons
 
@@ -3960,9 +3955,38 @@ Protocols
 
   Medium Access Control MAC
     used to distinguish devices from every other device on the internet, during manufactoring
-  IP
-    unique on each network, allow machines to address each other across a network
-    networks can be linked together, but traffic must be routed when crossing network boundaries
+
+  IPv4
+    <> unique on each network
+        => allow machines to address each other across a network
+
+    <> networks can be linked together, but traffic must be routed when crossing network boundaries
+    
+    How it looks like:
+      Each number is representing 8 bits, reffered to as an octet.
+      192.168.0.5
+      => 1100 0000 - 1010 1000 - 0000 0000 - 0000 0101
+    
+      First part indentify the network 
+      Second part specify the host within the network
+
+    Class
+      A: first bit 0  => 0.0.0.0 - 127.255.255.255
+          first number is network, last three is host
+          127.0.0.0 to 127.255.255.255 reserved for loopback
+      B: bits 10...   => 128.0.0.0 - 191.255.255.255
+          first two number is network, last two is host
+      C: bits 110...  => 192.0.0.0 - 223.255.255.255
+          first three number is network, last one is host
+      D: bits 1110... => 224.0.0.0 - 239.255.255.255 multi casting
+      E: bits 1111... => 239.0.0.0 - 255.255.255.255 reserved for future, experimental use
+
+  IPv6
+    expresses addresses as an 128-bit number
+    generally written out as eight segments of four hexadecimal digits
+    example:
+      1203:8fe0:fe80:b897:8990:8a7c:99bf:323d
+
   TCP
     transmission control protocol
     encapsulates data into packets
@@ -3988,24 +4012,144 @@ Protocols
   DHCPv6
 
 
+Subnet
+  subnetting: process of dividing a network into smaller network sections
+  aim: isolate group of hosts
 
-Switches make decisions about packet path based on MAC addresses.
-Routers make decisions based on IP addresses.
-Cabels are twisted to prevent interference.
-Internet cabels have 8 cabels with color coding to know the order.
-Copper cabels bandwidth is about 100m. => single mode optic cabels are better
-NIC: network interface card
+  <> each network has only one subnet
+  the idea of subnetting is to take a portion of the host space of an address, and use it as an additional networking specification to divide the address space again
+
+Netmask: specification of the amount of address bits that are used for the network portion
+aim: further divide the network
+  192.168.0.15
+  1100 0000 - 1010 1000 - 0000 0000 - 0000 1111   binary IP
+  1111 1111 - 1111 1111 - 1111 1111 - 0000 0000   netmask
+  255.255.255.0                                   IPv4 format netmask
 
 
-AirDrop: Ad Hoc Wireless LAN, uses bluetooth or Wifi
+CIDR Classless Inter-Domain Routing
+  alternative to traditional subnetting
+  idea is that you can add a specification in the IP address itself as to the number of significant bits that make up the routing or networking portion
+  192.168.0.25      IP
+  192.168.0.25/24   with CIDR notation
+        => 24 means, the first 24 bits of the IP address given are significant for the network routing
 
-2.4 GHz Band, 1-6-11 channels, honeycomb design.
-2.4 GHz is better for wall isues, but if that's not the case, 5 GHz is faster.
+  possible with this:
+  192.168.0.0/23
+        => for a C class IP, 23bits are used for network portion
+  
+  Basically, CIDR allows us more control over addressing continuous blocks of IP addresses. This is much more useful than the subnetting we talked about originally.
 
-Omnidirectional Antenna
+Facts:
+  <> Switches make decisions about packet path based on MAC addresses.
+  <> Routers make decisions based on IP addresses.
+  <> Cabels are twisted to prevent interference.
+  <> Internet cabels have 8 cabels with color coding to know the order.
+  <> Copper cabels bandwidth is about 100m. => single mode optic cabels are better
+  <> NIC: network interface card
+  <> AirDrop: Ad Hoc Wireless LAN, uses bluetooth or Wifi
+  <> 2.4 GHz Band, 1-6-11 channels, honeycomb design.
+  <> 2.4 GHz is better for wall isues, but if that's not the case, 5 GHz is faster.
+  <> VM's are great, but if you need separate but the same OSs, than a container is better, because it's only starts one OS and does separation on that.
 
-VM's are great, but if you need separate but the same OSs, than a container is better, because it's only starts one OS and does separation on that.
- 
+Keywords: Omnidirectional Antenna
+
+
+What is Amazon VPC (Virtual Private Cloud)?
+  enables to launch AWS resources into a virtual network that you've defined
+  <> this network resembles a traditional network
+  <> benefit the scalable infrastructure of AWS
+  <> it's free, components costs only
+
+VCP concepts
+  <> virtual private cloud
+    a virtual network dedicated to your AWS account
+
+    <> subnet
+    a range of IP addresses in your VPC
+
+    <> route table
+    used to determine where network traffic is directed
+    tells network packets which way they need to go
+      each VPC has a VPC router
+        take all of the route tables defined within that VPC, do it.
+
+    <> internet gateway
+    a gateway that you attach to your VPC to enable communication between resources in your VPC and the internet
+
+    <> VPC endpoint
+    enables you to privately connect your VPC to supported AWS services and VPC endpoint services by PrivateLink without requiring an internet gateway, NAT device, VPN connection, or AWS Direct Connect connection.
+
+    <> CIDR block
+    an internet protocol address allocation and route aggregation methodology
+  
+VPC accessible: Management Console, CLI, SDKs, Query API (provides low-level API actions that you call using HTTPS requests)
+
+
+Bastion
+  provide access to Linux instances located in the private and public subnets of VPC
+  can be set up with Auto Scaling group
+  
+
+
+1. What VPC configuration was used while you were creating EC2 instances in module 3?
+  the default AWS created VPC
+
+
+2. What kinds of IP addresses does AWS VPC offer?
+  IPv4 and IPv6 addressing protocols
+
+3. What happens to different IP address types when an EC2 instance is rebooted, stopped, started?
+  rebooting does not change the IP address
+  stopping and starting an instance change the IP address
+
+4. How many elastic IPs is it possible to create per account/region?
+  Elastic IP address is a static IPv4 address designed for dynamic cloud computing
+  By default, all AWS accounts are limited to five (5) Elastic IP addresses per Region, because public (IPv4) internet addresses are a scarce public resource.
+
+5. What is the difference between NAT gateways and NAT instances?
+  https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-comparison.html
+
+6. What is the difference between security groups and network ACLs?
+  Security group is the firewall of EC2 Instances.
+  Network ACL is the firewall of the VPC Subnets.
+
+  Security group support allow rules only
+  Network ACL support allow and deny rules
+
+
+7. Suppose you’ve assigned a CIDR block to a VPC. Will all the IPs in that block be available for the resources you create in the VPC?
+  the last IP is restricted for local reference
+  the 0 IP is restricted to access the internet
+
+
+8. What IP ranges is it possible to use for addressing inside one VPC?
+  You can use any IPv4 address range, including RFC 1918 or publicly routable IP ranges, for the primary CIDR block.
+  
+
+9. What does “local” target mean in terms of an AWS routing table?
+  it refers to the instance's own network card
+
+10. What is bastion in terms of networking?
+  The bastion hosts provide secure access to Linux instances located in the private and public subnets of your virtual private cloud (VPC).
+
+11. What is elastic network interface?
+  An elastic network interface is a logical networking component in a VPC that represents a virtual network card.
+
+12. Do you pay for VPC when using EC2 instances?
+  No, VPC usage is free, the EC2 instance have their own costs
+
+13. What are the tools for monitoring VPC?
+  Flow logs, Monitoring NAT gateways
+
+
+14. How does VPC determine whether to deny/allow a request when both ACLs and security groups specified?
+  both are applied, and if any denies a request, than it won't pass
+
+
+15. How do VPC subnets map onto AZs?
+  each subnet is located in an AZ
+
 
       `,
   },
