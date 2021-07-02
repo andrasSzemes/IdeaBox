@@ -1815,15 +1815,21 @@ Libraries that worked for me:
     title: "  **CloudFormation***",
     related: [],
     text: `
-Need for automation of solution delivery, and governance. Infrastructure as Code makes this possible.
+Why CloudFormation matters?
+  need for automation of solution delivery and governance based on infrastructure as code
+  faster deploy, less work required, no manual input needed
+  enables version control on infrastructure
 
-CloudFormation makes it possible to create an AWS infrastructure based on "code" (Code as Infrastructure).
-These JSON or YAML files are basically configurations for AWS resources. The advantage of a file like this is, that the CF can take it, and create, update, delete resources upon the description. Therefore the developer doesn't have to create or update anything manually which is more time consuming and error prone.
-  <> if update fails, CF roles back to previous stable version
+How to make CloudFormation work?
+  write the whole infrastructure as a json or yaml template (code)
+  online helper without code: Cloud Formation Designer (drag and drop, visual)
 
-A configuration file can be written manually, by checking the syntax and options for the resources, but there is an online helper tool for this process, that can be done in the Cloud Formation Designer. This tool allow to edit CF templates in a drag and drop visual way.
+What CloudFormation does?
+  create, configure, update, delete resources with code
+  rollback feature for last stable version
 
-CloudFormation can only perform actions that you have permission to do.
+  CloudFormation can only perform actions that you have permission to do.
+
 
 Typical resources:
     Network: Virtual Private Cloud, routing tables, gateways
@@ -1831,22 +1837,26 @@ Typical resources:
     IAM: user accounts, permissions, groups, privileges
     Custom: non-AWS resources
 
+Tips:
+  > aws cloudformation validate-template
 
-**Template***: the actual file containig the infrastructure as code, a JSON or YAML file containing a description of resources to be provision.
-**Stack***: all the resources that are created using a given CloudFormation template, instantiation of a CF template.
-**Resources***: AWS resources that make up the stack.
-**Events***: resource is created, updated, deleted, event is logged.
 
-**Create***: operation of creating a new CF stack using a template, all resources specified by template are created
-**Update***: the action of update an existing stack by making changes to a template, CF computes a change set, which is the action required to make the current stack match the requested stack
-**Delete***: the action to delete CF stack, delete all resources. policies can be added to reources to not to be deleted even on delete event is trigered, like S3 storages.
-**Rollback***: if update fails, CF attempts to rollback to previous state.
+Glossary
+  **Template***: the actual file containig the infrastructure as code, a JSON or YAML file containing a description of resources to be provision.
+  **Stack***: all the resources that are created using a given CloudFormation template, instantiation of a CF template.
+  **Resources***: AWS resources that make up the stack.
+  **Events***: resource is created, updated, deleted, event is logged.
 
-Stack states:
-  **Created*** stack creation operation succesfully ompleted.
-  **Updated*** stack update is succesfull
-  **Deleted*** stack is successfully deleted
-  **Corrupted*** stack rollback attempt failed, solution is to create again, or handle manually
+  **Create***: operation of creating a new CF stack using a template, all resources specified by template are created
+  **Update***: the action of update an existing stack by making changes to a template, CF computes a change set, which is the action required to make the current stack match the requested stack
+  **Delete***: the action to delete CF stack, delete all resources. policies can be added to reources to not to be deleted even on delete event is trigered, like S3 storages.
+  **Rollback***: if update fails, CF attempts to rollback to previous state.
+
+  Stack states:
+    **Created*** stack creation operation succesfully ompleted.
+    **Updated*** stack update is succesfull
+    **Deleted*** stack is successfully deleted
+    **Corrupted*** stack rollback attempt failed, solution is to create again, or handle manually
 
 
 
@@ -1916,11 +1926,87 @@ Tips:
   avoid hardcoding values
   automate deployment
 
-Update a stack can be donw from the terminal, and from the AWS Console too.
+Update a stack can be done from the terminal, and from the AWS Console too.
 The later might be easier. Template parameters can be updated, new template can be added.
 Update can be done as a direct update (rigth now), or in change sets (preview changes, execudes right away or later)
 
 Interesting fact. For a Lambda resource, the code can be uploaded to an S3 bucket, and used from there. Or the code can be written as is in the YAML file, under RESOURCE > PROPERTIES > CODE > ZipFile
+
+
+
+1. What are the benefits of AWS Cloud Formation? [Optional] Compare it with any other infrastructure automation tool (for example, Terraform/Chef/Consul).
+  automation => error prone, everything is configurable with code
+
+
+2. What are the essential building blocks which Cloud Formation templates do not work without?
+  resources part in the template
+
+
+3. If you used AWS Cloud Formation on your past/current projects, describe the use cases. What CF use cases do you see in general?
+  Use case: a lambda function is needed, and it's deployed with CF. This can be used from other AWS resources.
+  Use case: S3, lambda, dynamoDB, apigateway is needed. They know about eachother and work together.
+
+  General: something has to be deployed automatically
+
+
+4. What happens when a CF stack is updated?
+  New resource are created, existing resources are updated, resources may be deleted. Other configuration also update, add, delete.
+  If fails, then a automatic rollback is iniciated.
+
+  
+5. What means of parameterization of Cloud Formation templates do you know?
+  Define parameters in the 'parameters' section
+  Give default value, type of value, pattern of value, desciption, constraints
+
+  "Parameters" : {
+    "InstanceTypeParameter" : {
+      "Type" : "String",
+      "Default" : "t2.micro",
+      "AllowedValues" : ["t2.micro", "m1.small", "m1.large"],
+      "Description" : "Enter t2.micro, m1.small, or m1.large. Default is t2.micro."
+    }
+  }
+
+  Reference them with Ref
+
+  Ec2Instance:
+  Type: AWS::EC2::Instance
+  Properties:
+    InstanceType:
+      Ref: InstanceTypeParameter
+    ImageId: ami-0ff8a91507f77f867
+
+
+6. Is it possible to reuse the same configuration pieces across multiple CF templates without copypasting them?
+  Nesting a template can be a solution for this.
+
+
+7. What is the order of resource creation in CF stacks?
+  In general, CloudFormation will parallelize as much as possible, in order to minimize the total stack creation time.
+  With the DependsOn attribute you can specify that the creation of a specific resource follows another. When you add a DependsOn attribute to a resource, that resource is created only after the creation of the resource specified in the DependsOn attribute.
+
+
+8. What happens with the resources created within a CF stack when that stack is deleted?
+  Each resource is deleted
+
+
+9. Can a CF template use AWS resources created outside CF?
+  Yes, it can have references to other AWS resources and use them
+
+
+10. Is it possible to test CF templates before creating any resources with them?
+  Yes, a CF template can be tested locally (with the usage of containers) and only after this step can be deployed on aws
+
+
+11. What is CF pricing?
+  AWS::*, Alexa::*, and Custom::*
+  For the created resoures you have to pay for as used.
+
+  When you use resource providers with CloudFormation outside the namespaces mentioned above, you incur charges per handler operation.
+  Handler operations are create, update, delete, read, or list actions on a resource.
+  $0.0009 per handler operation
+  $0.00008 per second, after first 30 seconds
+
       `,
   },
 
@@ -4190,9 +4276,9 @@ When credentials expire, run this:
   },
 
   englishPronunciation: {
-      title: 'English pronunciation',
-      related: [],
-      text: `
+    title: "English pronunciation",
+    related: [],
+    text: `
 Tips:
   <> say out words loudly is hard
   <> make it stronger idea: reCEIPT, REcipe
@@ -4211,8 +4297,8 @@ Minimal pairs:
   sleap - slip
   sheep - ship
   beach - bitch
-      `
-  }
+      `,
+  },
 
   // empty: {
   //     title: '',
