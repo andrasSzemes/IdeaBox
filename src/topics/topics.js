@@ -268,12 +268,7 @@ Anti-Patterns: Bad solutions that cause problems. Code smells.
 
   expressjs: {
     title: `    **Express JS***`,
-    related: [
-      "middleware",
-      "basicExpressServer",
-      "serveHTMLpagesStaticContent",
-      "basicTemplateEngine",
-    ],
+    related: ["middleware", "basicExpressServer", "serveHTMLpagesStaticContent", "basicTemplateEngine"],
     text: `
   Express JS is a web framework that can be used in a Node.js application.
   Essentially it makes it simple to handle server calls with a chain of middleware functions.
@@ -850,7 +845,7 @@ it('200 ok', (done) => {
   },
 
   HTTPServerSocketIo: {
-    title: "    Server on Express & Socket.io\n",
+    title: "    Server on Express & Socket.io",
     related: [],
     text: `
 **Update strategies***
@@ -890,6 +885,34 @@ WebSocket
   io.on('connection', socket => console.log('user connected'))
 
   const server = http.listen(3000)
+''''
+          `,
+  },
+
+  HTTPServerSocketIo: {
+    title: "    Send back file\n",
+    related: [],
+    text: `
+./server.js
+'''
+  const express = require('express')
+  const app = express()
+
+  app.get('/route', (req, res) => {
+
+    let data, mimetype, filename
+    // get info
+
+    res.writeHead(200, {
+      "Content-Type": mimetype,
+      "Content-disposition": "attachment;filename=" + filename,
+      "Content-Length": data.length,
+    });
+    res.end(new Buffer.from(data, "binary"));
+  })
+
+
+  const server = app.listen(3000)
 ''''
           `,
   },
@@ -1670,15 +1693,39 @@ Another important aspect of OOP are classes. A class can be considered as a blue
     title: "  **|Y|Lambda||Y||***",
     related: [],
     text: `
+Lambda is a compute service. (Announced in 2014)
+
+Lambda exposes only a memory control, with the % of CPU core and network capacity allocated to a function proportionally
+  => If code is CPU, Network or memory bound => it could be cheaper to choose more memory.
+
+   128MB     11.72sec      0.024628 $
+   256MB      6.68sec      0.028035 $
+   512MB      3.19sec      0.026830 $
+  1024MB      1.46sec      0.024638 $   WOW.
+
+Schedule time for lambdas to run: CloudWatchEvents
+
+For long commands, an escape character (\) is used to split a command over multiple lines.
+
+StepFunctions:
+  workflow management for lambdas
+
 **Serverless***
     - pay for what you use
     - don't need to manage infrastructure
     - scale automatically up and down
 
-Lambda usage steps:
-    1, Upload the code
-    2, Add trigger
-    3, Run
+  General solution:
+    <> S3 stores all static content: CSS, JS, images... typically front this with CDN such as CloudFront
+    <> API Gateway handles all routing, handle authentication, authorization, throttling, DDOS protection, ...
+    <> Lambda runs all the logic behind the webite, interfaces, databases, backend services, ...
+
+Lambda usage steps: Upload the code => Add trigger => Run
+  Event source => Function => Services
+  - changes in data
+  - request to endpoint
+  - changes in resource state
+                   - languages
 
 Lambda Programming Model
     Triggers
@@ -1751,6 +1798,83 @@ https://stackoverflow.com/questions/34437900/how-to-load-npm-modules-in-aws-lamb
 
 Libraries that worked for me:
   <> aws-multipart-parser
+
+Lambda functions are “stateless
+There is no limit to the number of requests your code can handle.
+
+Billing:
+  Billing is metered in increments of 1 millisecond
+
+Serverless means:
+  <> no servers to provision or manage
+  <> scales with usage
+  <> pay for value
+  <> availability and fault tolerance built in
+
+  <> greater agility
+  <> less overhead
+  <> better focus
+  <> increased scale
+  <> more flexibility
+  <> faster time to market
+
+Lambda handles:
+  <> load balancing
+  <> auto scaling
+  <> handling failures
+  <> security isolation
+  <> OS management
+  <> managing utilization
+
+Extend other AWS resources:
+  AWS Lambda allows you to add custom logic to AWS resources such as Amazon S3 buckets and Amazon DynamoDB tables, making it easy to apply compute to data as it is enters or moves through the cloud.
+
+Interesting features:
+  Database access
+    A database proxy manages a pool of database connections and relays queries from a function. This enables a function to reach high concurrency levels without exhausting database connections.
+  File systems access
+    You can configure a function to mount an Amazon Elastic File System (Amazon EFS) file system to a local directory. With Amazon EFS, your function code can access and modify shared resources safely and at high concurrency.
+  Orchestrate multiple functions
+    You can coordinate multiple AWS Lambda functions for complex or long-running tasks by building workflows with AWS Step Functions. Step Functions lets you define workflows that trigger a collection of Lambda functions using sequential, parallel, branching, and error-handling steps. With Step Functions and Lambda, you can build stateful, long-running processes for applications and backends.
+  Concurrency
+    Concurrency is subject to quotas at the AWS Region level. You can configure individual functions to limit their concurrency, or to enable them to reach a specific level of concurrency.
+
+Best Practices
+  Take advantage of execution environment reuse to improve the performance of your function. Initialize SDK clients and database connections outside of the function handler, and cache static assets locally in the /tmp directory. Subsequent invocations processed by the same instance of your function can reuse these resources. This saves cost by reducing function run time.
+
+
+  The lambda is initialized. All code in the app file is set up as an environment between lambda calls, until it closes. It could be used to have state... Put db client there for example, not in the handler. If handler would have the client, all calls would create a connection.
+
+
+
+1. What ways of triggering a Lambda do you know?
+  API Gateway, resource state modification - DynamoDB change, S3 event...
+2. What is the contract of Lambda function?
+  available 99.95% in a month
+3. What is Lambda pricing?
+  Depends on the memory used, it has a fix price for every ms. Pay for what you use.
+4. How is it possible to test Lambda code without actually running it in AWS?
+  Run locally with SAM
+5. Which code libraries/frameworks are reasonable to use in Lambda?
+  SAM
+6. How Lambda instances are reused? How to prepare the Lambda code for that?
+  The same request can go to the previous instance for a time (reuse). Example: you should create the DB connection outside the handler function.
+7. What programming languages does Lambda support?
+  Go, Java, NodeJS, Python, ...
+8. What is the difference between synchronous and asynchronous Lambda invocations?
+  In sync, the lambda returns the response for the call when it finishes. With async, it immediately returns a response for an event queue, and it will be resoled later.
+9. What is Lambda concurrency?
+  When the same function is called multiple times.
+10. What kinds of Lambda concurrency allocations are there?
+  Provisioned, Limit
+11. What AWS resources can Lambda access? How?
+  It can have access to any aws resource with a role.
+12. What are the advantages of API Gateway endpoints over traditional web applications?
+  Autoscaling is handled. Autobalancing, security management, no OS management, authorization and authentication integration out of the box.
+13. What are the typical API Gateway use cases?
+  HTTP server, REST server, socket
+14. What is API Gateway pricing?
+  Depending on the type of Gateway, you pay for the amount of requests. Around 1-3 dollars/million of requests after a free tier.
       `,
   },
 
@@ -4240,6 +4364,132 @@ Bastion
       `,
   },
 
+  AWSRDS: {
+    title: "AWS RDS",
+    related: [],
+    text: `
+What is RDS?
+  a web service that makes it easier to set up, operate, and scale a relational database in the AWS cloud
+
+Benefits:
+  cost-effective, resizable capacity, manage common database administration tasks
+
+What RDS does?
+  <> manage backups, software patching, automatic failure detection, recovery
+
+What features RDS has?
+  <> modify CPU, IOPS, storage independently <=> not a fix server
+  <> create backup anytime
+  <> restore database from backup
+  <> can be put in a virtual private cloud
+  <> database access can be integrated with IAM
+
+What restrictions are with RDS?
+  <> doesn't provide shell access to DB instances
+  <> restricts access to certain system procedures and tables
+
+What DB products can be used in RDS?
+  MySQL, MariaDB, PostgreSQL, Oracle, Microsoft SQL Server
+
+What is a DB instance?
+  basic building block
+  an isolated database environment in the cloud
+  can contain multiple user created databases
+  access to it is the same as for standalone db instances
+  create and modify can be done by: AWS CLI, Amazon RDS API, Management console
+
+  runs a DB engine
+  each engine has a set of parameters in a DB parameter group that control the behaviour of the databse that it manages
+
+  computation and memory capacity is determined by its DB instance class
+  a DB instance class has it's own pricing
+
+  db instance storage:
+    three types: magnetic, general purpose (ssd), provisioned iops
+    differ in performace characteristics and price
+
+  restrictions:
+    minimum and maximum storage depending on storage type and database engine
+
+AWS regions and availability zones
+  data center locations in the world: example north america, europe, asia
+  AZ: multiple distint locations
+
+  Multi-AZ deployment is available, DB instance is synchronously replicated across AZs to the secondary instance
+
+Security
+  secutiry group controls access to a DB instance by allowing access to IP address ranges
+
+Monitor instance
+  CloudWatch => charts
+  subscribe to Amazon RDS events: change in instance, snapshot, parameter group, security group
+
+Price
+  on-demand instance, reserved instance
+
+
+
+
+Useful info:
+  User-defined VPC
+  Make sure to create a VPC security group that authorizes connections from the application or service to the Amazon RDS DB instance.
+  The VPC must meet certain requirements in order to host DB instances, such as having at least two subnets, each in a separate Availability Zone.
+  Make sure to specify a DB subnet group that defines which subnets in that VPC can be used by the DB instance.
+
+  Open ports: What TCP/IP port does your database listen on? The firewall at some companies might block connections to the default port for your database engine. If your company firewall blocks the default port, choose another port for the new DB instance.
+  AWS Region: What AWS Region do you want your database in? Having your database in close proximity to your application or web service can reduce network latency.
+
+
+
+
+Questions
+1. What is RDS? What engines does it support?
+
+
+2. What is RDS pricing?
+
+
+3. What is read replica in RDS and how it works?
+
+
+4. What RDS operational (maintenance, monitoring) practices do you know?
+
+
+5. What RDS capacity planning best practices do you know?
+
+
+6. What RDS testing and profiling best practices do you know?
+
+
+7. What are the advantages of RDS over manually managed databases?
+
+
+8. What is the difference between multi-AZ deployment and read replicas in RDS?
+
+
+9. What security features does RDS provide?
+
+
+10. What is AWS Aurora?
+
+
+
+
+
+
+
+Product feature types:
+  foundational
+    <> encyption at rest everywhere
+    <> per-second billing
+    <> increased storage and auto scaling
+    <> new amazon rds console
+    <> IAM integration
+  value-add
+  innovative
+      `,
+  },
+
   AWSMFA: {
     title: "AWS MFA for CLI",
     related: [],
@@ -4299,6 +4549,197 @@ Minimal pairs:
   beach - bitch
       `,
   },
+
+  http: {
+    title: "HTTP: header vs query parameter",
+    related: [],
+    text: `
+header has to be escaped and converted to be sent correctly. for example base64 encoding
+therefore query parameter is a better solution
+
+
+in general
+header: represent the meta-data associated with the API request and response
+  - Request and Response Body
+  - Request Authorization
+  - Response Caching 
+  - Response Cookies
+
+URI
+  scheme_name:hierarchical_part?query#fragment
+  for all REST calls, the scheme name will always be “http:”, or “https:” if sent over a secure channel
+
+query parameter
+  they are all optional
+  The second feature is that they are non-unique, meaning that you can specify any one parameter multiple times.
+
+fragment Parameters
+  The fragment part of the URL, everything after a hash symbol, is information that is normally used only by the client, such as a browser, and not processed by the server.
+
+Size limits
+  Although the URI standard does not specify a maximum size of the URL, most clients enforce an arbitrary limit of 2000 characters. Sending data that is difficult to express in a hierarchical manner, and especially data that is larger than this 2000 character limit, should be transmitted in the body of the request
+  `,
+  },
+
+  product: {
+    title: "Product",
+    related: [],
+    text: `
+Product feature types:
+  foundational
+  value-add
+  innovative
+
+  => effective product
+      `,
+  },
+
+  english: {
+    title: "English pronanciation",
+    related: [],
+    text: `
+to recon      => think
+merit         => positive quality
+mend          => repair
+  mend a clouth
+demo
+
+
+
+Stress of the words is important to actually understand the other.
+I had /æ/
+
+analysis
+
+worry, hurry
+thorough
+
+
+Tips:
+  <> learn words with example sentences
+  <> stress is important to understand
+  <> dictionary five words at breakfast
+  <> backward reading words:
+          xxx    yyyy    zzz
+                        ===>
+              =============>
+      =====================>
+  <> 10 minutes saying out words loud
+
+
+Course tips:
+  Authentic listening
+
+
+
+idioms
+  Lucky in cards, unlucky in love.
+  What’s done cannot be undone.
+  Not in a month of Sundays.
+  Well begun is half done.
+
+  To take a horse to water but couldn't make it drink.
+  Pride comes before a fall
+  To put the cart before the horse
+  a tall order
+  the calm before the strom
+  any port in a strom
+  honesty always the best policy
+  a watched pot never boils
+
+  new lords, new laws
+
+  the thin end of the wedge
+  
+/ə/ schwa:
+  I told you. /jə/
+  You can talk to your manager /jə/
+
+/æ/ like have:
+  I had
+  analysis
+  analyses
+  unravel
+
+
+words:
+  recon - think
+  merit - positive quality
+  mend - repair, mend a clouth
+  demo
+
+      `,
+  },
+
+  awsSnsSqS: {
+    title: "SNS, SQS",
+    related: [],
+    text: `
+AWS SKD is available
+Scalable
+
+
+SNS Simple Notification Service
+  provides message delivery from publishers to subscribers
+  Clients can subscribe to the SNS topic and receive published messages using a supported endpoint type
+  
+  common tasks:
+    <> send, receive, delete a message
+    <> trigger a lambda function
+  payment:
+    first million monthly is free
+    after that depends on the number and content of requests 
+
+SQS Simple Queue Service
+  <> line up work for processing later
+  <> send messages between parts of your application
+
+SWF Simple Workflow Service
+      `,
+  },
+
+  jest: {
+    title: "Jest",
+    related: [],
+    text: `
+
+Async function error expectation:
+  const expectedError = new Error("MESSAGE!");
+  await expect(asyncFunction(args)).rejects.toEqual(expectedError);
+      
+
+
+Mock AWS dynamoDb getItem
+
+  const mockPromise = jest.fn();
+  const mockGetItem = jest.fn();
+  mockGetItem.mockReturnValue({ promise: mockPromise });
+  const mockDynamoDB = { getItem: mockGetItem };
+
+  test(".", async () => {
+    const itemToReturn = { Xxx: "Yyy" };
+    mockPromise.mockReturnValue(Promise.resolve({ Item: itemToReturn }));
+  
+    const result = await asyncFunctionToCallDbInside(mockDynamoDB, ...args);
+    expect(result).toEqual(itemToReturn);
+  });
+
+
+  simple error
+  expect(() => function(input)).toThrow("Error!");
+
+      `,
+  },
+
+    SolutionArchitect: {
+      title: 'Solution Architect',
+      related: [],
+      text: `
+The Solution Architect (SA) is a role assigned to an employee responsible for the development of software designs that conform to customer requirements.
+The Solution Architect is the key person in the engineering aspects of realizing a product and is authorized to make changes in software design.
+
+      `
+  }
 
   // empty: {
   //     title: '',
